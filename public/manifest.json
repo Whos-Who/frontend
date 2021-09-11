@@ -1,6 +1,6 @@
 {
-  "short_name": "Who",
-  "name": "Who's Who",
+  "short_name": "Who's Who?",
+  "name": "Who's Who?",
   "icons": [
     {
       "src": "assets/manifest-icon-192.png",
