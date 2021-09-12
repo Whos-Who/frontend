@@ -1,21 +1,21 @@
-import "./App.css";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import React, { ReactElement } from "react";
+import Home from "./pages/Home";
+import Room from "./pages/Room";
 
-import Button from "./components/Button";
-import logo from "./logo.svg";
-
-const App: React.FC = (): ReactElement => {
+const App: React.FC = function () {
   return (
-    <div className="App">
-      <header>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <Button onClick={() => console.log("clicked")}>Click me</Button>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/room/:id">
+          <Room />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
