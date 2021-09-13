@@ -4,10 +4,12 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
+import gameStateSlice from "./gameStateSlice";
 import playerSlice from "./playerSlice";
 
 const reducers = combineReducers({
   player: playerSlice,
+  gameState: gameStateSlice,
 });
 
 const persistConfig = {

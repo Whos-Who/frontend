@@ -5,6 +5,8 @@ import styled from "styled-components";
 
 import Button from "../components/Button";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
+import { setRoomCode } from "../redux/gameStateSlice";
+import { useAppDispatch } from "../redux/hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,6 +21,7 @@ const ROOM_CODE_SYMBOLS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const Home: React.FC = function () {
   const nanoid = customAlphabet(ROOM_CODE_SYMBOLS, ROOM_CODE_LENGTH);
   const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
@@ -26,7 +29,9 @@ const Home: React.FC = function () {
   useTrackPage();
 
   const handleNewGameClick = () => {
-    history.push(`/room/${nanoid()}`);
+    const newRoomCode = nanoid();
+    dispatch(setRoomCode({ roomCode: newRoomCode }));
+    history.push(`/room/${newRoomCode}`);
   };
 
   const handleJoinGameClick = () => {
@@ -36,6 +41,7 @@ const Home: React.FC = function () {
       setErrorMsg(`Room ${roomCodeInput} does not exist`);
     } else {
       // TODO: Check if room code is valid before redirecting
+      dispatch(setRoomCode({ roomCode: roomCodeInput }));
       history.push(`/room/${roomCodeInput}`);
     }
   };

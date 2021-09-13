@@ -1,59 +1,16 @@
-import { nanoid } from "nanoid";
-import React, { useState } from "react";
-import { useParams } from "react-router";
-import styled from "styled-components";
+import React from "react";
 
-import Button from "../components/Button";
+import Phase from "../components/Phase";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { setNameAndId } from "../redux/playerSlice";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 30px;
-`;
-
-type RoomParams = {
-  id: string;
-};
+import { selectPhase } from "../redux/gameStateSlice";
+import { useAppSelector } from "../redux/hooks";
 
 const Room: React.FC = function () {
-  const dispatch = useAppDispatch();
-  const { player } = useAppSelector((state) => state);
-  const { id } = useParams<RoomParams>();
-
-  const [name, setName] = useState("");
+  const phase = useAppSelector(selectPhase);
 
   useTrackPage();
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  // TODO: validate name
-  const handleNextClick = () => {
-    dispatch(setNameAndId({ id: nanoid(), name: name }));
-  };
-
-  return (
-    <Wrapper>
-      Room code {id}
-      {player.id == null ? (
-        <>
-          <input
-            type="text"
-            placeholder="Enter name"
-            onChange={handleNameChange}
-          />
-          <Button onClick={handleNextClick}>Next</Button>
-        </>
-      ) : (
-        <p>welcome {player.name}</p>
-      )}
-    </Wrapper>
-  );
+  return <Phase phase={phase} />;
 };
 
 export default Room;
