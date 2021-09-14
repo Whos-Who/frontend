@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import {
+  initializeGoogleAnalytics,
+  trackPage,
+} from "./components/GoogleAnalytics";
 import Home from "./pages/Home";
 import Room from "./pages/Room";
 
 const App: React.FC = function () {
+  useEffect(() => {
+    initializeGoogleAnalytics();
+    trackPage();
+  }, []);
+
   return (
     <Router>
       <Switch>

@@ -1,9 +1,10 @@
 import { customAlphabet } from "nanoid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import Button from "../components/Button";
+import { trackPage } from "../components/GoogleAnalytics";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,6 +22,10 @@ const Home: React.FC = function () {
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
+
+  useEffect(() => {
+    trackPage();
+  }, []);
 
   const handleNewGameClick = () => {
     history.push(`/room/${nanoid()}`);
