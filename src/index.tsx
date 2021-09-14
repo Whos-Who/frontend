@@ -3,6 +3,8 @@ import "@fontsource/inter";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "styled-components";
 
 import App from "./App";
@@ -11,12 +13,16 @@ import reportWebVitals from "./reportWebVitals";
 import GlobalStyle from "./styles/global-styles";
 import theme from "./styles/theme";
 
+const persistor = persistStore(store);
+
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,
