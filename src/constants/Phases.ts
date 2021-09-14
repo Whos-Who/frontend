@@ -1,9 +1,9 @@
 export const Phase = {
-  LOBBY: "lobby" as const,
-  QUESTION: "queston" as const,
-  TURN_GUESS: "turn_guess" as const,
-  TURN_REVEAL: "turn_reveal" as const,
-  SCOREBOARD: "scoreboard" as const,
+  LOBBY: "LOBBY" as const,
+  QUESTION: "QUESTION" as const,
+  TURN_GUESS: "TURN_GUESS" as const,
+  TURN_REVEAL: "TURN_REVEAL" as const,
+  SCOREBOARD: "SCOREBOARD" as const,
 };
 
 export type Phase = typeof Phase[keyof typeof Phase];

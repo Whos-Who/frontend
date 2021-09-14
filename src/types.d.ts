@@ -14,13 +14,13 @@ declare global {
   interface GameState {
     roomCode: string | null;
     phase: Phase | null;
-    // hostId: string;
-    // currQuestion: string | null;
-    // currAnswererId: string | null;
-    // playerCount: number;
-    // questionsLeft: number;
-    // selectedPlayerId: string;
-    // selectedAnswer: string;
-    // players: Record<string, PlayerState>;
+    host: string;
+    currQuestion: string;
+    currAnswerer: string;
+    playerCount: number;
+    questionsLeft: number;
+    selectedPlayerId: string;
+    selectedAnswer: string;
+    players: Record<string, PlayerState>;
   }
 }

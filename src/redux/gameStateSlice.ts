@@ -6,14 +6,27 @@ import { RootState } from "./store";
 const initialState: GameState = {
   roomCode: null,
   phase: null,
+  host: "",
+  currQuestion: "",
+  currAnswerer: "",
+  playerCount: 0,
+  questionsLeft: 0,
+  selectedPlayerId: "",
+  selectedAnswer: "",
+  players: {},
 };
 
 export const gameStateSlice = createSlice({
   name: "gameState",
   initialState,
   reducers: {
+    setGameState: (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
     setRoomCode: (state, action) => {
-      console.log("yo");
       state.roomCode = action.payload.roomCode;
     },
     setPhase: (state, action) => {
@@ -22,7 +35,7 @@ export const gameStateSlice = createSlice({
   },
 });
 
-export const { setRoomCode, setPhase } = gameStateSlice.actions;
+export const { setGameState, setRoomCode, setPhase } = gameStateSlice.actions;
 
 export const selectPhase = (state: RootState): Phase | null =>
   state.gameState.phase;
