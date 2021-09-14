@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const generateButtonColor = (props: any) => {
-  console.log(props);
   if (props.primary) {
     return props.theme.colors.emerald;
   } else if (props.secondary) {
@@ -38,7 +37,6 @@ interface Props {
 }
 
 const Button: React.FC<Props> = function (props) {
-  console.log(props);
   const { onClick, children, primary, secondary, danger } = props;
 
   return (
