@@ -71,9 +71,7 @@ const Landing: React.FC<Props> = function (props) {
         value={roomCode}
         onChange={handleRoomCodeChange}
       />
-      <Button onClick={handleJoinGameClick} type={ButtonType.Default}>
-        Join Game
-      </Button>
+      <Button onClick={handleJoinGameClick}>Join Game</Button>
       {errorMsg && <span>{errorMsg}</span>}
     </Wrapper>
   );

@@ -74,6 +74,7 @@ const Button: React.FC<Props> = function (props) {
       $primaryColor={primaryColor}
       $secondaryColor={secondaryColor}
       $isDisabled={isDisabled}
+      disabled={isDisabled}
     >
       {children}
     </StyledButton>
