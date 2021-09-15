@@ -18,10 +18,15 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     margin: 0;
     background: ${(props) => props.theme.colors.isabelline};
-    font-family: ${(props) => props.theme.typeface}, sans-serif;
+    font-family: ${(props) => props.theme.typeface};
     font-size: 17px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    #root {
+      height: 100%;
+      width: 100%;
+    }
   }
 `;
 

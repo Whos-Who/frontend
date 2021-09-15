@@ -6,13 +6,20 @@ import SocketContext from "../../../contexts/SocketContext";
 import { setGameState } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
-import Button from "../../Button";
+import DualStickyButtons from "../../DualStickyButtons";
+import PlayerList from "../components/PlayerList";
+import RoomCode from "../components/RoomCode";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 30px;
+  height: 100%;
+  max-width: 600px;
+`;
+
+const MainContent = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
 `;
 
 const Lobby: React.FC = function () {
@@ -60,13 +67,15 @@ const Lobby: React.FC = function () {
 
   return (
     <Wrapper>
-      Room code {id}
-      <h3>Players ({playerCount})</h3>
-      {Object.entries(players).map(([playerId, player]) => (
-        <p key={playerId}>{player.username}</p>
-      ))}
-      {isHost && <Button onClick={handleStartClick}>Start</Button>}
-      <Button onClick={handleLeaveClick}>Leave</Button>
+      <RoomCode id={id} />
+      <MainContent>
+        <PlayerList playerCount={playerCount} players={players} />
+      </MainContent>
+      <DualStickyButtons
+        isHost={isHost}
+        handleLeaveClick={handleLeaveClick}
+        handleStartClick={handleStartClick}
+      />
     </Wrapper>
   );
 };

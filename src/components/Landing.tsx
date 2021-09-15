@@ -1,13 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Button from "./Button";
+import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
+import Button, { ButtonType } from "./Button";
+import { StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 30px;
+`;
+
+const StyledLogo = styled(Logo)``;
+
+const TitleText = styled.h1`
+  margin-bottom: 4rem;
+`;
+
+const OrText = styled.span`
+  margin: 15px 0;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
+  color: ${(props) => props.theme.colors.grayLight};
 `;
 
 interface Props {
@@ -40,10 +60,13 @@ const Landing: React.FC<Props> = function (props) {
 
   return (
     <Wrapper>
-      <h1>Who&lsquo;s who?</h1>
-      <Button onClick={handleNewGameClick}>New Game</Button>
-      <input
-        type="text"
+      <StyledLogo />
+      <TitleText>Who&lsquo;s who?</TitleText>
+      <Button onClick={handleNewGameClick} type={ButtonType.Host}>
+        New Game
+      </Button>
+      <OrText>or</OrText>
+      <StyledInput
         placeholder="Enter room code"
         value={roomCode}
         onChange={handleRoomCodeChange}
