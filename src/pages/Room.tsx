@@ -1,10 +1,10 @@
 import { nanoid } from "nanoid";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 
 import Button from "../components/Button";
-import { trackPage } from "../components/GoogleAnalytics";
+import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setNameAndId } from "../redux/playerSlice";
 
@@ -26,9 +26,7 @@ const Room: React.FC = function () {
 
   const [name, setName] = useState("");
 
-  useEffect(() => {
-    trackPage();
-  }, []);
+  useTrackPage();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
