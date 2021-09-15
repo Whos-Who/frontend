@@ -1,65 +1,79 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
-const generateButtonColor = (props: any) => {
-  if (props.primary) {
-    return props.theme.colors.emerald;
-  } else if (props.secondary) {
-    return props.theme.colors.blue;
-  } else if (props.danger) {
-    return props.theme.colors.terraCotta;
-  } else {
-    return props.theme.colors.emerald;
-  }
+type StyledButtonProps = {
+  $primaryColor: string;
+  $secondaryColor: string;
+  $isDisabled?: boolean;
 };
 
-const StyledButton = styled.button<Props>`
+const StyledButton = styled.button<StyledButtonProps>`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid ${(props) => props.$secondaryColor};
   border-radius: 3px;
-  border: 1px solid ${(props) => generateButtonColor(props)};
-  background: ${(props) => generateButtonColor(props)};
+  background: ${(props) => props.$primaryColor};
   color: ${(props) => props.theme.colors.isabelline};
   font-family: ${(props) => props.theme.typeface};
-  font-size: 17px;
+  font-size: ${(props) => props.theme.fontSizes.md};
   font-weight: 500;
-  padding: 10px;
   cursor: pointer;
-  ${(props) =>
-    props.width &&
-    `
-    width: ${props.width};
-  `}
-  ${(props) =>
-    props.height &&
-    `
-    height: ${props.height};
-  `}
 
-  &:hover {
-    background: ${(props) => generateButtonColor(props)};
+  ${(props) =>
+    props.$isDisabled &&
+    `
+    border: 1px solid ${props.theme.colors.grayDark};
+    background: ${props.theme.colors.grayLight};
+  `};
+
+  :hover {
+    background: ${(props) => props.$secondaryColor};
   }
 `;
 
+export const ButtonType = {
+  Default: "default" as const,
+  Host: "host" as const,
+  Danger: "danger" as const,
+};
+
+export type ButtonTypeValues = typeof ButtonType[keyof typeof ButtonType];
+
 interface Props {
   onClick: React.MouseEventHandler;
-  width?: string;
-  height?: string;
-  primary?: boolean;
-  secondary?: boolean;
-  danger?: boolean;
+  type?: ButtonTypeValues;
+  isDisabled?: boolean;
 }
 
 const Button: React.FC<Props> = function (props) {
-  const { onClick, children, primary, secondary, danger, width, height } =
-    props;
+  const { onClick, type, isDisabled, children } = props;
+  const theme = useTheme();
+
+  let primaryColor;
+  let secondaryColor;
+
+  switch (type) {
+    case ButtonType.Host:
+      primaryColor = theme.colors.emerald;
+      secondaryColor = theme.colors.emeraldDark;
+      break;
+    case ButtonType.Danger:
+      primaryColor = theme.colors.terraCotta;
+      secondaryColor = theme.colors.terraCottaDark;
+      break;
+    case ButtonType.Default:
+    default:
+      primaryColor = theme.colors.blue;
+      secondaryColor = theme.colors.blueDark;
+      break;
+  }
 
   return (
     <StyledButton
       onClick={onClick}
-      primary={primary}
-      secondary={secondary}
-      danger={danger}
-      width={width}
-      height={height}
+      $primaryColor={primaryColor}
+      $secondaryColor={secondaryColor}
+      $isDisabled={isDisabled}
     >
       {children}
     </StyledButton>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Button from "./Button";
+import Button, { ButtonType } from "./Button";
 
 const Wrapper = styled.footer`
   display: flex;
@@ -23,11 +23,11 @@ const DualStickyButtons: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       {isHost && (
-        <Button onClick={handleStartClick} primary>
+        <Button onClick={handleStartClick} type={ButtonType.Host}>
           Start
         </Button>
       )}
-      <Button onClick={handleLeaveClick} danger>
+      <Button onClick={handleLeaveClick} type={ButtonType.Danger}>
         Leave
       </Button>
     </Wrapper>

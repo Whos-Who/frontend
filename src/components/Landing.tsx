@@ -1,29 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Button from "./Button";
-import Logo from "./Logo";
+import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
+import Button, { ButtonType } from "./Button";
+import { StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 30px;
   justify-content: center;
-  min-height: 100vh;
-  width: 100%;
   align-items: center;
+  height: 100%;
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  padding: 30px;
 `;
+
+const StyledLogo = styled(Logo)``;
 
 const TitleText = styled.h1`
   margin-bottom: 4rem;
 `;
 
-const OrText = styled.h5`
-  color: ${(props) => props.theme.colors.gray};
-  margin: 0;
+const OrText = styled.span`
+  margin: 15px 0;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
+  color: ${(props) => props.theme.colors.grayLight};
 `;
 
 interface Props {
@@ -56,20 +60,18 @@ const Landing: React.FC<Props> = function (props) {
 
   return (
     <Wrapper>
-      <Logo width="50%" height="50%" primary />
+      <StyledLogo />
       <TitleText>Who&lsquo;s who?</TitleText>
-      <Button onClick={handleNewGameClick} primary width="100%">
+      <Button onClick={handleNewGameClick} type={ButtonType.Host}>
         New Game
       </Button>
       <OrText>or</OrText>
-      <input
-        type="text"
+      <StyledInput
         placeholder="Enter room code"
         value={roomCode}
         onChange={handleRoomCodeChange}
-        style={{ width: "100%", padding: "10px" }}
       />
-      <Button onClick={handleJoinGameClick} secondary width="100%">
+      <Button onClick={handleJoinGameClick} type={ButtonType.Default}>
         Join Game
       </Button>
       {errorMsg && <span>{errorMsg}</span>}
