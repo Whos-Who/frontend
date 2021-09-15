@@ -22,14 +22,10 @@ export const playerSlice = createSlice({
     setPlayerName: (state, action) => {
       state.name = action.payload.name;
     },
-    setNameAndId: (state, action) => {
-      state.id = action.payload.id;
-      state.name = action.payload.name;
-    },
   },
 });
 
-export const { setPlayerId, setPlayerName, setNameAndId } = playerSlice.actions;
+export const { setPlayerId, setPlayerName } = playerSlice.actions;
 
 export const selectPlayerId = (state: RootState): string | null =>
   state.player.id;
