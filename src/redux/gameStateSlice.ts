@@ -40,12 +40,4 @@ export const { setGameState, setRoomCode, setPhase } = gameStateSlice.actions;
 export const selectPhase = (state: RootState): Phase | null =>
   state.gameState.phase;
 
-export const selectPlayers = (state: RootState): Record<string, PlayerState> =>
-  state.gameState.players;
-
-export const selectPlayerCount = (state: RootState): number =>
-  state.gameState.playerCount;
-
-export const selectHostId = (state: RootState): string => state.gameState.host;
-
 export default gameStateSlice.reducer;

@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { io, Socket } from "socket.io-client";
 import styled from "styled-components";
 
+import { SOCKET_SERVER_URL } from "../constants";
 import { setGameState } from "../redux/gameStateSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
@@ -31,7 +32,7 @@ const SetName: React.FC<Props> = function (props) {
   useEffect(() => {
     const clientId = nanoid();
     dispatch(setPlayerId({ id: clientId }));
-    const newSocket = io("http://127.0.0.1:5000", {
+    const newSocket = io(SOCKET_SERVER_URL, {
       query: { clientId: clientId },
     });
     setSocket(newSocket);
