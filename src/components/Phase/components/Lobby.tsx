@@ -1,22 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
-import styled from "styled-components";
 
 import SocketContext from "../../../contexts/SocketContext";
 import { setGameState } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
-import Button from "../../Button";
 import DualStickyButtons from "../../DualStickyButtons";
+import PlayerList from "./PlayerList";
 import RoomCode from "./RoomCode";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 30px;
-  padding-top: 0px;
-`;
 
 const Lobby: React.FC = function () {
   const history = useHistory();
@@ -64,12 +55,7 @@ const Lobby: React.FC = function () {
   return (
     <>
       <RoomCode id={id} />
-      <Wrapper>
-        <h3>Players ({playerCount})</h3>
-        {Object.entries(players).map(([playerId, player]) => (
-          <p key={playerId}>{player.username}</p>
-        ))}
-      </Wrapper>
+      <PlayerList playerCount={playerCount} players={players} />
       <DualStickyButtons
         isHost={isHost}
         handleLeaveClick={handleLeaveClick}
