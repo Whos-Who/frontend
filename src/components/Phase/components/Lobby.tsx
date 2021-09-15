@@ -7,6 +7,7 @@ import { setGameState } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
 import Button from "../../Button";
+import DualStickyButtons from "../../DualStickyButtons";
 import RoomCode from "./RoomCode";
 
 const Wrapper = styled.div`
@@ -68,9 +69,12 @@ const Lobby: React.FC = function () {
         {Object.entries(players).map(([playerId, player]) => (
           <p key={playerId}>{player.username}</p>
         ))}
-        {isHost && <Button onClick={handleStartClick}>Start</Button>}
-        <Button onClick={handleLeaveClick}>Leave</Button>
       </Wrapper>
+      <DualStickyButtons
+        isHost={isHost}
+        handleLeaveClick={handleLeaveClick}
+        handleStartClick={handleStartClick}
+      />
     </>
   );
 };
