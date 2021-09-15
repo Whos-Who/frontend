@@ -1,58 +1,43 @@
-import { nanoid } from "nanoid";
-import React, { useState } from "react";
-import { useParams } from "react-router";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import { io, Socket } from "socket.io-client";
 
-import Button from "../components/Button";
+import Phase from "../components/Phase";
+import { SOCKET_SERVER_URL } from "../constants";
+import SocketContext from "../contexts/SocketContext";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { setNameAndId } from "../redux/playerSlice";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 30px;
-`;
-
-type RoomParams = {
-  id: string;
-};
+import { selectPhase } from "../redux/gameStateSlice";
+import { useAppSelector } from "../redux/hooks";
 
 const Room: React.FC = function () {
-  const dispatch = useAppDispatch();
-  const { player } = useAppSelector((state) => state);
-  const { id } = useParams<RoomParams>();
-
-  const [name, setName] = useState("");
+  const history = useHistory();
+  const phase = useAppSelector(selectPhase);
+  const clientId = useAppSelector((state) => state.player.id);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useTrackPage();
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
+  useEffect(() => {
+    // If no clientId, go back to landing
+    if (clientId == null) {
+      history.push("/");
+      return;
+    }
 
-  // TODO: validate name
-  const handleNextClick = () => {
-    dispatch(setNameAndId({ id: nanoid(), name: name }));
-  };
+    const newSocket = io(SOCKET_SERVER_URL, {
+      query: { clientId: clientId },
+    });
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.close();
+    };
+  }, []);
 
   return (
-    <Wrapper>
-      Room code {id}
-      {player.id == null ? (
-        <>
-          <input
-            type="text"
-            placeholder="Enter name"
-            onChange={handleNameChange}
-          />
-          <Button onClick={handleNextClick}>Next</Button>
-        </>
-      ) : (
-        <p>welcome {player.name}</p>
-      )}
-    </Wrapper>
+    <SocketContext.Provider value={{ socket, setSocket }}>
+      <Phase phase={phase} />
+    </SocketContext.Provider>
   );
 };
 

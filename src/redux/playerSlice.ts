@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { RootState } from "./store";
+
 interface PlayerState {
   id: string | null;
   name: string | null;
@@ -14,13 +16,18 @@ export const playerSlice = createSlice({
   name: "player",
   initialState,
   reducers: {
-    setNameAndId: (state, action) => {
+    setPlayerId: (state, action) => {
       state.id = action.payload.id;
+    },
+    setPlayerName: (state, action) => {
       state.name = action.payload.name;
     },
   },
 });
 
-export const { setNameAndId } = playerSlice.actions;
+export const { setPlayerId, setPlayerName } = playerSlice.actions;
+
+export const selectPlayerId = (state: RootState): string | null =>
+  state.player.id;
 
 export default playerSlice.reducer;
