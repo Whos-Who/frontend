@@ -5,7 +5,7 @@ export const StyledInput = styled.input.attrs({
 })`
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px 0;
+  padding: 8px 0;
   border: 1px solid ${(props) => props.theme.colors.grayLight};
   border-radius: 3px;
   background: ${(props) => props.theme.colors.white};

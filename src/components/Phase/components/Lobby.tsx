@@ -11,8 +11,15 @@ import PlayerList from "./PlayerList";
 import RoomCode from "./RoomCode";
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   max-width: 600px;
-  margin: 0 auto;
+`;
+
+const MainContent = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
 `;
 
 const Lobby: React.FC = function () {
@@ -61,7 +68,9 @@ const Lobby: React.FC = function () {
   return (
     <Wrapper>
       <RoomCode id={id} />
-      <PlayerList playerCount={playerCount} players={players} />
+      <MainContent>
+        <PlayerList playerCount={playerCount} players={players} />
+      </MainContent>
       <DualStickyButtons
         isHost={isHost}
         handleLeaveClick={handleLeaveClick}

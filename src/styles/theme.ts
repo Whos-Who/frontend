@@ -6,6 +6,7 @@ export interface Theme {
     venus: string;
     grayDark: string;
     grayLight: string;
+    grayLighter: string;
     isabelline: string;
     white: string;
     terraCotta: string;
@@ -33,6 +34,7 @@ const theme: Theme = {
     venus: "#938F8D",
     grayDark: "#999999",
     grayLight: "#CCCCCC",
+    grayLighter: "#E6E6E6",
     isabelline: "#FFF9F5",
     white: "#FFFFFF",
     terraCotta: "#E26D5A",
