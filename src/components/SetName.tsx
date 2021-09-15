@@ -4,33 +4,39 @@ import { useHistory } from "react-router";
 import { io, Socket } from "socket.io-client";
 import styled from "styled-components";
 
+import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import { SOCKET_SERVER_URL } from "../constants";
 import { setGameState } from "../redux/gameStateSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
 import Button from "./Button";
-import Logo from "./Logo";
+import { StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 30px;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  padding: 30px;
 `;
 
-const LogoWrapper = styled.div`
+const StyledLogo = styled(Logo)`
   position: fixed;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 2rem;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+`;
+
+const InputPrompt = styled.h2`
+  margin: 0 0 15px;
+  font-size: ${(props) => props.theme.fontSizes.xl};
+  color: ${(props) => props.theme.colors.black};
 `;
 
 interface Props {
@@ -92,21 +98,16 @@ const SetName: React.FC<Props> = function (props) {
   };
 
   return (
-    <>
-      <LogoWrapper>
-        <Logo width="15%" height="15%" primary />
-      </LogoWrapper>
-      <Wrapper>
-        <input
-          type="text"
-          placeholder="Enter name"
-          value={name}
-          onChange={handleNameChange}
-          style={{ width: "100%", padding: "10px" }}
-        />
-        <Button onClick={handleNextClick}>Next</Button>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <StyledLogo />
+      <InputPrompt>Your Name</InputPrompt>
+      <StyledInput
+        placeholder="Enter name"
+        value={name}
+        onChange={handleNameChange}
+      />
+      <Button onClick={handleNextClick}>Next</Button>
+    </Wrapper>
   );
 };
 
