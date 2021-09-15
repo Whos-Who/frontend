@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 
 import Button from "../components/Button";
+import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setNameAndId } from "../redux/playerSlice";
 
@@ -24,6 +25,8 @@ const Room: React.FC = function () {
   const { id } = useParams<RoomParams>();
 
   const [name, setName] = useState("");
+
+  useTrackPage();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);

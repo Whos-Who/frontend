@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import Button from "../components/Button";
+import { useTrackPage } from "../hooks/GoogleAnalytics";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,6 +22,8 @@ const Home: React.FC = function () {
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
+
+  useTrackPage();
 
   const handleNewGameClick = () => {
     history.push(`/room/${nanoid()}`);
