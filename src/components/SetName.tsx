@@ -9,12 +9,28 @@ import { setGameState } from "../redux/gameStateSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
 import Button from "./Button";
+import Logo from "./Logo";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 30px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
+`;
+
+const LogoWrapper = styled.div`
+  position: fixed;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2rem;
 `;
 
 interface Props {
@@ -76,15 +92,23 @@ const SetName: React.FC<Props> = function (props) {
   };
 
   return (
-    <Wrapper>
-      <input
-        type="text"
-        placeholder="Enter name"
-        value={name}
-        onChange={handleNameChange}
-      />
-      <Button onClick={handleNextClick}>Next</Button>
-    </Wrapper>
+    <>
+      <LogoWrapper>
+        <Logo width="15%" height="15%" primary />
+      </LogoWrapper>
+      <Wrapper>
+        <input
+          type="text"
+          placeholder="Enter name"
+          value={name}
+          onChange={handleNameChange}
+          style={{ width: "100%", padding: "10px" }}
+        />
+        <Button onClick={handleNextClick} secondary width="100%">
+          Next
+        </Button>
+      </Wrapper>
+    </>
   );
 };
 
