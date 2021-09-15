@@ -9,6 +9,7 @@ export interface Theme {
     emerald: string;
     blue: string;
     rose: string;
+    white: string;
   };
 }
 
@@ -22,6 +23,7 @@ const theme: Theme = {
     emerald: "#62C370",
     blue: "#6665DD",
     rose: "#C98686",
+    white: "#FFFFFF",
   },
 };
 

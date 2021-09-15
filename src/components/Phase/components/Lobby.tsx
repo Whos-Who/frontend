@@ -7,12 +7,14 @@ import { setGameState } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
 import Button from "../../Button";
+import RoomCode from "./RoomCode";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 30px;
+  padding-top: 0px;
 `;
 
 const Lobby: React.FC = function () {
@@ -59,15 +61,17 @@ const Lobby: React.FC = function () {
   };
 
   return (
-    <Wrapper>
-      Room code {id}
-      <h3>Players ({playerCount})</h3>
-      {Object.entries(players).map(([playerId, player]) => (
-        <p key={playerId}>{player.username}</p>
-      ))}
-      {isHost && <Button onClick={handleStartClick}>Start</Button>}
-      <Button onClick={handleLeaveClick}>Leave</Button>
-    </Wrapper>
+    <>
+      <RoomCode id={id} />
+      <Wrapper>
+        <h3>Players ({playerCount})</h3>
+        {Object.entries(players).map(([playerId, player]) => (
+          <p key={playerId}>{player.username}</p>
+        ))}
+        {isHost && <Button onClick={handleStartClick}>Start</Button>}
+        <Button onClick={handleLeaveClick}>Leave</Button>
+      </Wrapper>
+    </>
   );
 };
 
