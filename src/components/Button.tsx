@@ -15,7 +15,7 @@ const generateButtonColor = (props: any) => {
 
 const StyledButton = styled.button<Props>`
   border-radius: 3px;
-  border: 1px solid #42ad52;
+  border: 1px solid ${(props) => generateButtonColor(props)};
   background: ${(props) => generateButtonColor(props)};
   color: ${(props) => props.theme.colors.isabelline};
   font-family: ${(props) => props.theme.typeface};
@@ -23,21 +23,34 @@ const StyledButton = styled.button<Props>`
   font-weight: 500;
   padding: 10px;
   cursor: pointer;
+  ${(props) =>
+    props.width &&
+    `
+    width: ${props.width};
+  `}
+  ${(props) =>
+    props.height &&
+    `
+    height: ${props.height};
+  `}
 
   &:hover {
-    background: #42ad52;
+    background: ${(props) => generateButtonColor(props)};
   }
 `;
 
 interface Props {
   onClick: React.MouseEventHandler;
+  width?: string;
+  height?: string;
   primary?: boolean;
   secondary?: boolean;
   danger?: boolean;
 }
 
 const Button: React.FC<Props> = function (props) {
-  const { onClick, children, primary, secondary, danger } = props;
+  const { onClick, children, primary, secondary, danger, width, height } =
+    props;
 
   return (
     <StyledButton
@@ -45,6 +58,8 @@ const Button: React.FC<Props> = function (props) {
       primary={primary}
       secondary={secondary}
       danger={danger}
+      width={width}
+      height={height}
     >
       {children}
     </StyledButton>

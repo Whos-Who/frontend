@@ -4,8 +4,8 @@ import PrimaryLogo from "../assets/PrimaryLogo.svg";
 import SecondaryLogo from "../assets/SecondaryLogo.svg";
 
 interface Props {
-  width: number;
-  height: number;
+  width: string;
+  height: string;
   primary?: boolean;
 }
 

@@ -2,12 +2,28 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import Button from "./Button";
+import Logo from "./Logo";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 30px;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+`;
+
+const TitleText = styled.h1`
+  margin-bottom: 4rem;
+`;
+
+const OrText = styled.h5`
+  color: ${(props) => props.theme.colors.gray};
+  margin: 0;
 `;
 
 interface Props {
@@ -40,15 +56,22 @@ const Landing: React.FC<Props> = function (props) {
 
   return (
     <Wrapper>
-      <h1>Who&lsquo;s who?</h1>
-      <Button onClick={handleNewGameClick}>New Game</Button>
+      <Logo width="50%" height="50%" primary />
+      <TitleText>Who&lsquo;s who?</TitleText>
+      <Button onClick={handleNewGameClick} primary width="100%">
+        New Game
+      </Button>
+      <OrText>or</OrText>
       <input
         type="text"
         placeholder="Enter room code"
         value={roomCode}
         onChange={handleRoomCodeChange}
+        style={{ width: "100%", padding: "10px" }}
       />
-      <Button onClick={handleJoinGameClick}>Join Game</Button>
+      <Button onClick={handleJoinGameClick} secondary width="100%">
+        Join Game
+      </Button>
       {errorMsg && <span>{errorMsg}</span>}
     </Wrapper>
   );
