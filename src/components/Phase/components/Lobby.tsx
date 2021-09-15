@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
+import styled from "styled-components";
 
 import SocketContext from "../../../contexts/SocketContext";
 import { setGameState } from "../../../redux/gameStateSlice";
@@ -8,6 +9,11 @@ import { selectPlayerId } from "../../../redux/playerSlice";
 import DualStickyButtons from "../../DualStickyButtons";
 import PlayerList from "./PlayerList";
 import RoomCode from "./RoomCode";
+
+const Wrapper = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+`;
 
 const Lobby: React.FC = function () {
   const history = useHistory();
@@ -53,7 +59,7 @@ const Lobby: React.FC = function () {
   };
 
   return (
-    <>
+    <Wrapper>
       <RoomCode id={id} />
       <PlayerList playerCount={playerCount} players={players} />
       <DualStickyButtons
@@ -61,7 +67,7 @@ const Lobby: React.FC = function () {
         handleLeaveClick={handleLeaveClick}
         handleStartClick={handleStartClick}
       />
-    </>
+    </Wrapper>
   );
 };
 

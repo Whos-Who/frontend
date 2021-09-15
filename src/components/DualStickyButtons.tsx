@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Button from "./Button";
 
-const Wrapper = styled.div`
+const Wrapper = styled.footer`
   display: flex;
   flex-direction: column;
   gap: 1rem;
