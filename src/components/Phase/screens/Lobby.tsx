@@ -7,8 +7,8 @@ import { setGameState } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
 import DualStickyButtons from "../../DualStickyButtons";
-import PlayerList from "./PlayerList";
-import RoomCode from "./RoomCode";
+import PlayerList from "../components/PlayerList";
+import RoomCode from "../components/RoomCode";
 
 const Wrapper = styled.div`
   display: flex;

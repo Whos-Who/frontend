@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Phase } from "../../constants/Phases";
-import Lobby from "./components/Lobby";
+import Lobby from "./screens/Lobby";
 
 interface Props {
   phase: Phase | null;
