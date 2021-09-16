@@ -58,9 +58,9 @@ const SetName: React.FC<Props> = function (props) {
 
   // Redirect to game lobby once a response is received
   useEffect(() => {
-    const roomListener = (gameState: GameState) => {
-      dispatch(setGameState(gameState));
-      history.push(`/room/${gameState.roomCode}`);
+    const roomListener = (response: Sockets.RoomJoinResponse) => {
+      dispatch(setGameState(response));
+      history.push(`/room/${response.roomCode}`);
     };
 
     socketContext?.socket?.on("room-join", roomListener);

@@ -9,7 +9,5 @@ declare namespace Sockets {
     gameState: GameState;
   }
 
-  interface RoomJoinResponse {
-    gameState: GameState;
-  }
+  type RoomJoinResponse = GameState;
 }

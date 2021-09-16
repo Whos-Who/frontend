@@ -11,7 +11,6 @@ const Wrapper = styled.div`
 const TotalPlayers = styled.h3`
   margin: 0 0 10px;
   font-size: ${(props) => props.theme.fontSizes.xl};
-  font-weight: 700;
   color: ${(props) => props.theme.colors.black};
 `;
 
