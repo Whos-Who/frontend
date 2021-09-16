@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router";
 import styled from "styled-components";
 
 import SocketContext from "../../../contexts/SocketContext";
-import { setGameState } from "../../../redux/gameStateSlice";
+import { addPlayer, removePlayer } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
 import DualStickyButtons from "../../DualStickyButtons";
@@ -39,16 +39,25 @@ const Lobby: React.FC = function () {
   const isHost = hostId == playerId;
 
   useEffect(() => {
-    const usersChangedListener = (gameState: GameState) => {
-      dispatch(setGameState(gameState));
+    const userJoinListener = (response: Sockets.UserJoinResponse) => {
+      const { clientId, gameState } = response;
+      dispatch(
+        addPlayer({
+          clientId: clientId,
+          player: gameState.players[clientId],
+        })
+      );
+    };
+    const userLeaveListener = (response: Sockets.UserLeaveResponse) => {
+      dispatch(removePlayer({ clientId: response.clientId }));
     };
 
-    socketContext?.socket?.on("user-join", usersChangedListener);
-    socketContext?.socket?.on("user-leave", usersChangedListener);
+    socketContext?.socket?.on("user-join", userJoinListener);
+    socketContext?.socket?.on("user-leave", userLeaveListener);
 
     return () => {
-      socketContext?.socket?.off("user-join", usersChangedListener);
-      socketContext?.socket?.off("user-leave", usersChangedListener);
+      socketContext?.socket?.off("user-join", userJoinListener);
+      socketContext?.socket?.off("user-leave", userLeaveListener);
     };
   }, [socketContext?.socket]);
 

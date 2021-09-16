@@ -32,10 +32,17 @@ export const gameStateSlice = createSlice({
     setPhase: (state, action) => {
       state.phase = action.payload.phase;
     },
+    addPlayer: (state, action) => {
+      state.players[action.payload.clientId] = action.payload.player;
+    },
+    removePlayer: (state, action) => {
+      delete state.players[action.payload.clientId];
+    },
   },
 });
 
-export const { setGameState, setRoomCode, setPhase } = gameStateSlice.actions;
+export const { setGameState, setRoomCode, setPhase, addPlayer, removePlayer } =
+  gameStateSlice.actions;
 
 export const selectPhase = (state: RootState): Phase | null =>
   state.gameState.phase;

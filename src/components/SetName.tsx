@@ -1,11 +1,10 @@
 import { nanoid } from "nanoid";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { io, Socket } from "socket.io-client";
 import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
-import { SOCKET_SERVER_URL } from "../constants";
+import SocketContext from "../contexts/SocketContext";
 import { setGameState } from "../redux/gameStateSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
@@ -47,36 +46,29 @@ const SetName: React.FC<Props> = function (props) {
   const { roomCode } = props;
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const socketContext = useContext(SocketContext);
 
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [name, setName] = useState<string>("");
 
+  // Set up clientId, which will initiate a socket connection
   useEffect(() => {
     const clientId = nanoid();
     dispatch(setPlayerId({ id: clientId }));
-    const newSocket = io(SOCKET_SERVER_URL, {
-      query: { clientId: clientId },
-    });
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.close();
-    };
   }, []);
 
+  // Redirect to game lobby once a response is received
   useEffect(() => {
-    // Redirect to game lobby once a response is received
     const roomListener = (gameState: GameState) => {
       dispatch(setGameState(gameState));
       history.push(`/room/${gameState.roomCode}`);
     };
 
-    socket?.on("room-join", roomListener);
+    socketContext?.socket?.on("room-join", roomListener);
 
     return () => {
-      socket?.off("room-join", roomListener);
+      socketContext?.socket?.off("room-join", roomListener);
     };
-  }, [socket]);
+  }, [socketContext?.socket]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -84,14 +76,17 @@ const SetName: React.FC<Props> = function (props) {
 
   // TODO: validate name
   const handleNextClick = () => {
-    if (!socket) {
+    if (!socketContext?.socket) {
       return;
     }
 
     if (roomCode.length > 0) {
-      socket.emit("room-join", { username: name, roomCode: roomCode });
+      socketContext?.socket.emit("room-join", {
+        username: name,
+        roomCode: roomCode,
+      });
     } else {
-      socket.emit("room-create", { username: name });
+      socketContext?.socket.emit("room-create", { username: name });
     }
 
     dispatch(setPlayerName({ name: name }));
