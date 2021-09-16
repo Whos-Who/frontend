@@ -68,6 +68,7 @@ const Lobby: React.FC = function () {
     console.log("start game");
   };
 
+  // TODO: Purge redux state
   const handleLeaveClick = () => {
     // TODO: replace window.confirm
     if (window.confirm("Are you sure you want to leave?")) {

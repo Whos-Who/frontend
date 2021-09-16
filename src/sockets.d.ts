@@ -9,5 +9,7 @@ declare namespace Sockets {
     gameState: GameState;
   }
 
+  type NewHostResponse = string;
+
   type RoomJoinResponse = GameState;
 }
