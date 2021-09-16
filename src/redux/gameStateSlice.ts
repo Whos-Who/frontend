@@ -34,9 +34,11 @@ export const gameStateSlice = createSlice({
     },
     addPlayer: (state, action) => {
       state.players[action.payload.clientId] = action.payload.player;
+      state.playerCount += 1;
     },
     removePlayer: (state, action) => {
       delete state.players[action.payload.clientId];
+      state.playerCount -= 1;
     },
   },
 });

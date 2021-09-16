@@ -2,11 +2,13 @@ import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import styled from "styled-components";
 
+import { MIN_PLAYERS } from "../../../constants";
 import SocketContext from "../../../contexts/SocketContext";
 import { addPlayer, removePlayer } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
-import DualStickyButtons from "../../DualStickyButtons";
+import Button, { ButtonType } from "../../Button";
+import { GameFooter } from "../../Styles";
 import PlayerList from "../components/PlayerList";
 import RoomCode from "../components/RoomCode";
 
@@ -74,17 +76,29 @@ const Lobby: React.FC = function () {
     }
   };
 
+  const isStartDisabled = playerCount < MIN_PLAYERS;
+
   return (
     <Wrapper>
       <RoomCode id={id} />
       <MainContent>
         <PlayerList playerCount={playerCount} players={players} />
       </MainContent>
-      <DualStickyButtons
-        isHost={isHost}
-        handleLeaveClick={handleLeaveClick}
-        handleStartClick={handleStartClick}
-      />
+      <GameFooter>
+        {isHost && (
+          <Button
+            onClick={handleStartClick}
+            type={ButtonType.Host}
+            isDisabled={isStartDisabled}
+          >
+            Start
+            {isStartDisabled && ` (At least ${MIN_PLAYERS} required)`}
+          </Button>
+        )}
+        <Button onClick={handleLeaveClick} type={ButtonType.Danger}>
+          Leave
+        </Button>
+      </GameFooter>
     </Wrapper>
   );
 };

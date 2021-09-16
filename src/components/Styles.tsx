@@ -19,3 +19,12 @@ export const StyledInput = styled.input.attrs({
     color: ${(props) => props.theme.colors.grayLight};
   }
 `;
+
+export const GameFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px 30px 10px;
+  border-top: 1px solid ${(props) => props.theme.colors.grayLighter};
+  background: ${(props) => props.theme.colors.white};
+`;
