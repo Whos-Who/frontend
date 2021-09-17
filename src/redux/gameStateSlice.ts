@@ -43,6 +43,11 @@ export const gameStateSlice = createSlice({
       delete state.players[action.payload.clientId];
       state.playerCount -= 1;
     },
+    resetGameState: () => {
+      return {
+        ...initialState,
+      };
+    },
   },
 });
 
@@ -53,6 +58,7 @@ export const {
   setHost,
   addPlayer,
   removePlayer,
+  resetGameState,
 } = gameStateSlice.actions;
 
 export const selectPhase = (state: RootState): Phase | null =>

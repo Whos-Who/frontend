@@ -4,9 +4,13 @@ import styled from "styled-components";
 
 import { MIN_PLAYERS } from "../../../constants";
 import SocketContext from "../../../contexts/SocketContext";
-import { addPlayer, removePlayer } from "../../../redux/gameStateSlice";
+import {
+  addPlayer,
+  removePlayer,
+  resetGameState,
+} from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { selectPlayerId } from "../../../redux/playerSlice";
+import { resetPlayerState, selectPlayerId } from "../../../redux/playerSlice";
 import Button, { ButtonType } from "../../Button";
 import { GameFooter } from "../../Styles";
 import PlayerList from "../components/PlayerList";
@@ -68,11 +72,12 @@ const Lobby: React.FC = function () {
     console.log("start game");
   };
 
-  // TODO: Purge redux state
   const handleLeaveClick = () => {
     // TODO: replace window.confirm
     if (window.confirm("Are you sure you want to leave?")) {
       socketContext?.socket?.emit("room-leave", { roomCode: roomCode });
+      dispatch(resetGameState());
+      dispatch(resetPlayerState());
       history.push("/");
     }
   };
