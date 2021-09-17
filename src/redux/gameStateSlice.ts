@@ -64,4 +64,7 @@ export const {
 export const selectPhase = (state: RootState): Phase | null =>
   state.gameState.phase;
 
+export const selectQuestion = (state: RootState): string =>
+  state.gameState.currQuestion;
+
 export default gameStateSlice.reducer;

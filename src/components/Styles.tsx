@@ -40,6 +40,16 @@ export const StyledPasswordInput = styled.input.attrs({
   }
 `;
 
+export const GameHeader = styled.div`
+  border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
+  background: ${(props) => props.theme.colors.white};
+`;
+
+export const GameMain = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
+`;
+
 export const GameFooter = styled.div`
   display: flex;
   flex-direction: column;
