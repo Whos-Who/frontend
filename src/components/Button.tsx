@@ -27,7 +27,11 @@ const StyledButton = styled.button<StyledButtonProps>`
   `};
 
   :hover {
-    background: ${(props) => props.$secondaryColor};
+    ${(props) =>
+      !props.$isDisabled &&
+      `
+      background: ${props.$secondaryColor};
+    `};
   }
 `;
 

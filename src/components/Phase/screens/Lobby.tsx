@@ -2,11 +2,13 @@ import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import styled from "styled-components";
 
+import { MIN_PLAYERS } from "../../../constants";
 import SocketContext from "../../../contexts/SocketContext";
-import { setGameState } from "../../../redux/gameStateSlice";
+import { addPlayer, removePlayer } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
-import DualStickyButtons from "../../DualStickyButtons";
+import Button, { ButtonType } from "../../Button";
+import { GameFooter } from "../../Styles";
 import PlayerList from "../components/PlayerList";
 import RoomCode from "../components/RoomCode";
 
@@ -39,16 +41,25 @@ const Lobby: React.FC = function () {
   const isHost = hostId == playerId;
 
   useEffect(() => {
-    const usersChangedListener = (gameState: GameState) => {
-      dispatch(setGameState(gameState));
+    const userJoinListener = (response: Sockets.UserJoinResponse) => {
+      const { clientId, gameState } = response;
+      dispatch(
+        addPlayer({
+          clientId: clientId,
+          player: gameState.players[clientId],
+        })
+      );
+    };
+    const userLeaveListener = (response: Sockets.UserLeaveResponse) => {
+      dispatch(removePlayer({ clientId: response.clientId }));
     };
 
-    socketContext?.socket?.on("user-join", usersChangedListener);
-    socketContext?.socket?.on("user-leave", usersChangedListener);
+    socketContext?.socket?.on("user-join", userJoinListener);
+    socketContext?.socket?.on("user-leave", userLeaveListener);
 
     return () => {
-      socketContext?.socket?.off("user-join", usersChangedListener);
-      socketContext?.socket?.off("user-leave", usersChangedListener);
+      socketContext?.socket?.off("user-join", userJoinListener);
+      socketContext?.socket?.off("user-leave", userLeaveListener);
     };
   }, [socketContext?.socket]);
 
@@ -57,6 +68,7 @@ const Lobby: React.FC = function () {
     console.log("start game");
   };
 
+  // TODO: Purge redux state
   const handleLeaveClick = () => {
     // TODO: replace window.confirm
     if (window.confirm("Are you sure you want to leave?")) {
@@ -65,17 +77,29 @@ const Lobby: React.FC = function () {
     }
   };
 
+  const isStartDisabled = playerCount < MIN_PLAYERS;
+
   return (
     <Wrapper>
       <RoomCode id={id} />
       <MainContent>
         <PlayerList playerCount={playerCount} players={players} />
       </MainContent>
-      <DualStickyButtons
-        isHost={isHost}
-        handleLeaveClick={handleLeaveClick}
-        handleStartClick={handleStartClick}
-      />
+      <GameFooter>
+        {isHost && (
+          <Button
+            onClick={handleStartClick}
+            type={ButtonType.Host}
+            isDisabled={isStartDisabled}
+          >
+            Start
+            {isStartDisabled && ` (At least ${MIN_PLAYERS} required)`}
+          </Button>
+        )}
+        <Button onClick={handleLeaveClick} type={ButtonType.Danger}>
+          Leave
+        </Button>
+      </GameFooter>
     </Wrapper>
   );
 };
