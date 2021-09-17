@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 
-import { selectQuestion } from "../../../redux/gameStateSlice";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import Button from "../../Button";
-import { GameFooter, GameHeader, GameMain } from "../../Styles";
+import SocketContext from "../../../../contexts/SocketContext";
+import { useAppSelector } from "../../../../redux/hooks";
+import Button from "../../../Button";
+import { GameFooter, GameHeader, GameMain } from "../../../Styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,10 +59,15 @@ const CharacterCount = styled.span`
   color: ${(props) => props.theme.colors.grayDark};
 `;
 
-const QuestionPhase: React.FC = function () {
-  const dispatch = useAppDispatch();
+interface Props {
+  setHasAnswered: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  const question = useAppSelector(selectQuestion);
+const QuestionStage: React.FC<Props> = function (props) {
+  const { setHasAnswered } = props;
+  const socketContext = useContext(SocketContext);
+
+  const { roomCode, currQuestion } = useAppSelector((state) => state.gameState);
   const [answer, setAnswer] = useState<string>("");
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -70,7 +75,13 @@ const QuestionPhase: React.FC = function () {
   };
 
   const handleSubmitClick = () => {
-    // submit
+    // TODO: use this once ready
+    // socketContext?.socket?.emit("game-player-answer-submission", {
+    //   roomCode: roomCode,
+    //   answer: answer,
+    // });
+    // TODO: remove this prop, used for manual testing only
+    setHasAnswered(true);
   };
 
   const isSubmitDisabled = answer.length === 0;
@@ -79,7 +90,7 @@ const QuestionPhase: React.FC = function () {
     <Wrapper>
       <PhaseHeader>
         <Subheading>Question Stage</Subheading>
-        {/* <Question>{question}</Question> */}
+        {/* <Question>{currQuestion}</Question> */}
         <Question>If you could have a superpower, what would it be?</Question>
       </PhaseHeader>
       <PhaseMain>
@@ -101,4 +112,4 @@ const QuestionPhase: React.FC = function () {
   );
 };
 
-export default QuestionPhase;
+export default QuestionStage;

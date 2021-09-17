@@ -58,3 +58,11 @@ export const GameFooter = styled.div`
   border-top: 1px solid ${(props) => props.theme.colors.grayLighter};
   background: ${(props) => props.theme.colors.white};
 `;
+
+export const WaitingMessage = styled.span`
+  width: 100%;
+  color: ${(props) => props.theme.colors.grayDark};
+  font-size: ${(props) => props.theme.fontSizes.md};
+  font-weight: 500;
+  text-align: center;
+`;

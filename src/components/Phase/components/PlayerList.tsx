@@ -14,24 +14,38 @@ const TotalPlayers = styled.h3`
   color: ${(props) => props.theme.colors.black};
 `;
 
-const DisplayPlayer = styled.h3`
+const DisplayPlayer = styled.h3<{ $lowOpacity?: boolean }>`
   margin: 10px 0 0;
   font-size: ${(props) => props.theme.fontSizes.xl};
   color: ${(props) => props.theme.colors.blue};
+  ${(props) => props.$lowOpacity && `opacity: 30%`};
 `;
 
 interface Props {
+  readyCount?: number;
   playerCount: number;
   players: Record<string, PlayerState>;
 }
 
 const PlayerList: React.FC<Props> = (props) => {
-  const { playerCount, players } = props;
+  const { readyCount, playerCount, players } = props;
+
+  const showReady = readyCount != null;
+
   return (
     <Wrapper>
-      <TotalPlayers>Players ({playerCount})</TotalPlayers>
+      <TotalPlayers>
+        {showReady
+          ? `Ready (${readyCount}/${playerCount})`
+          : `Players (${playerCount})`}
+      </TotalPlayers>
       {Object.entries(players).map(([playerId, player]) => (
-        <DisplayPlayer key={playerId}>{player.username}</DisplayPlayer>
+        <DisplayPlayer
+          key={playerId}
+          $lowOpacity={showReady && players[playerId].currAnswer.value == ""}
+        >
+          {player.username}
+        </DisplayPlayer>
       ))}
     </Wrapper>
   );

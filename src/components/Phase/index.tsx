@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Phase } from "../../constants/Phases";
+import QuestionPhase from "./QuestionPhase";
 import Lobby from "./screens/Lobby";
-import QuestionPhase from "./screens/QuestionPhase";
 
 interface Props {
   phase: Phase | null;
