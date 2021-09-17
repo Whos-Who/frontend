@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { MIN_PLAYERS } from "../../../constants";
@@ -14,9 +14,9 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { resetPlayerState, selectPlayerId } from "../../../redux/playerSlice";
 import Button, { ButtonType } from "../../Button";
-import { GameFooter } from "../../Styles";
+import { GameFooter, GameHeader, GameMain } from "../../Styles";
 import PlayerList from "../components/PlayerList";
-import RoomCode from "../components/RoomCode";
+import RoomCode from "./components/RoomCode";
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,17 +25,19 @@ const Wrapper = styled.div`
   max-width: 600px;
 `;
 
-const MainContent = styled.div`
-  flex-grow: 1;
-  overflow-y: auto;
+const PhaseHeader = styled(GameHeader)`
+  padding: 10px 30px;
 `;
 
-const Lobby: React.FC = function () {
+const PhaseMain = styled(GameMain)`
+  padding: 20px 30px;
+`;
+
+const LobbyPhase: React.FC = function () {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const socketContext = useContext(SocketContext);
 
-  const { id } = useParams<{ id: string }>();
   const playerId = useAppSelector(selectPlayerId);
   const {
     roomCode,
@@ -94,10 +96,12 @@ const Lobby: React.FC = function () {
 
   return (
     <Wrapper>
-      <RoomCode id={id} />
-      <MainContent>
+      <PhaseHeader>
+        <RoomCode id={roomCode} />
+      </PhaseHeader>
+      <PhaseMain>
         <PlayerList playerCount={playerCount} players={players} />
-      </MainContent>
+      </PhaseMain>
       <GameFooter>
         {isHost && (
           <Button
@@ -117,4 +121,4 @@ const Lobby: React.FC = function () {
   );
 };
 
-export default Lobby;
+export default LobbyPhase;

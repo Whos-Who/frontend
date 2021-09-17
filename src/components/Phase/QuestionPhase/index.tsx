@@ -7,11 +7,7 @@ import WaitingStage from "./components/WaitingStage";
 
 const QuestionPhase: React.FC = function () {
   const playerId = useAppSelector(selectPlayerId);
-  const {
-    roomCode,
-    host: hostId,
-    players,
-  } = useAppSelector((state) => state.gameState);
+  const { players } = useAppSelector((state) => state.gameState);
 
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
 
@@ -28,7 +24,6 @@ const QuestionPhase: React.FC = function () {
   if (hasAnswered) {
     return <WaitingStage />;
   }
-
   return <QuestionStage setHasAnswered={setHasAnswered} />;
 };
 

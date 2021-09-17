@@ -40,9 +40,6 @@ const Question = styled.h3`
 `;
 
 const PhaseMain = styled(GameMain)`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   padding: 20px;
 `;
 

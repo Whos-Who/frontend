@@ -5,9 +5,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 30px;
-  border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
-  background: ${(props) => props.theme.colors.white};
   text-align: center;
 `;
 
@@ -25,7 +22,7 @@ const RoomId = styled.h1`
 `;
 
 interface Props {
-  id: string;
+  id: string | null;
 }
 
 const RoomCode: React.FC<Props> = (props) => {
