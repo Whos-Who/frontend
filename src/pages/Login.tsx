@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Button, { ButtonType } from "../components/Button";
 import { StyledInput } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
+import { useAppDispatch } from "../redux/hooks";
+import { setUserCredentials } from "../redux/userSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,6 +21,8 @@ const Wrapper = styled.div`
 `;
 
 const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -41,7 +45,20 @@ const Login: React.FC = () => {
     const loginResponse = await axios.post(`${BACKEND_URL}/login`, data, {
       headers,
     });
-    console.log(loginResponse);
+    if (!loginResponse.data.statusCode) {
+      const {
+        token,
+        user: { email: userEmail, username, id },
+      } = loginResponse.data;
+      dispatch(
+        setUserCredentials({
+          id: id,
+          username: username,
+          email: userEmail,
+          token: token,
+        })
+      );
+    }
   };
 
   return (
