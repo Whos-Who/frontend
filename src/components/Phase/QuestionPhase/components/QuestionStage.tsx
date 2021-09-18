@@ -76,10 +76,10 @@ const QuestionStage: React.FC<Props> = function (props) {
 
   const handleSubmitClick = () => {
     // TODO: use this once ready
-    // socketContext?.socket?.emit("game-player-answer-submission", {
-    //   roomCode: roomCode,
-    //   answer: answer,
-    // });
+    socketContext?.socket?.emit("game-player-answer-submission", {
+      roomCode: roomCode,
+      answer: answer,
+    });
     // TODO: remove this prop, used for manual testing only
     setHasAnswered(true);
   };
@@ -90,8 +90,8 @@ const QuestionStage: React.FC<Props> = function (props) {
     <Wrapper>
       <PhaseHeader>
         <Subheading>Question Stage</Subheading>
-        {/* <Question>{currQuestion}</Question> */}
-        <Question>If you could have a superpower, what would it be?</Question>
+        <Question>{currQuestion}</Question>
+        {/* <Question>If you could have a superpower, what would it be?</Question> */}
       </PhaseHeader>
       <PhaseMain>
         <AnswerBox

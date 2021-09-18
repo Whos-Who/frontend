@@ -74,12 +74,11 @@ const LobbyPhase: React.FC = function () {
   const handleStartClick = () => {
     console.log("start game");
     // TODO: use this once we have default deck ready
-    // socketContext?.socket?.emit("game-start", {
-    //   roomCode: roomCode,
-    //   deckId: '1234',
-    // });
+    socketContext?.socket?.emit("game-start", {
+      roomCode: roomCode,
+    });
     // TODO: and remove this
-    dispatch(setPhase({ phase: Phase.QUESTION }));
+    // dispatch(setPhase({ phase: Phase.QUESTION }));
   };
 
   const handleLeaveClick = () => {
