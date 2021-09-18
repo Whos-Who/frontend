@@ -8,7 +8,7 @@ declare global {
     currAnswer: {
       isGuessed: boolean;
       value: string;
-    } | null;
+    };
   }
 
   interface GameState {

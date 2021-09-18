@@ -40,6 +40,16 @@ export const StyledPasswordInput = styled.input.attrs({
   }
 `;
 
+export const GameHeader = styled.div`
+  border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
+  background: ${(props) => props.theme.colors.white};
+`;
+
+export const GameMain = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
+`;
+
 export const GameFooter = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,4 +57,12 @@ export const GameFooter = styled.div`
   padding: 15px 30px 10px;
   border-top: 1px solid ${(props) => props.theme.colors.grayLighter};
   background: ${(props) => props.theme.colors.white};
+`;
+
+export const WaitingMessage = styled.span`
+  width: 100%;
+  color: ${(props) => props.theme.colors.grayDark};
+  font-size: ${(props) => props.theme.fontSizes.md};
+  font-weight: 500;
+  text-align: center;
 `;

@@ -3,10 +3,12 @@ import { useHistory } from "react-router";
 
 import Phase from "../components/Phase";
 import SocketContext from "../contexts/SocketContext";
+import { useGamePhaseQuestion } from "../hooks/gamePhaseEvents";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useNewHost } from "../hooks/userSocketEvents";
-import { selectPhase } from "../redux/gameStateSlice";
+import { resetGameState, selectPhase } from "../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { resetPlayerState } from "../redux/playerSlice";
 
 const Room: React.FC = function () {
   const history = useHistory();
@@ -18,14 +20,16 @@ const Room: React.FC = function () {
 
   useTrackPage();
 
+  // Socket event listeners
   useNewHost(dispatch, socketContext);
+  useGamePhaseQuestion(dispatch, socketContext);
 
-  // TODO: Purge redux state
   useEffect(() => {
     // If no clientId, go back to landing
     if (clientId == null) {
+      dispatch(resetGameState());
+      dispatch(resetPlayerState());
       history.push("/");
-      return;
     }
   }, []);
 

@@ -12,4 +12,11 @@ declare namespace Sockets {
   type NewHostResponse = string;
 
   type RoomJoinResponse = GameState;
+
+  type GamePhaseQuestionResponse = GameState;
+
+  interface GamePlayerReadyResponse {
+    readyClientId: string;
+    gameState: GameState;
+  }
 }
