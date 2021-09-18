@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
@@ -41,6 +42,8 @@ const Landing: React.FC<Props> = function (props) {
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const history = useHistory();
+
   const handleNewGameClick = () => {
     setPromptName(true);
   };
@@ -58,10 +61,17 @@ const Landing: React.FC<Props> = function (props) {
     setRoomCode(e.target.value);
   };
 
+  const navigateToLoginPage = () => {
+    history.push("/login");
+  };
+
   return (
     <Wrapper>
       <StyledLogo />
       <TitleText>Who&lsquo;s who?</TitleText>
+      <Button onClick={navigateToLoginPage} type={ButtonType.Host}>
+        Login
+      </Button>
       <Button onClick={handleNewGameClick} type={ButtonType.Host}>
         New Game
       </Button>
