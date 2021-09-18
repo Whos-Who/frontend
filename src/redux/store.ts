@@ -6,10 +6,12 @@ import thunk from "redux-thunk";
 
 import gameStateSlice from "./gameStateSlice";
 import playerSlice from "./playerSlice";
+import userSlice from "./userSlice";
 
 const reducers = combineReducers({
   player: playerSlice,
   gameState: gameStateSlice,
+  user: userSlice,
 });
 
 const persistConfig = {
