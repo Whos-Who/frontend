@@ -43,4 +43,7 @@ export const getUserToken = (state: RootState): string | null =>
 export const isUserLoggedIn = (state: RootState): boolean =>
   state.user.id !== null;
 
+export const getUsername = (state: RootState): string | null =>
+  state.user.username;
+
 export default userSlice.reducer;
