@@ -57,6 +57,7 @@ const WaitingStage: React.FC = function () {
 
   const isHost = hostId == playerId;
 
+  // NOTE: might need to wrap this in an effect
   const readyCount = Object.values(players)
     .map((player): number => (player.currAnswer.value != "" ? 1 : 0))
     .reduce((a, b) => a + b, 0);

@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 
 import Phase from "../components/Phase";
 import SocketContext from "../contexts/SocketContext";
+import { useGamePhaseQuestion } from "../hooks/gamePhaseEvents";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useNewHost } from "../hooks/userSocketEvents";
 import { resetGameState, selectPhase } from "../redux/gameStateSlice";
@@ -19,7 +20,9 @@ const Room: React.FC = function () {
 
   useTrackPage();
 
+  // Socket event listeners
   useNewHost(dispatch, socketContext);
+  useGamePhaseQuestion(dispatch, socketContext);
 
   useEffect(() => {
     // If no clientId, go back to landing
