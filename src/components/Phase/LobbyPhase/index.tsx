@@ -3,13 +3,11 @@ import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { MIN_PLAYERS } from "../../../constants";
-import { Phase } from "../../../constants/Phases";
 import SocketContext from "../../../contexts/SocketContext";
 import {
   addPlayer,
   removePlayer,
   resetGameState,
-  setPhase,
 } from "../../../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { resetPlayerState, selectPlayerId } from "../../../redux/playerSlice";
@@ -73,12 +71,10 @@ const LobbyPhase: React.FC = function () {
 
   const handleStartClick = () => {
     console.log("start game");
-    // TODO: use this once we have default deck ready
+    // TODO: add deckId as a param once deck selection is ready
     socketContext?.socket?.emit("game-start", {
       roomCode: roomCode,
     });
-    // TODO: and remove this
-    // dispatch(setPhase({ phase: Phase.QUESTION }));
   };
 
   const handleLeaveClick = () => {
