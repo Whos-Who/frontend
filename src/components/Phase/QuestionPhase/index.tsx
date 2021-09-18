@@ -43,7 +43,7 @@ const QuestionPhase: React.FC = function () {
   if (hasAnswered) {
     return <WaitingStage />;
   }
-  return <QuestionStage setHasAnswered={setHasAnswered} />;
+  return <QuestionStage />;
 };
 
 export default QuestionPhase;

@@ -77,8 +77,7 @@ const WaitingStage: React.FC = function () {
     <Wrapper>
       <PhaseHeader>
         <Subheading>Waiting for others...</Subheading>
-        {/* <Question>{currQuestion}</Question> */}
-        <Question>If you could have a superpower, what would it be?</Question>
+        <Question>{currQuestion}</Question>
       </PhaseHeader>
       <PhaseMain>
         <PlayerList

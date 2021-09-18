@@ -59,12 +59,7 @@ const CharacterCount = styled.span`
   color: ${(props) => props.theme.colors.grayDark};
 `;
 
-interface Props {
-  setHasAnswered: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const QuestionStage: React.FC<Props> = function (props) {
-  const { setHasAnswered } = props;
+const QuestionStage: React.FC = function () {
   const socketContext = useContext(SocketContext);
 
   const { roomCode, currQuestion } = useAppSelector((state) => state.gameState);
@@ -75,13 +70,10 @@ const QuestionStage: React.FC<Props> = function (props) {
   };
 
   const handleSubmitClick = () => {
-    // TODO: use this once ready
     socketContext?.socket?.emit("game-player-answer-submission", {
       roomCode: roomCode,
       answer: answer,
     });
-    // TODO: remove this prop, used for manual testing only
-    setHasAnswered(true);
   };
 
   const isSubmitDisabled = answer.length === 0;
@@ -91,7 +83,6 @@ const QuestionStage: React.FC<Props> = function (props) {
       <PhaseHeader>
         <Subheading>Question Stage</Subheading>
         <Question>{currQuestion}</Question>
-        {/* <Question>If you could have a superpower, what would it be?</Question> */}
       </PhaseHeader>
       <PhaseMain>
         <AnswerBox
