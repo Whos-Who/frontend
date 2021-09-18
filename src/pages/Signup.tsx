@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
-import { StyledInput } from "../components/Styles";
+import { StyledInput, StyledPasswordInput } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useAppDispatch } from "../redux/hooks";
 import { setUserCredentials } from "../redux/userSlice";
@@ -30,6 +30,7 @@ const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -52,6 +53,7 @@ const Signup: React.FC = () => {
   // TODO: Handle error UI response when invalid signup
   const handleSignup = async () => {
     if (password !== confirmPassword) {
+      setErrorMessage("Password and Confirm Password are not equal");
       return;
     }
     const headers = {
@@ -79,6 +81,8 @@ const Signup: React.FC = () => {
         })
       );
       history.replace("");
+    } else {
+      setErrorMessage(`Signup failed, ${signupResponse.data.message}`);
     }
   };
 
@@ -95,12 +99,12 @@ const Signup: React.FC = () => {
         value={email}
         onChange={handleEmailChange}
       />
-      <StyledInput
+      <StyledPasswordInput
         placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
       />
-      <StyledInput
+      <StyledPasswordInput
         placeholder="Confirm Password"
         value={confirmPassword}
         onChange={handleConfirmPasswordChange}
@@ -108,6 +112,7 @@ const Signup: React.FC = () => {
       <Button onClick={handleSignup} type={ButtonType.Host}>
         Signup
       </Button>
+      {errorMessage && <span>{errorMessage}</span>}
     </Wrapper>
   );
 };

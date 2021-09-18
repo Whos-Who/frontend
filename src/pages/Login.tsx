@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
-import { StyledInput } from "../components/Styles";
+import { StyledInput, StyledPasswordInput } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useAppDispatch } from "../redux/hooks";
 import { setUserCredentials } from "../redux/userSlice";
@@ -36,6 +36,7 @@ const Login: React.FC = () => {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -71,6 +72,8 @@ const Login: React.FC = () => {
         })
       );
       history.replace("");
+    } else {
+      setErrorMessage(`Login failed, ${loginResponse.data.message}`);
     }
   };
 
@@ -82,7 +85,7 @@ const Login: React.FC = () => {
         value={email}
         onChange={handleEmailChange}
       />
-      <StyledInput
+      <StyledPasswordInput
         placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
@@ -94,6 +97,7 @@ const Login: React.FC = () => {
         Don&lsquo;t have an account? &nbsp;
         <Link to="/signup">Signup</Link>
       </AccountText>
+      {errorMessage && <span>{errorMessage}</span>}
     </Wrapper>
   );
 };

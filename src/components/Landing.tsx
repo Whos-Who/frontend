@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { isUserLoggedIn, logoutUser } from "../redux/userSlice";
+import { getIsUserLoggedIn, logoutUser } from "../redux/userSlice";
 import Button, { ButtonType } from "./Button";
 import { StyledInput } from "./Styles";
 
@@ -33,6 +33,16 @@ const OrText = styled.span`
   color: ${(props) => props.theme.colors.grayLight};
 `;
 
+const ManageDeckButton = styled(Button)`
+  margin-bottom: 10px;
+`;
+
+const LoginButton = ManageDeckButton;
+
+const LogoutButton = styled(Button)`
+  margin-top: 10px;
+`;
+
 interface Props {
   roomCode: string;
   setRoomCode: React.Dispatch<React.SetStateAction<string>>;
@@ -46,7 +56,7 @@ const Landing: React.FC<Props> = function (props) {
 
   const history = useHistory();
 
-  const doesUserExist = useAppSelector(isUserLoggedIn);
+  const doesUserExist = useAppSelector(getIsUserLoggedIn);
   const dispatch = useAppDispatch();
 
   const handleNewGameClick = () => {
@@ -84,13 +94,13 @@ const Landing: React.FC<Props> = function (props) {
       <StyledLogo />
       <TitleText>Who&lsquo;s who?</TitleText>
       {doesUserExist ? (
-        <Button onClick={navigateToManageDeck} type={ButtonType.Host}>
+        <ManageDeckButton onClick={navigateToManageDeck} type={ButtonType.Host}>
           Manage Deck
-        </Button>
+        </ManageDeckButton>
       ) : (
-        <Button onClick={navigateToLoginPage} type={ButtonType.Host}>
+        <LoginButton onClick={navigateToLoginPage} type={ButtonType.Host}>
           Login
-        </Button>
+        </LoginButton>
       )}
       <Button onClick={handleNewGameClick} type={ButtonType.Host}>
         New Game
@@ -103,9 +113,9 @@ const Landing: React.FC<Props> = function (props) {
       />
       <Button onClick={handleJoinGameClick}>Join Game</Button>
       {doesUserExist && (
-        <Button onClick={handleLogout} type={ButtonType.Danger}>
+        <LogoutButton onClick={handleLogout} type={ButtonType.Danger}>
           Logout
-        </Button>
+        </LogoutButton>
       )}
       {errorMsg && <span>{errorMsg}</span>}
     </Wrapper>
