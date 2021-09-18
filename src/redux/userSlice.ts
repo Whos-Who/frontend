@@ -26,12 +26,21 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.token = action.payload.token;
     },
+    logoutUser: (state) => {
+      state.id = null;
+      state.username = null;
+      state.email = null;
+      state.token = null;
+    },
   },
 });
 
-export const { setUserCredentials } = userSlice.actions;
+export const { setUserCredentials, logoutUser } = userSlice.actions;
 
 export const getUserToken = (state: RootState): string | null =>
   state.user.token;
+
+export const isUserLoggedIn = (state: RootState): boolean =>
+  state.user.id !== null;
 
 export default userSlice.reducer;

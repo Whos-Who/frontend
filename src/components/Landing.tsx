@@ -3,6 +3,8 @@ import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { isUserLoggedIn, logoutUser } from "../redux/userSlice";
 import Button, { ButtonType } from "./Button";
 import { StyledInput } from "./Styles";
 
@@ -44,6 +46,9 @@ const Landing: React.FC<Props> = function (props) {
 
   const history = useHistory();
 
+  const doesUserExist = useAppSelector(isUserLoggedIn);
+  const dispatch = useAppDispatch();
+
   const handleNewGameClick = () => {
     setPromptName(true);
   };
@@ -65,13 +70,28 @@ const Landing: React.FC<Props> = function (props) {
     history.push("/login");
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
+  // TODO: Implement manage deck page
+  const navigateToManageDeck = () => {
+    history.push("/deck");
+  };
+
   return (
     <Wrapper>
       <StyledLogo />
       <TitleText>Who&lsquo;s who?</TitleText>
-      <Button onClick={navigateToLoginPage} type={ButtonType.Host}>
-        Login
-      </Button>
+      {doesUserExist ? (
+        <Button onClick={navigateToManageDeck} type={ButtonType.Host}>
+          Manage Deck
+        </Button>
+      ) : (
+        <Button onClick={navigateToLoginPage} type={ButtonType.Host}>
+          Login
+        </Button>
+      )}
       <Button onClick={handleNewGameClick} type={ButtonType.Host}>
         New Game
       </Button>
@@ -82,6 +102,11 @@ const Landing: React.FC<Props> = function (props) {
         onChange={handleRoomCodeChange}
       />
       <Button onClick={handleJoinGameClick}>Join Game</Button>
+      {doesUserExist && (
+        <Button onClick={handleLogout} type={ButtonType.Danger}>
+          Logout
+        </Button>
+      )}
       {errorMsg && <span>{errorMsg}</span>}
     </Wrapper>
   );

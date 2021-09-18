@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
@@ -22,6 +23,8 @@ const Wrapper = styled.div`
 
 const Signup: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const history = useHistory();
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -46,6 +49,7 @@ const Signup: React.FC = () => {
     setConfirmPassword(e.target.value);
   };
 
+  // TODO: Handle error UI response when invalid signup
   const handleSignup = async () => {
     if (password !== confirmPassword) {
       return;
@@ -74,6 +78,7 @@ const Signup: React.FC = () => {
           token: token,
         })
       );
+      history.replace("");
     }
   };
 

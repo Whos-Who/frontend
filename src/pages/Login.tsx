@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
@@ -20,8 +22,17 @@ const Wrapper = styled.div`
   padding: 30px;
 `;
 
+const AccountText = styled.span`
+  margin: 15px 0;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
+  color: ${(props) => props.theme.colors.grayDark};
+`;
+
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const history = useHistory();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -34,6 +45,7 @@ const Login: React.FC = () => {
     setPassword(e.target.value);
   };
 
+  // TODO: Handle error UI response when invalid login
   const handleLogin = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -58,6 +70,7 @@ const Login: React.FC = () => {
           token: token,
         })
       );
+      history.replace("");
     }
   };
 
@@ -77,6 +90,10 @@ const Login: React.FC = () => {
       <Button onClick={handleLogin} type={ButtonType.Host}>
         Login
       </Button>
+      <AccountText>
+        Don&lsquo;t have an account? &nbsp;
+        <Link to="/signup">Signup</Link>
+      </AccountText>
     </Wrapper>
   );
 };
