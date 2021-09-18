@@ -6,8 +6,9 @@ import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import SocketContext from "../contexts/SocketContext";
 import { setGameState } from "../redux/gameStateSlice";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
+import { getUsername } from "../redux/userSlice";
 import Button from "./Button";
 import { StyledInput } from "./Styles";
 
@@ -48,7 +49,7 @@ const SetName: React.FC<Props> = function (props) {
   const dispatch = useAppDispatch();
   const socketContext = useContext(SocketContext);
 
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>(useAppSelector(getUsername) ?? "");
 
   // Set up clientId, which will initiate a socket connection
   useEffect(() => {

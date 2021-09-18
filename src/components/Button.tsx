@@ -44,13 +44,14 @@ export const ButtonType = {
 export type ButtonTypeValues = typeof ButtonType[keyof typeof ButtonType];
 
 interface Props {
+  className?: string;
   onClick: React.MouseEventHandler;
   type?: ButtonTypeValues;
   isDisabled?: boolean;
 }
 
 const Button: React.FC<Props> = function (props) {
-  const { onClick, type, isDisabled, children } = props;
+  const { className, onClick, type, isDisabled, children } = props;
   const theme = useTheme();
 
   let primaryColor;
@@ -74,6 +75,7 @@ const Button: React.FC<Props> = function (props) {
 
   return (
     <StyledButton
+      className={className}
       onClick={onClick}
       $primaryColor={primaryColor}
       $secondaryColor={secondaryColor}

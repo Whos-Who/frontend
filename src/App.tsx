@@ -6,7 +6,9 @@ import { SOCKET_SERVER_URL } from "./constants";
 import SocketContext from "./contexts/SocketContext";
 import { initializeGoogleAnalytics } from "./hooks/GoogleAnalytics";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Room from "./pages/Room";
+import Signup from "./pages/Signup";
 import { useAppSelector } from "./redux/hooks";
 
 const App: React.FC = function () {
@@ -43,6 +45,12 @@ const App: React.FC = function () {
           </Route>
           <Route path="/room/:id">
             <Room />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
           </Route>
         </Switch>
       </Router>
