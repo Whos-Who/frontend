@@ -10,13 +10,13 @@ type StyledButtonProps = {
 const StyledButton = styled.button<StyledButtonProps>`
   width: 100%;
   padding: 8px;
-  border: 1px solid ${(props) => props.$secondaryColor};
+  border: 3px solid ${(props) => props.$secondaryColor};
   border-radius: 3px;
   background: ${(props) => props.$primaryColor};
   color: ${(props) => props.theme.colors.isabelline};
   font-family: ${(props) => props.theme.typeface};
   font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 500;
+  font-weight: ${(props) => props.theme.fontWeights.bold};
   cursor: pointer;
 
   ${(props) =>

@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     background: ${(props) => props.theme.colors.isabelline};
     font-family: ${(props) => props.theme.typeface};
+    font-weight: ${(props) => props.theme.fontWeights.bold};
     font-size: 17px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

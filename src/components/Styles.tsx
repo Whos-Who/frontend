@@ -1,22 +1,39 @@
 import styled from "styled-components";
 
+interface StyledInputProps {
+  $error?: boolean;
+}
+
 export const StyledInput = styled.input.attrs({
   type: "text",
-})`
+})<StyledInputProps>`
   width: 100%;
   margin-bottom: 10px;
   padding: 8px 0;
-  border: 1px solid ${(props) => props.theme.colors.grayLight};
-  border-radius: 3px;
+  border: 3px solid
+    ${(props) =>
+      props.$error ? props.theme.colors.rose : props.theme.colors.grayLight};
+  border-radius: 4px;
   background: ${(props) => props.theme.colors.white};
   color: ${(props) => props.theme.colors.black};
   font-family: ${(props) => props.theme.typeface};
   font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 500;
+  font-weight: ${(props) => props.theme.fontWeights.bold};
   text-align: center;
 
   ::placeholder {
     color: ${(props) => props.theme.colors.grayLight};
+  }
+
+  :focus::placeholder {
+    color: transparent;
+  }
+
+  :focus {
+    outline: none;
+    border: 3px solid
+      ${(props) =>
+        props.$error ? props.theme.colors.rose : props.theme.colors.blue};
   }
 `;
 
