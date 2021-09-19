@@ -90,6 +90,9 @@ const Landing: React.FC<Props> = function (props) {
   };
 
   const handleRoomCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMsg) {
+      setErrorMsg(null);
+    }
     setRoomCode(e.target.value);
   };
 
