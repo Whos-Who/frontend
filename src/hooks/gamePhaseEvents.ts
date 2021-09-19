@@ -4,7 +4,6 @@ import { AnyAction } from "redux";
 import SocketContext from "../contexts/SocketContext";
 import { setGameState } from "../redux/gameStateSlice";
 
-// Listens for the event where the host changes
 export const useGamePhaseQuestion = (
   dispatch: Dispatch<AnyAction>,
   socketContext: SocketContext | undefined
@@ -22,6 +21,31 @@ export const useGamePhaseQuestion = (
       socketContext?.socket?.off(
         "game-phase-question",
         gamePhaseQuestionListener
+      );
+    };
+  }, [socketContext?.socket]);
+};
+
+export const useGamePhaseTurnGuess = (
+  dispatch: Dispatch<AnyAction>,
+  socketContext: SocketContext | undefined
+): void => {
+  useEffect(() => {
+    const gamePhaseTurnGuessListener = (
+      response: Sockets.GamePhaseQuestionResponse
+    ) => {
+      dispatch(setGameState(response));
+    };
+
+    socketContext?.socket?.on(
+      "game-phase-turn-guess",
+      gamePhaseTurnGuessListener
+    );
+
+    return () => {
+      socketContext?.socket?.off(
+        "game-phase-turn-guess",
+        gamePhaseTurnGuessListener
       );
     };
   }, [socketContext?.socket]);
