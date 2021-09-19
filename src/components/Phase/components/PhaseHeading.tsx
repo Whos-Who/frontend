@@ -10,24 +10,23 @@ const Heading = styled.div<{ $color: string }>`
 `;
 
 interface Props {
-  currAnswererId?: string;
-  playerId?: string | null;
+  isPlayerTurn?: boolean;
 }
 
 const PhaseHeading: React.FC<Props> = function (props) {
-  const { children, currAnswererId, playerId } = props;
+  const { children, isPlayerTurn } = props;
 
   const theme = useTheme();
   let color;
 
-  if (currAnswererId != null && playerId != null) {
-    if (currAnswererId == playerId) {
+  if (isPlayerTurn == null) {
+    color = theme.colors.grayDark;
+  } else {
+    if (isPlayerTurn) {
       color = theme.colors.emerald;
     } else {
       color = theme.colors.blue;
     }
-  } else {
-    color = theme.colors.grayDark;
   }
 
   return <Heading $color={color}>{children}</Heading>;
