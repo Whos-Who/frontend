@@ -5,6 +5,7 @@ import SocketContext from "../../../../contexts/SocketContext";
 import { useAppSelector } from "../../../../redux/hooks";
 import Button from "../../../Button";
 import { GameFooter, GameHeader, GameMain } from "../../../Styles";
+import { Question } from "../../Styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,13 +22,6 @@ const Subheading = styled.h4`
   margin: 0 0 6px;
   color: ${(props) => props.theme.colors.black};
   font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 700;
-`;
-
-const Question = styled.h3`
-  margin: 0;
-  color: ${(props) => props.theme.colors.blue};
-  font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: 700;
 `;
 

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
+import SocketContext from "../../../contexts/SocketContext";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
 import { shuffle } from "../../../utils/shuffleArray";
@@ -8,7 +9,12 @@ import Button from "../../Button";
 import { GameFooter, GameHeader, GameMain, WaitingMessage } from "../../Styles";
 import PhaseHeading from "../components/PhaseHeading";
 import Timer from "../components/Timer";
-import { AnswerOption, PlayerOption, Question } from "../Styles";
+import {
+  AnswerOption,
+  PlayerOption,
+  Question,
+  SectionHeading,
+} from "../Styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,13 +29,6 @@ const PhaseHeader = styled(GameHeader)`
 
 const StyledQuestion = styled(Question)`
   margin: 10px 95px 10px 20px;
-`;
-
-const SectionHeading = styled.h4`
-  margin: 15px 20px 0;
-  color: ${(props) => props.theme.colors.black};
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 700;
 `;
 
 const AnswersScrollable = styled.div`
@@ -62,12 +61,14 @@ interface RemainingOptions {
 }
 
 const TurnGuessPhase: React.FC = function () {
+  const socketContext = useContext(SocketContext);
+
   const {
+    roomCode,
     currQuestion,
     currAnswerer: currAnswererId,
     players,
   } = useAppSelector((state) => state.gameState);
-
   const myPlayerId = useAppSelector(selectPlayerId);
   const [remainingOptions, setRemainingOptions] = useState<RemainingOptions>({
     answers: [],
@@ -79,7 +80,7 @@ const TurnGuessPhase: React.FC = function () {
   const isPlayerTurn = currAnswererId == myPlayerId;
 
   useEffect(() => {
-    const unShuffledOptions: Option[] = [];
+    const unshuffledOptions: Option[] = [];
 
     // Get all remaining options
     for (const [playerId, player] of Object.entries(players)) {
@@ -89,16 +90,17 @@ const TurnGuessPhase: React.FC = function () {
       if (player.currAnswer.isGuessed) {
         continue;
       }
-      unShuffledOptions.push({
+      unshuffledOptions.push({
         playerId: playerId,
         username: player.username,
         answer: player.currAnswer.value,
       });
     }
 
+    // Shuffle options for answers and players separately
     setRemainingOptions({
-      answers: shuffle(unShuffledOptions),
-      players: shuffle(unShuffledOptions),
+      answers: shuffle(unshuffledOptions),
+      players: shuffle(unshuffledOptions),
     });
   }, []);
 
@@ -113,6 +115,16 @@ const TurnGuessPhase: React.FC = function () {
       setSelectedPlayerId(option.playerId);
     }
   };
+
+  const handleSubmitClick = () => {
+    socketContext?.socket?.emit("game-player-match-submission", {
+      roomCode: roomCode,
+      selectedAnswer: selectedOption?.answer,
+      selectedPlayerId: selectedPlayerId,
+    });
+  };
+
+  const isSubmitDisabled = selectedOption == null || selectedPlayerId == null;
 
   return (
     <Wrapper>
@@ -153,7 +165,9 @@ const TurnGuessPhase: React.FC = function () {
       </GameMain>
       <GameFooter>
         {isPlayerTurn ? (
-          <Button onClick={() => console.log("clck")}>Submit</Button>
+          <Button onClick={handleSubmitClick} isDisabled={isSubmitDisabled}>
+            Submit
+          </Button>
         ) : (
           <WaitingMessage>
             Waiting for {players[currAnswererId].username}...

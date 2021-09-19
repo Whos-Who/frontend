@@ -50,3 +50,28 @@ export const useGamePhaseTurnGuess = (
     };
   }, [socketContext?.socket]);
 };
+
+export const useGamePhaseTurnReveal = (
+  dispatch: Dispatch<AnyAction>,
+  socketContext: SocketContext | undefined
+): void => {
+  useEffect(() => {
+    const gamePhaseTurnRevealListener = (
+      response: Sockets.GamePhaseTurnRevealResponse
+    ) => {
+      dispatch(setGameState(response));
+    };
+
+    socketContext?.socket?.on(
+      "game-phase-turn-reveal",
+      gamePhaseTurnRevealListener
+    );
+
+    return () => {
+      socketContext?.socket?.off(
+        "game-phase-turn-reveal",
+        gamePhaseTurnRevealListener
+      );
+    };
+  }, [socketContext?.socket]);
+};

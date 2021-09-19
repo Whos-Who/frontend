@@ -6,6 +6,7 @@ import SocketContext from "../contexts/SocketContext";
 import {
   useGamePhaseQuestion,
   useGamePhaseTurnGuess,
+  useGamePhaseTurnReveal,
 } from "../hooks/gamePhaseEvents";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useNewHost } from "../hooks/userSocketEvents";
@@ -27,6 +28,7 @@ const Room: React.FC = function () {
   useNewHost(dispatch, socketContext);
   useGamePhaseQuestion(dispatch, socketContext);
   useGamePhaseTurnGuess(dispatch, socketContext);
+  useGamePhaseTurnReveal(dispatch, socketContext);
 
   useEffect(() => {
     // If no clientId, go back to landing

@@ -17,6 +17,8 @@ declare namespace Sockets {
 
   type GamePhaseTurnGuessResponse = GameState;
 
+  type GamePhaseTurnRevealResponse = GameState;
+
   interface GamePlayerReadyResponse {
     readyClientId: string;
     gameState: GameState;

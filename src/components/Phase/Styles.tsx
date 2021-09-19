@@ -8,6 +8,13 @@ export const Question = styled.h3<{ $isBlack?: boolean }>`
   font-weight: 700;
 `;
 
+export const SectionHeading = styled.h4`
+  margin: 15px 20px 0;
+  color: ${(props) => props.theme.colors.black};
+  font-size: ${(props) => props.theme.fontSizes.md};
+  font-weight: 700;
+`;
+
 export const AnswerOption = styled.div<{ $isSelected: boolean }>`
   display: inline-block;
   width: 160px;
