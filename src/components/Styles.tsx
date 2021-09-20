@@ -10,7 +10,7 @@ export const StyledInput = styled.input.attrs({
   width: 100%;
   margin-bottom: 10px;
   padding: 8px 0;
-  border: 2px solid
+  border: 1px solid
     ${(props) =>
       props.$error
         ? props.theme.colors.terraCotta
@@ -20,7 +20,6 @@ export const StyledInput = styled.input.attrs({
   color: ${(props) => props.theme.colors.black};
   font-family: ${(props) => props.theme.typeface};
   font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: ${(props) => props.theme.fontWeights.bold};
   text-align: center;
   animation: ${(props) =>
     props.$error && "shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both"};
@@ -35,7 +34,7 @@ export const StyledInput = styled.input.attrs({
 
   :focus {
     outline: none;
-    border: 2px solid
+    border: 1px solid
       ${(props) =>
         props.$error ? props.theme.colors.terraCotta : props.theme.colors.blue};
   }
@@ -76,7 +75,6 @@ export const StyledPasswordInput = styled.input.attrs({
   color: ${(props) => props.theme.colors.black};
   font-family: ${(props) => props.theme.typeface};
   font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 500;
   text-align: center;
 
   ::placeholder {
@@ -107,6 +105,5 @@ export const WaitingMessage = styled.span`
   width: 100%;
   color: ${(props) => props.theme.colors.grayDark};
   font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 500;
   text-align: center;
 `;

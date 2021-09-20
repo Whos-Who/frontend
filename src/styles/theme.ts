@@ -25,12 +25,6 @@ export interface Theme {
     xl: string;
     xxl: string;
   };
-
-  fontWeights: {
-    light: string;
-    regular: string;
-    bold: string;
-  };
 }
 
 const theme: Theme = {
@@ -57,12 +51,6 @@ const theme: Theme = {
     lg: "1.2em",
     xl: "1.44em",
     xxl: "2.99em",
-  },
-
-  fontWeights: {
-    light: "300",
-    regular: "500",
-    bold: "700",
   },
 };
 

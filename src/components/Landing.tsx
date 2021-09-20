@@ -40,13 +40,11 @@ const TitleText = styled.h1``;
 const OrText = styled.span`
   margin: 15px 0;
   font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: ${(props) => props.theme.fontWeights.regular};
   color: ${(props) => props.theme.colors.grayLight};
 `;
 
 const ErrorMessage = styled.span`
   margin-top: 10px;
-  font-weight: ${(props) => props.theme.fontWeights.regular};
   color: ${(props) => props.theme.colors.terraCotta};
 `;
 
@@ -140,7 +138,7 @@ const Landing: React.FC<Props> = function (props) {
           Logout
         </LogoutButton>
       )}
-      <ErrorMessage>{errorMsg}&nbsp;</ErrorMessage>
+      <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
     </Wrapper>
   );
 };
