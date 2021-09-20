@@ -67,6 +67,7 @@ const TurnRevealPhase: React.FC = function () {
   } = useAppSelector((state) => state.gameState);
   const myPlayerId = useAppSelector(selectPlayerId);
 
+  const didNotGuess = selectedPlayerId === "" && selectedAnswer === "";
   const isPlayerTurn = currAnswererId == myPlayerId;
   const isHost = hostId == myPlayerId;
 
@@ -76,7 +77,6 @@ const TurnRevealPhase: React.FC = function () {
     });
   };
 
-  // TODO: handle reveal when no answer selected
   return (
     <Wrapper>
       <PhaseHeader>
@@ -89,18 +89,22 @@ const TurnRevealPhase: React.FC = function () {
         <Reveal>
           <SectionHeading>
             {isPlayerTurn ? "You" : `${players[currAnswererId].username}`}{" "}
-            guessed
+            {didNotGuess ? "did not guess..." : "guessed"}
           </SectionHeading>
-          <AnswerOption $isSelected>{selectedAnswer}</AnswerOption>
-          <ArrowDown />
-          <PlayerOption $isSelected>
-            {players[selectedPlayerId]?.username || ""}
-          </PlayerOption>
-          <AnswerValidity
-            selectedPlayerId={selectedPlayerId}
-            selectedAnswer={selectedAnswer}
-            players={players}
-          />
+          {!didNotGuess && (
+            <>
+              <AnswerOption $isSelected>{selectedAnswer}</AnswerOption>
+              <ArrowDown />
+              <PlayerOption $isSelected>
+                {players[selectedPlayerId]?.username || ""}
+              </PlayerOption>
+              <AnswerValidity
+                selectedPlayerId={selectedPlayerId}
+                selectedAnswer={selectedAnswer}
+                players={players}
+              />
+            </>
+          )}
         </Reveal>
         <Standings players={players} />
       </PhaseMain>

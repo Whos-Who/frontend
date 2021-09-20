@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { GUESS_TIME_LIMIT } from "../../../constants";
 import SocketContext from "../../../contexts/SocketContext";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
@@ -52,13 +53,13 @@ const PlayersList = styled.div`
 type Option = {
   playerId: string;
   username: string;
-  answer: string;
+  answer?: string;
 };
 
-interface RemainingOptions {
+type Options = {
   answers: Option[];
   players: Option[];
-}
+};
 
 const TurnGuessPhase: React.FC = function () {
   const socketContext = useContext(SocketContext);
@@ -70,43 +71,51 @@ const TurnGuessPhase: React.FC = function () {
     players,
   } = useAppSelector((state) => state.gameState);
   const myPlayerId = useAppSelector(selectPlayerId);
-  const [remainingOptions, setRemainingOptions] = useState<RemainingOptions>({
+  const [options, setOptions] = useState<Options>({
     answers: [],
     players: [],
   });
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<Option | null>(null);
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
 
   const isPlayerTurn = currAnswererId == myPlayerId;
 
   useEffect(() => {
-    const unshuffledOptions: Option[] = [];
+    const answerOptions: Option[] = [];
+    const playerOptions: Option[] = [];
 
-    // Get all remaining options
     for (const [playerId, player] of Object.entries(players)) {
       if (playerId == myPlayerId) {
         continue;
       }
+
+      // Get all players except current player
+      playerOptions.push({
+        playerId: playerId,
+        username: player.username,
+      });
+
+      // Get all unguessed answers
       if (player.currAnswer.isGuessed) {
         continue;
       }
-      unshuffledOptions.push({
+      answerOptions.push({
         playerId: playerId,
         username: player.username,
         answer: player.currAnswer.value,
       });
     }
 
-    // Shuffle options for answers and players separately
-    setRemainingOptions({
-      answers: shuffle(unshuffledOptions),
-      players: shuffle(unshuffledOptions),
+    // Shuffle options for answers
+    setOptions({
+      answers: shuffle(answerOptions),
+      players: playerOptions,
     });
   }, []);
 
   const handleAnswerClick = (option: Option) => {
     if (isPlayerTurn) {
-      setSelectedOption(option);
+      setSelectedAnswer(option);
     }
   };
 
@@ -119,12 +128,12 @@ const TurnGuessPhase: React.FC = function () {
   const handleSubmitClick = () => {
     socketContext?.socket?.emit("game-player-match-submission", {
       roomCode: roomCode,
-      selectedAnswer: selectedOption?.answer,
+      selectedAnswer: selectedAnswer?.answer,
       selectedPlayerId: selectedPlayerId,
     });
   };
 
-  const isSubmitDisabled = selectedOption == null || selectedPlayerId == null;
+  const isSubmitDisabled = selectedAnswer == null || selectedPlayerId == null;
 
   return (
     <Wrapper>
@@ -133,17 +142,17 @@ const TurnGuessPhase: React.FC = function () {
           {players[currAnswererId].username}&apos;s turn
         </PhaseHeading>
         <StyledQuestion $isBlack>{currQuestion}</StyledQuestion>
-        <Timer seconds={30} />
+        <Timer seconds={GUESS_TIME_LIMIT} />
       </PhaseHeader>
       <GameMain>
         <SectionHeading>Remaining answers</SectionHeading>
         <AnswersScrollable>
           <AnswersList>
-            {remainingOptions.answers.map((option) => (
+            {options.answers.map((option) => (
               <AnswerOption
                 key={option.playerId}
                 onClick={() => handleAnswerClick(option)}
-                $isSelected={option.playerId == selectedOption?.playerId}
+                $isSelected={option.playerId == selectedAnswer?.playerId}
               >
                 {option.answer}
               </AnswerOption>
@@ -152,7 +161,7 @@ const TurnGuessPhase: React.FC = function () {
         </AnswersScrollable>
         <SectionHeading>Remaining players</SectionHeading>
         <PlayersList>
-          {remainingOptions.players.map((option) => (
+          {options.players.map((option) => (
             <PlayerOption
               key={option.playerId}
               onClick={() => handlePlayerClick(option)}

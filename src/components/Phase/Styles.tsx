@@ -31,6 +31,9 @@ export const AnswerOption = styled.div<{ $isSelected: boolean }>`
         : `
           inset 0px 0px 0px 1px ${props.theme.colors.grayLight}
         `};
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  white-space: normal;
   cursor: pointer;
 
   :not(:last-child) {

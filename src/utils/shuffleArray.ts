@@ -1,8 +1,7 @@
 // Knuth shuffle - https://bost.ocks.org/mike/shuffle/
-// Shuffles and returns a new array
+// Shuffles the given array in-place
 export const shuffle = (array: any[]): any[] => {
-  const newArray = [...array];
-  let currIndex = newArray.length;
+  let currIndex = array.length;
   let randomIndex;
   let temp;
 
@@ -13,10 +12,10 @@ export const shuffle = (array: any[]): any[] => {
     currIndex--;
 
     // Swap with current element
-    temp = newArray[currIndex];
-    newArray[currIndex] = newArray[randomIndex];
-    newArray[randomIndex] = temp;
+    temp = array[currIndex];
+    array[currIndex] = array[randomIndex];
+    array[randomIndex] = temp;
   }
 
-  return newArray;
+  return array;
 };
