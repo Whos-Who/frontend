@@ -47,7 +47,7 @@ const OrText = styled.span`
 const ErrorMessage = styled.span`
   margin-top: 10px;
   font-weight: ${(props) => props.theme.fontWeights.regular};
-  color: ${(props) => props.theme.colors.rose};
+  color: ${(props) => props.theme.colors.terraCotta};
 `;
 
 const ManageDeckButton = styled(Button)`
