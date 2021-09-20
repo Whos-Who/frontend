@@ -15,7 +15,7 @@ export const StyledInput = styled.input.attrs({
       props.$error
         ? props.theme.colors.terraCotta
         : props.theme.colors.grayLight};
-  border-radius: 4px;
+  border-radius: 3px;
   background: ${(props) => props.theme.colors.white};
   color: ${(props) => props.theme.colors.black};
   font-family: ${(props) => props.theme.typeface};
