@@ -10,9 +10,11 @@ export const StyledInput = styled.input.attrs({
   width: 100%;
   margin-bottom: 10px;
   padding: 8px 0;
-  border: 3px solid
+  border: 2px solid
     ${(props) =>
-      props.$error ? props.theme.colors.rose : props.theme.colors.grayLight};
+      props.$error
+        ? props.theme.colors.terraCotta
+        : props.theme.colors.grayLight};
   border-radius: 4px;
   background: ${(props) => props.theme.colors.white};
   color: ${(props) => props.theme.colors.black};
@@ -33,9 +35,9 @@ export const StyledInput = styled.input.attrs({
 
   :focus {
     outline: none;
-    border: 3px solid
+    border: 2px solid
       ${(props) =>
-        props.$error ? props.theme.colors.rose : props.theme.colors.blue};
+        props.$error ? props.theme.colors.terraCotta : props.theme.colors.blue};
   }
 
   @keyframes shake {

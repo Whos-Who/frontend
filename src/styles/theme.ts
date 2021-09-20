@@ -34,7 +34,7 @@ export interface Theme {
 }
 
 const theme: Theme = {
-  typeface: "Montserrat, sans-serif",
+  typeface: "Inter, sans-serif",
   colors: {
     black: "#323031",
     venus: "#938F8D",
