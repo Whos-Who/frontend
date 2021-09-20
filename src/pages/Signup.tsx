@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Button, { ButtonType } from "../components/Button";
 import { ErrorMessage, StyledInput } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
+import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppDispatch } from "../redux/hooks";
 import { setUserCredentials } from "../redux/userSlice";
 
@@ -34,6 +35,8 @@ const Signup: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [matchError, setMatchError] = useState<boolean>(false);
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
+
+  useTrackPage();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (errorMessage != null) {
