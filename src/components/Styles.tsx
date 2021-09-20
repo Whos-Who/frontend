@@ -20,6 +20,7 @@ export const StyledInput = styled.input.attrs({
   color: ${(props) => props.theme.colors.black};
   font-family: ${(props) => props.theme.typeface};
   font-size: ${(props) => props.theme.fontSizes.md};
+  font-weight: 500;
   text-align: center;
   animation: ${(props) =>
     props.$error && "shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both"};
