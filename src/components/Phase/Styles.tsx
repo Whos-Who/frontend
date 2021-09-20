@@ -15,7 +15,11 @@ export const SectionHeading = styled.h4`
   font-weight: 700;
 `;
 
-export const AnswerOption = styled.div<{ $isSelected: boolean }>`
+interface OptionProps {
+  $borderColor?: string;
+}
+
+export const AnswerOption = styled.div<OptionProps>`
   display: inline-block;
   width: 160px;
   height: 120px;
@@ -24,9 +28,9 @@ export const AnswerOption = styled.div<{ $isSelected: boolean }>`
   background: ${(props) => props.theme.colors.white};
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15),
     ${(props) =>
-      props.$isSelected
+      props.$borderColor
         ? `
-          inset 0px 0px 0px 2px ${props.theme.colors.blue}
+          inset 0px 0px 0px 2px ${props.$borderColor}
         `
         : `
           inset 0px 0px 0px 1px ${props.theme.colors.grayLight}
@@ -41,16 +45,16 @@ export const AnswerOption = styled.div<{ $isSelected: boolean }>`
   }
 `;
 
-export const PlayerOption = styled.div<{ $isSelected: boolean }>`
+export const PlayerOption = styled.div<OptionProps>`
   padding: 8px 20px;
   border-radius: 5px;
   background: ${(props) => props.theme.colors.white};
   font-weight: 700;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15),
     ${(props) =>
-      props.$isSelected
+      props.$borderColor
         ? `
-          inset 0px 0px 0px 2px ${props.theme.colors.blue}
+          inset 0px 0px 0px 2px ${props.$borderColor}
         `
         : `
           inset 0px 0px 0px 1px ${props.theme.colors.grayLight}

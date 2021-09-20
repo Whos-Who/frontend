@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 import { GUESS_TIME_LIMIT } from "../../../constants";
 import SocketContext from "../../../contexts/SocketContext";
@@ -62,6 +62,7 @@ type Options = {
 };
 
 const TurnGuessPhase: React.FC = function () {
+  const theme = useTheme();
   const socketContext = useContext(SocketContext);
 
   const {
@@ -139,7 +140,7 @@ const TurnGuessPhase: React.FC = function () {
     <Wrapper>
       <PhaseHeader>
         <PhaseHeading isPlayerTurn={isPlayerTurn}>
-          {players[currAnswererId].username}&apos;s turn
+          {isPlayerTurn ? "Your" : `${players[currAnswererId].username}'s`} turn
         </PhaseHeading>
         <StyledQuestion $isBlack>{currQuestion}</StyledQuestion>
         <Timer seconds={GUESS_TIME_LIMIT} />
@@ -152,7 +153,11 @@ const TurnGuessPhase: React.FC = function () {
               <AnswerOption
                 key={option.playerId}
                 onClick={() => handleAnswerClick(option)}
-                $isSelected={option.playerId == selectedAnswer?.playerId}
+                $borderColor={
+                  option.playerId == selectedAnswer?.playerId
+                    ? theme.colors.blue
+                    : undefined
+                }
               >
                 {option.answer}
               </AnswerOption>
@@ -165,7 +170,11 @@ const TurnGuessPhase: React.FC = function () {
             <PlayerOption
               key={option.playerId}
               onClick={() => handlePlayerClick(option)}
-              $isSelected={option.playerId == selectedPlayerId}
+              $borderColor={
+                option.playerId == selectedPlayerId
+                  ? theme.colors.blue
+                  : undefined
+              }
             >
               {option.username}
             </PlayerOption>

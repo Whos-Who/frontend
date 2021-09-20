@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 import { ReactComponent as ArrowDown } from "../../../assets/ArrowDown.svg";
 import SocketContext from "../../../contexts/SocketContext";
@@ -54,6 +54,7 @@ const Reveal = styled.div`
 `;
 
 const TurnRevealPhase: React.FC = function () {
+  const theme = useTheme();
   const socketContext = useContext(SocketContext);
 
   const {
@@ -67,9 +68,42 @@ const TurnRevealPhase: React.FC = function () {
   } = useAppSelector((state) => state.gameState);
   const myPlayerId = useAppSelector(selectPlayerId);
 
-  const didNotGuess = selectedPlayerId === "" && selectedAnswer === "";
-  const isPlayerTurn = currAnswererId == myPlayerId;
+  const currAnswererUsername = players[currAnswererId].username;
   const isHost = hostId == myPlayerId;
+  const isPlayerTurn = currAnswererId == myPlayerId;
+
+  // If answerer did not guess within 30s
+  const didNotGuess = selectedPlayerId === "" && selectedAnswer === "";
+
+  // Edge case where the last answer belongs to the currentAnswerer
+  const isAnswerersAnswer = currAnswererId === selectedPlayerId;
+
+  const isAnswerValid =
+    players[selectedPlayerId]?.currAnswer.value == selectedAnswer;
+
+  let revealHeading;
+  let borderColor;
+
+  if (isAnswerersAnswer) {
+    revealHeading = `No one guessed ${
+      isPlayerTurn ? "your" : `${currAnswererUsername}'s'`
+    } answer!`;
+    borderColor = theme.colors.blue;
+  } else {
+    revealHeading = `${isPlayerTurn ? "You" : currAnswererUsername}`;
+
+    if (didNotGuess) {
+      revealHeading += " did not guess...";
+    } else {
+      revealHeading += " guessed";
+    }
+
+    if (isAnswerValid) {
+      borderColor = theme.colors.emerald;
+    } else {
+      borderColor = theme.colors.terraCotta;
+    }
+  }
 
   const handleNextTurnClick = () => {
     socketContext?.socket?.emit("game-next-turn", {
@@ -81,24 +115,24 @@ const TurnRevealPhase: React.FC = function () {
     <Wrapper>
       <PhaseHeader>
         <PhaseHeading isPlayerTurn={isPlayerTurn}>
-          {isPlayerTurn ? "Your" : `${players[currAnswererId].username}'s`} turn
+          {isPlayerTurn ? "Your" : `${currAnswererUsername}'s`} turn
         </PhaseHeading>
         <StyledQuestion $isBlack>{currQuestion}</StyledQuestion>
       </PhaseHeader>
       <PhaseMain>
         <Reveal>
-          <SectionHeading>
-            {isPlayerTurn ? "You" : `${players[currAnswererId].username}`}{" "}
-            {didNotGuess ? "did not guess..." : "guessed"}
-          </SectionHeading>
+          <SectionHeading>{revealHeading}</SectionHeading>
           {!didNotGuess && (
             <>
-              <AnswerOption $isSelected>{selectedAnswer}</AnswerOption>
+              <AnswerOption $borderColor={borderColor}>
+                {selectedAnswer}
+              </AnswerOption>
               <ArrowDown />
-              <PlayerOption $isSelected>
-                {players[selectedPlayerId]?.username || ""}
+              <PlayerOption $borderColor={borderColor}>
+                {currAnswererUsername}
               </PlayerOption>
               <AnswerValidity
+                currAnswererId={currAnswererId}
                 selectedPlayerId={selectedPlayerId}
                 selectedAnswer={selectedAnswer}
                 players={players}

@@ -1,6 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
+import { ReactComponent as Award } from "../../../../assets/Award.svg";
 import { ReactComponent as Check } from "../../../../assets/Check.svg";
 import { ReactComponent as Cross } from "../../../../assets/Cross.svg";
 
@@ -26,15 +27,12 @@ const Points = styled.span`
   font-size: ${(props) => props.theme.fontSizes.md};
 `;
 
-const CheckCrossBackground = styled.div<{ $isValid: boolean }>`
+const IconBackground = styled.div<{ $background: string }>`
   position: relative;
   width: 35px;
   height: 35px;
   border-radius: 100%;
-  background: ${(props) =>
-    props.$isValid
-      ? props.theme.colors.emerald
-      : props.theme.colors.terraCotta};
+  background: ${(props) => props.$background};
 
   svg {
     position: absolute;
@@ -45,27 +43,45 @@ const CheckCrossBackground = styled.div<{ $isValid: boolean }>`
 `;
 
 interface Props {
+  currAnswererId: string;
   selectedPlayerId: string;
   selectedAnswer: string;
   players: Record<string, PlayerState>;
 }
 
 const AnswerValidity: React.FC<Props> = function (props) {
-  const { selectedPlayerId, selectedAnswer, players } = props;
+  const { currAnswererId, selectedPlayerId, selectedAnswer, players } = props;
+  const theme = useTheme();
 
   const isValid = players[selectedPlayerId]?.currAnswer.value == selectedAnswer;
 
+  let background;
+  let icon;
+  let text;
+
+  if (currAnswererId === selectedPlayerId) {
+    background = theme.colors.blue;
+    icon = <Award />;
+    text = "Bonus!";
+  } else if (isValid) {
+    background = theme.colors.emerald;
+    icon = <Check />;
+    text = "Correct!";
+  } else {
+    background = theme.colors.terraCotta;
+    icon = <Cross />;
+    text = "Incorrect!";
+  }
+
   const scoreIncrement = Object.values(players)
     .map((player): number => (player.currAnswer.isGuessed ? 0 : 1))
-    .reduce((a, b) => a + b, 0);
+    .reduce((a, b) => a + b, 1);
 
   return (
     <Wrapper>
       <ValidityContainer>
-        <CheckCrossBackground $isValid={isValid}>
-          {isValid ? <Check /> : <Cross />}
-        </CheckCrossBackground>
-        {isValid ? "Correct!" : "Incorrect!"}
+        <IconBackground $background={background}>{icon}</IconBackground>
+        {text}
       </ValidityContainer>
       {isValid && <Points>+ {scoreIncrement} points</Points>}
     </Wrapper>
