@@ -120,7 +120,7 @@ const Landing: React.FC<Props> = function (props) {
 
   // TODO: Implement manage deck page
   const navigateToManageDeck = () => {
-    history.push("/deck");
+    history.push("/decks");
   };
 
   return (
