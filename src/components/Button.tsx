@@ -16,6 +16,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   color: ${(props) => props.theme.colors.isabelline};
   font-family: ${(props) => props.theme.typeface};
   font-size: ${(props) => props.theme.fontSizes.md};
+  font-weight: 500;
   cursor: pointer;
 
   ${(props) =>

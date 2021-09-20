@@ -39,7 +39,8 @@ const TitleText = styled.h1``;
 
 const OrText = styled.span`
   margin: 15px 0;
-  font-size: ${(props) => props.theme.fontSizes.md};
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
   color: ${(props) => props.theme.colors.grayLight};
 `;
 
