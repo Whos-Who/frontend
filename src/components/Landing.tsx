@@ -20,17 +20,33 @@ const Wrapper = styled.div`
   padding: 30px;
 `;
 
+const Brand = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+  margin-bottom: 3rem;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
 const StyledLogo = styled(Logo)``;
 
-const TitleText = styled.h1`
-  margin-bottom: 4rem;
-`;
+const TitleText = styled.h1``;
 
 const OrText = styled.span`
   margin: 15px 0;
   font-size: ${(props) => props.theme.fontSizes.sm};
   font-weight: 500;
   color: ${(props) => props.theme.colors.grayLight};
+`;
+
+const ErrorMessage = styled.span`
+  margin-top: 10px;
+  color: ${(props) => props.theme.colors.terraCotta};
 `;
 
 const ManageDeckButton = styled(Button)`
@@ -66,13 +82,16 @@ const Landing: React.FC<Props> = function (props) {
   // TODO: validate room code
   const handleJoinGameClick = () => {
     if (roomCode.length === 0) {
-      setErrorMsg("Please enter a room code");
+      setErrorMsg("Please enter a room code!");
     } else {
       setPromptName(true);
     }
   };
 
   const handleRoomCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMsg) {
+      setErrorMsg(null);
+    }
     setRoomCode(e.target.value);
   };
 
@@ -91,8 +110,10 @@ const Landing: React.FC<Props> = function (props) {
 
   return (
     <Wrapper>
-      <StyledLogo />
-      <TitleText>Who&lsquo;s who?</TitleText>
+      <Brand>
+        <StyledLogo />
+        <TitleText>Who&rsquo;s Who?</TitleText>
+      </Brand>
       {doesUserExist ? (
         <ManageDeckButton onClick={navigateToManageDeck} type={ButtonType.Host}>
           Manage Deck
@@ -107,7 +128,8 @@ const Landing: React.FC<Props> = function (props) {
       </Button>
       <OrText>or</OrText>
       <StyledInput
-        placeholder="Enter room code"
+        $error={errorMsg != null}
+        placeholder="Room Code"
         value={roomCode}
         onChange={handleRoomCodeChange}
       />
@@ -117,7 +139,7 @@ const Landing: React.FC<Props> = function (props) {
           Logout
         </LogoutButton>
       )}
-      {errorMsg && <span>{errorMsg}</span>}
+      <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
     </Wrapper>
   );
 };
