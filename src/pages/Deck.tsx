@@ -140,13 +140,25 @@ const Deck: React.FC = function () {
       }
     };
 
+  const handleChangeDeckName = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (!deck) {
+      return;
+    }
+    const newDeck = { ...deck };
+    newDeck.title = e.target.value;
+    setDeck(newDeck);
+  };
+
   return (
     <Wrapper>
       <DeckHeader>
         <EditDeck />
       </DeckHeader>
       <DeckMain>
-        <DeckName title="hehe" />
+        <DeckName
+          title={deck?.title ?? ""}
+          handleChangeDeckName={handleChangeDeckName}
+        />
         <h4>Questions</h4>
         <QuestionsList
           questions={deck?.Questions ?? []}
