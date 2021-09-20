@@ -10,7 +10,7 @@ type StyledButtonProps = {
 const StyledButton = styled.button<StyledButtonProps>`
   width: 100%;
   padding: 8px;
-  border: 3px solid ${(props) => props.$secondaryColor};
+  border: 2px solid ${(props) => props.$secondaryColor};
   border-radius: 3px;
   background: ${(props) => props.$primaryColor};
   color: ${(props) => props.theme.colors.isabelline};
