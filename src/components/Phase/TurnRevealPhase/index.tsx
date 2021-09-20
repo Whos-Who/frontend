@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as ArrowDown } from "../../../assets/ArrowDown.svg";
+import SocketContext from "../../../contexts/SocketContext";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectPlayerId } from "../../../redux/playerSlice";
 import Button, { ButtonType } from "../../Button";
@@ -14,6 +15,7 @@ import {
   SectionHeading,
 } from "../Styles";
 import AnswerValidity from "./components/AnswerValidity";
+import Standings from "./components/Standings";
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,22 +31,31 @@ const StyledQuestion = styled(Question)`
   margin: 10px 95px 10px 20px;
 `;
 
+const PhaseMain = styled(GameMain)`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Reveal = styled.div`
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  padding: 15px 30px 20px;
 
   ${AnswerOption} {
     margin: 0;
   }
 
   ${SectionHeading} {
-    margin-bottom: 5px;
+    margin: 0 0 5px;
   }
 `;
 
 const TurnRevealPhase: React.FC = function () {
+  const socketContext = useContext(SocketContext);
+
   const {
     roomCode,
     host: hostId,
@@ -59,18 +70,26 @@ const TurnRevealPhase: React.FC = function () {
   const isPlayerTurn = currAnswererId == myPlayerId;
   const isHost = hostId == myPlayerId;
 
+  const handleNextTurnClick = () => {
+    socketContext?.socket?.emit("game-next-turn", {
+      roomCode: roomCode,
+    });
+  };
+
+  // TODO: handle reveal when no answer selected
   return (
     <Wrapper>
       <PhaseHeader>
         <PhaseHeading isPlayerTurn={isPlayerTurn}>
-          {players[currAnswererId].username}&apos;s turn
+          {isPlayerTurn ? "Your" : `${players[currAnswererId].username}'s`} turn
         </PhaseHeading>
         <StyledQuestion $isBlack>{currQuestion}</StyledQuestion>
       </PhaseHeader>
-      <GameMain>
+      <PhaseMain>
         <Reveal>
           <SectionHeading>
-            {players[currAnswererId].username} guessed
+            {isPlayerTurn ? "You" : `${players[currAnswererId].username}`}{" "}
+            guessed
           </SectionHeading>
           <AnswerOption $isSelected>{selectedAnswer}</AnswerOption>
           <ArrowDown />
@@ -83,10 +102,11 @@ const TurnRevealPhase: React.FC = function () {
             players={players}
           />
         </Reveal>
-      </GameMain>
+        <Standings players={players} />
+      </PhaseMain>
       <GameFooter>
         {isHost ? (
-          <Button onClick={() => console.log("ok")} type={ButtonType.Host}>
+          <Button onClick={handleNextTurnClick} type={ButtonType.Host}>
             Next turn
           </Button>
         ) : (

@@ -4,74 +4,21 @@ import { AnyAction } from "redux";
 import SocketContext from "../contexts/SocketContext";
 import { setGameState } from "../redux/gameStateSlice";
 
-export const useGamePhaseQuestion = (
+export const useGameNextPhase = (
   dispatch: Dispatch<AnyAction>,
   socketContext: SocketContext | undefined
 ): void => {
   useEffect(() => {
-    const gamePhaseQuestionListener = (
+    const gameNextPhaseListener = (
       response: Sockets.GamePhaseQuestionResponse
     ) => {
       dispatch(setGameState(response));
     };
 
-    socketContext?.socket?.on("game-phase-question", gamePhaseQuestionListener);
+    socketContext?.socket?.on("game-next-phase", gameNextPhaseListener);
 
     return () => {
-      socketContext?.socket?.off(
-        "game-phase-question",
-        gamePhaseQuestionListener
-      );
-    };
-  }, [socketContext?.socket]);
-};
-
-export const useGamePhaseTurnGuess = (
-  dispatch: Dispatch<AnyAction>,
-  socketContext: SocketContext | undefined
-): void => {
-  useEffect(() => {
-    const gamePhaseTurnGuessListener = (
-      response: Sockets.GamePhaseQuestionResponse
-    ) => {
-      dispatch(setGameState(response));
-    };
-
-    socketContext?.socket?.on(
-      "game-phase-turn-guess",
-      gamePhaseTurnGuessListener
-    );
-
-    return () => {
-      socketContext?.socket?.off(
-        "game-phase-turn-guess",
-        gamePhaseTurnGuessListener
-      );
-    };
-  }, [socketContext?.socket]);
-};
-
-export const useGamePhaseTurnReveal = (
-  dispatch: Dispatch<AnyAction>,
-  socketContext: SocketContext | undefined
-): void => {
-  useEffect(() => {
-    const gamePhaseTurnRevealListener = (
-      response: Sockets.GamePhaseTurnRevealResponse
-    ) => {
-      dispatch(setGameState(response));
-    };
-
-    socketContext?.socket?.on(
-      "game-phase-turn-reveal",
-      gamePhaseTurnRevealListener
-    );
-
-    return () => {
-      socketContext?.socket?.off(
-        "game-phase-turn-reveal",
-        gamePhaseTurnRevealListener
-      );
+      socketContext?.socket?.off("game-next-phase", gameNextPhaseListener);
     };
   }, [socketContext?.socket]);
 };
