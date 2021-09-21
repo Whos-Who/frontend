@@ -30,7 +30,7 @@ const RoomCode: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      <Title>Room code</Title>
+      <Title>Room Code</Title>
       <RoomId>{id}</RoomId>
     </Wrapper>
   );

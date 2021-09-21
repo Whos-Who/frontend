@@ -27,13 +27,14 @@ const Wrapper = styled.div`
 `;
 
 const PhaseHeader = styled(GameHeader)`
-  padding: 10px 30px;
+  padding: 40px 30px 15px;
 
   @media screen and (min-width: 600px) {
     border: 1px solid ${(props) => props.theme.colors.grayLighter};
     min-width: 600px;
     border-radius: 15px;
     width: auto;
+    padding: 20px 30px;
   }
 `;
 
@@ -115,7 +116,7 @@ const LobbyPhase: React.FC = function () {
             isDisabled={isStartDisabled}
           >
             Start
-            {isStartDisabled && ` (At least ${MIN_PLAYERS} required)`}
+            {isStartDisabled && ` (Minimum ${MIN_PLAYERS} players)`}
           </Button>
         )}
         <Button onClick={handleLeaveClick} type={ButtonType.Danger}>

@@ -106,12 +106,13 @@ export const GameFooter = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 15px 30px;
+  padding: 15px 30px 40px;
   border-top: 1px solid ${(props) => props.theme.colors.grayLighter};
   background: ${(props) => props.theme.colors.white};
   width: 100%;
 
   @media screen and (min-width: 600px) {
+    padding: 20px 30px;
     border: 1px solid ${(props) => props.theme.colors.grayLighter};
     min-width: 600px;
     border-radius: 15px;
