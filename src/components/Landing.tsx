@@ -1,8 +1,10 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
+import { BACKEND_URL } from "../constants";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getIsUserLoggedIn, logoutUser } from "../redux/userSlice";
 import Button, { ButtonType, ErrorMessage } from "./Button";
@@ -64,6 +66,7 @@ const Landing: React.FC<Props> = function (props) {
   const { roomCode, setRoomCode, setPromptName } = props;
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isJoiningRoom, setIsJoiningRoom] = useState<boolean>(false);
 
   const history = useHistory();
 
@@ -78,9 +81,20 @@ const Landing: React.FC<Props> = function (props) {
   const handleJoinGameClick = () => {
     if (roomCode.length === 0) {
       setErrorMsg("Please enter a room code!");
-    } else {
-      setPromptName(true);
+      return;
     }
+    setIsJoiningRoom(true);
+    axios
+      .head(`${BACKEND_URL}/rooms/${roomCode}`)
+      .then(() => {
+        setPromptName(true);
+      })
+      .catch(() => {
+        setErrorMsg("Room does not exist!");
+      })
+      .finally(() => {
+        setIsJoiningRoom(false);
+      });
   };
 
   const handleRoomCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,7 +142,9 @@ const Landing: React.FC<Props> = function (props) {
         value={roomCode}
         onChange={handleRoomCodeChange}
       />
-      <Button onClick={handleJoinGameClick}>Join Game</Button>
+      <Button onClick={handleJoinGameClick} isLoading={isJoiningRoom}>
+        Join Game
+      </Button>
       {doesUserExist && (
         <LogoutButton onClick={handleLogout} type={ButtonType.Danger}>
           Logout
