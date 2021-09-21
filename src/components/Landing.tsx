@@ -74,6 +74,7 @@ const Landing: React.FC<Props> = function (props) {
   const dispatch = useAppDispatch();
 
   const handleNewGameClick = () => {
+    setRoomCode("");
     setPromptName(true);
   };
 

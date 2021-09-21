@@ -45,6 +45,7 @@ const SetName: React.FC<Props> = function (props) {
 
   const [name, setName] = useState<string>(useAppSelector(getUsername) ?? "");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isCreatingRoom, setIsCreatingRoom] = useState<boolean>(false);
 
   // Set up clientId, which will initiate a socket connection
   useEffect(() => {
@@ -55,6 +56,7 @@ const SetName: React.FC<Props> = function (props) {
   // Redirect to game lobby once a response is received
   useEffect(() => {
     const roomListener = (response: Sockets.RoomJoinResponse) => {
+      setIsCreatingRoom(false);
       dispatch(setGameState(response));
       history.push(`/room/${response.roomCode}`);
     };
@@ -80,9 +82,10 @@ const SetName: React.FC<Props> = function (props) {
       return;
     }
     if (!socketContext?.socket) {
+      setErrorMsg("Connection error!");
       return;
     }
-
+    setIsCreatingRoom(true);
     if (roomCode.length > 0) {
       socketContext?.socket.emit("room-join", {
         username: name,
@@ -104,7 +107,9 @@ const SetName: React.FC<Props> = function (props) {
         value={name}
         onChange={handleNameChange}
       />
-      <Button onClick={handleNextClick}>Next</Button>
+      <Button onClick={handleNextClick} isLoading={isCreatingRoom}>
+        Next
+      </Button>
       <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
     </Wrapper>
   );
