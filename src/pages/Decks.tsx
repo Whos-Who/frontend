@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 100%;
   max-width: 600px;
+  margin: 0 auto;
 `;
 
 const DecksHeader = styled(GameHeader)`
