@@ -13,10 +13,11 @@ const Wrapper = styled.div`
 interface Props {
   questions: Question[];
   handleChangeQuestion: (questionId: string) => (newQuestion: string) => void;
+  handleDeleteQuestion: (questionId: string) => () => void;
 }
 
 const QuestionsList: React.FC<Props> = (props) => {
-  const { questions, handleChangeQuestion } = props;
+  const { questions, handleChangeQuestion, handleDeleteQuestion } = props;
 
   return (
     <Wrapper>
@@ -26,6 +27,7 @@ const QuestionsList: React.FC<Props> = (props) => {
             key={question.id}
             question={question.question}
             handleChangeQuestion={handleChangeQuestion(question.id)}
+            handleDeleteQuestion={handleDeleteQuestion(question.id)}
           />
         );
       })}

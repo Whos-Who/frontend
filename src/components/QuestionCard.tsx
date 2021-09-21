@@ -1,5 +1,12 @@
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import React from "react";
 import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
 const TextBox = styled.textarea`
   resize: none;
@@ -17,13 +24,18 @@ const TextBox = styled.textarea`
   }
 `;
 
+const DeleteLogo = styled(HighlightOffIcon)`
+  color: ${(props) => props.theme.colors.grayDark};
+`;
+
 interface Props {
   question: string;
   handleChangeQuestion: (newQuestion: string) => void;
+  handleDeleteQuestion: () => void;
 }
 
 const QuestionCard: React.FC<Props> = (props) => {
-  const { question, handleChangeQuestion } = props;
+  const { question, handleChangeQuestion, handleDeleteQuestion } = props;
 
   const handleChangeCurrentQuestion = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -32,12 +44,15 @@ const QuestionCard: React.FC<Props> = (props) => {
   };
 
   return (
-    <TextBox
-      rows={1}
-      value={question}
-      maxLength={200}
-      onChange={handleChangeCurrentQuestion}
-    />
+    <Wrapper>
+      <TextBox
+        rows={1}
+        value={question}
+        maxLength={200}
+        onChange={handleChangeCurrentQuestion}
+      />
+      <DeleteLogo onClick={handleDeleteQuestion} />
+    </Wrapper>
   );
 };
 

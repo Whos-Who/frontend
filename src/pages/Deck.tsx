@@ -37,6 +37,7 @@ const DeckFooter = styled(GameFooter)``;
 
 const Deck: React.FC = function () {
   const [deck, setDeck] = useState<Deck | null>(null);
+  const [deletedQuestions, setDeletedQuestions] = useState<Question[]>([]);
 
   const userToken = useAppSelector(getUserToken);
 
@@ -87,6 +88,13 @@ const Deck: React.FC = function () {
         })
       );
     });
+    deletedQuestions.forEach((deletedQuestion) => {
+      updateDeckPromises.push(
+        axios.delete(`${BACKEND_URL}/questions/${deletedQuestion.id}`, {
+          headers,
+        })
+      );
+    });
     await Promise.all(updateDeckPromises);
     retrieveDeck();
   };
@@ -122,6 +130,24 @@ const Deck: React.FC = function () {
       const newDeck = { ...deck };
       newDeck.Questions?.push(addQuestionResponse.data);
       setDeck(newDeck);
+    }
+  };
+
+  const handleDeleteQuestion = (questionId: string) => () => {
+    if (!deck) {
+      return;
+    }
+    let newDeletedQuestions = [...deletedQuestions];
+    const newDeck = { ...deck };
+    const index = newDeck.Questions.findIndex(
+      (question) => question.id === questionId
+    );
+    if (index !== -1) {
+      newDeletedQuestions = newDeletedQuestions.concat(
+        newDeck.Questions.splice(index, 1)
+      );
+      setDeck(newDeck);
+      setDeletedQuestions(newDeletedQuestions);
     }
   };
 
@@ -163,6 +189,7 @@ const Deck: React.FC = function () {
         <QuestionsList
           questions={deck?.Questions ?? []}
           handleChangeQuestion={handleChangeQuestion}
+          handleDeleteQuestion={handleDeleteQuestion}
         />
         <AddQuestion onClick={handleAddQuestion}>+ Add Question</AddQuestion>
       </DeckMain>
