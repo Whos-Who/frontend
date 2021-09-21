@@ -115,7 +115,7 @@ export const GameFooter = styled.div`
     padding: 20px 30px;
     border: 1px solid ${(props) => props.theme.colors.grayLighter};
     min-width: 600px;
-    border-radius: 15px;
+    border-radius: 5px;
     width: auto;
   }
 `;
