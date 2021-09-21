@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getIsUserLoggedIn, logoutUser } from "../redux/userSlice";
-import Button, { ButtonType } from "./Button";
+import Button, { ButtonType, ErrorMessage } from "./Button";
 import { StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
@@ -42,11 +42,6 @@ const OrText = styled.span`
   font-size: ${(props) => props.theme.fontSizes.sm};
   font-weight: 500;
   color: ${(props) => props.theme.colors.grayLight};
-`;
-
-const ErrorMessage = styled.span`
-  margin-top: 10px;
-  color: ${(props) => props.theme.colors.terraCotta};
 `;
 
 const ManageDeckButton = styled(Button)`

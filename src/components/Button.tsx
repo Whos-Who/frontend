@@ -89,4 +89,9 @@ const Button: React.FC<Props> = function (props) {
   );
 };
 
+export const ErrorMessage = styled.span`
+  margin-top: 10px;
+  color: ${(props) => props.theme.colors.terraCotta};
+`;
+
 export default Button;
