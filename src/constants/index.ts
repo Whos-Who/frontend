@@ -5,4 +5,6 @@ export const SOCKET_SERVER_URL =
 
 export const MIN_PLAYERS = 3;
 
+export const GUESS_TIME_LIMIT = 30;
+
 export const BACKEND_URL = SOCKET_SERVER_URL;
