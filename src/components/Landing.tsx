@@ -1,14 +1,12 @@
 import axios from "axios";
 import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
-import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import { BACKEND_URL } from "../constants";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getIsUserLoggedIn, logoutUser } from "../redux/userSlice";
 import Button, { ButtonType } from "./Button";
+import LandingFooter from "./LandingFooter";
 import { ErrorMessage, StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
@@ -20,7 +18,16 @@ const Wrapper = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding: 30px;
+  padding: 30px 30px 0px 30px;
+`;
+
+const InnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
 `;
 
 const Brand = styled.div`
@@ -47,16 +54,6 @@ const OrText = styled.span`
   color: ${(props) => props.theme.colors.grayLight};
 `;
 
-const ManageDeckButton = styled(Button)`
-  margin-bottom: 10px;
-`;
-
-const LoginButton = ManageDeckButton;
-
-const LogoutButton = styled(Button)`
-  margin-top: 10px;
-`;
-
 interface Props {
   roomCode: string;
   setRoomCode: React.Dispatch<React.SetStateAction<string>>;
@@ -68,11 +65,6 @@ const Landing: React.FC<Props> = function (props) {
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isJoiningRoom, setIsJoiningRoom] = useState<boolean>(false);
-
-  const history = useHistory();
-
-  const doesUserExist = useAppSelector(getIsUserLoggedIn);
-  const dispatch = useAppDispatch();
 
   const handleNewGameClick = () => {
     setRoomCode("");
@@ -110,54 +102,30 @@ const Landing: React.FC<Props> = function (props) {
     setRoomCode(e.target.value);
   };
 
-  const navigateToLoginPage = () => {
-    history.push("/login");
-  };
-
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  };
-
-  // TODO: Implement manage deck page
-  const navigateToManageDeck = () => {
-    history.push("/decks");
-  };
-
   return (
     <Wrapper>
-      <Brand>
-        <StyledLogo />
-        <TitleText>Who&rsquo;s Who?</TitleText>
-      </Brand>
-      {doesUserExist ? (
-        <ManageDeckButton onClick={navigateToManageDeck} type={ButtonType.Host}>
-          Manage Deck
-        </ManageDeckButton>
-      ) : (
-        <LoginButton onClick={navigateToLoginPage} type={ButtonType.Host}>
-          Login
-        </LoginButton>
-      )}
-      <Button onClick={handleNewGameClick} type={ButtonType.Host}>
-        New Game
-      </Button>
-      <OrText>or</OrText>
-      <StyledInput
-        type="text"
-        $error={errorMsg != null}
-        placeholder="Room Code"
-        value={roomCode}
-        onChange={handleRoomCodeChange}
-      />
-      <Button onClick={handleJoinGameClick} isLoading={isJoiningRoom}>
-        Join Game
-      </Button>
-      {doesUserExist && (
-        <LogoutButton onClick={handleLogout} type={ButtonType.Danger}>
-          Logout
-        </LogoutButton>
-      )}
-      <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
+      <InnerWrapper>
+        <Brand>
+          <StyledLogo />
+          <TitleText>Who&rsquo;s Who?</TitleText>
+        </Brand>
+        <Button onClick={handleNewGameClick} type={ButtonType.Host}>
+          New Game
+        </Button>
+        <OrText>or</OrText>
+        <StyledInput
+          type="text"
+          $error={errorMsg != null}
+          placeholder="Room Code"
+          value={roomCode}
+          onChange={handleRoomCodeChange}
+        />
+        <Button onClick={handleJoinGameClick} isLoading={isJoiningRoom}>
+          Join Game
+        </Button>
+        <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
+      </InnerWrapper>
+      <LandingFooter></LandingFooter>
     </Wrapper>
   );
 };
