@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
@@ -78,7 +79,6 @@ const Landing: React.FC<Props> = function (props) {
     setPromptName(true);
   };
 
-  // TODO: validate room code
   const handleJoinGameClick = () => {
     if (roomCode.length === 0) {
       setErrorMsg("Please enter a room code!");
@@ -90,8 +90,13 @@ const Landing: React.FC<Props> = function (props) {
       .then(() => {
         setPromptName(true);
       })
-      .catch(() => {
-        setErrorMsg("Room does not exist!");
+      .catch((err) => {
+        const statusCode = err.response.status;
+        if (statusCode == StatusCodes.NOT_FOUND) {
+          setErrorMsg("Room does not exist!");
+        } else {
+          setErrorMsg("Unable to join room!");
+        }
       })
       .finally(() => {
         setIsJoiningRoom(false);

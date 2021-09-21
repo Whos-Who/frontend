@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
@@ -55,7 +56,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     if (email.length == 0 || password.length == 0) {
-      setErrorMessage("Email and password cannot be empty!");
+      setErrorMessage("Fields cannot be empty!");
       return;
     }
     const headers = {
@@ -86,8 +87,13 @@ const Login: React.FC = () => {
         setIsLoggingIn(false);
         history.replace("");
       })
-      .catch(() => {
-        setErrorMessage("Invalid credentials!");
+      .catch((err) => {
+        const statusCode = err.response.status;
+        if (statusCode == StatusCodes.UNAUTHORIZED) {
+          setErrorMessage("Invalid credentials!");
+        } else {
+          setErrorMessage("Login failed!");
+        }
       })
       .finally(() => {
         setIsLoggingIn(false);

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
@@ -120,8 +121,13 @@ const Signup: React.FC = () => {
         setIsSigningUp(false);
         history.replace("");
       })
-      .catch(() => {
-        setErrorMessage("Sign up failed!");
+      .catch((err) => {
+        const statusCode = err.response.status;
+        if (statusCode == StatusCodes.CONFLICT) {
+          setErrorMessage("Username already exists!");
+        } else {
+          setErrorMessage("Sign up failed!");
+        }
       })
       .finally(() => {
         setIsSigningUp(false);
