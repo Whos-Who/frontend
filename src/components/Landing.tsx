@@ -138,6 +138,7 @@ const Landing: React.FC<Props> = function (props) {
       </Button>
       <OrText>or</OrText>
       <StyledInput
+        inputType="text"
         $error={errorMsg != null}
         placeholder="Room Code"
         value={roomCode}

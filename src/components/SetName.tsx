@@ -102,6 +102,7 @@ const SetName: React.FC<Props> = function (props) {
     <Wrapper>
       <StyledLogo />
       <StyledInput
+        inputType="text"
         $error={errorMsg != null}
         placeholder="Enter Your Name"
         value={name}

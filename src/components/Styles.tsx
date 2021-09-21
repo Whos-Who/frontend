@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 interface StyledInputProps {
   $error?: boolean;
+  inputType: string;
 }
 
-export const StyledInput = styled.input.attrs({
-  type: "text",
-})<StyledInputProps>`
+export const StyledInput = styled.input.attrs((props: StyledInputProps) => ({
+  type: props.inputType,
+}))<StyledInputProps>`
   width: 100%;
   margin-bottom: 10px;
   padding: 8px 0;
@@ -61,26 +62,6 @@ export const StyledInput = styled.input.attrs({
     60% {
       transform: translate3d(4px, 0, 0);
     }
-  }
-`;
-
-export const StyledPasswordInput = styled.input.attrs({
-  type: "password",
-})`
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px 0;
-  border: 1px solid ${(props) => props.theme.colors.grayLight};
-  border-radius: 3px;
-  background: ${(props) => props.theme.colors.white};
-  color: ${(props) => props.theme.colors.black};
-  font-family: ${(props) => props.theme.typeface};
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 500;
-  text-align: center;
-
-  ::placeholder {
-    color: ${(props) => props.theme.colors.grayLight};
   }
 `;
 

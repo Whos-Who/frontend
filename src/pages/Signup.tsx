@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 
-import Button, { ButtonType } from "../components/Button";
-import { StyledInput, StyledPasswordInput } from "../components/Styles";
+import Button, { ButtonType, ErrorMessage } from "../components/Button";
+import { StyledInput } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useAppDispatch } from "../redux/hooks";
 import { setUserCredentials } from "../redux/userSlice";
@@ -31,29 +31,64 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [matchError, setMatchError] = useState<boolean>(false);
+  const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMessage != null) {
+      setErrorMessage(null);
+    }
+    if (matchError) {
+      setMatchError(false);
+    }
     setUsername(e.target.value);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMessage != null) {
+      setErrorMessage(null);
+    }
+    if (matchError) {
+      setMatchError(false);
+    }
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMessage != null) {
+      setErrorMessage(null);
+    }
+    if (matchError) {
+      setMatchError(false);
+    }
     setPassword(e.target.value);
   };
 
   const handleConfirmPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    if (errorMessage != null) {
+      setErrorMessage(null);
+    }
+    if (matchError) {
+      setMatchError(false);
+    }
     setConfirmPassword(e.target.value);
   };
 
-  // TODO: Handle error UI response when invalid signup
   const handleSignup = async () => {
+    if (
+      username.length == 0 ||
+      email.length == 0 ||
+      password.length == 0 ||
+      confirmPassword.length == 0
+    ) {
+      setErrorMessage("All fields must be filled!");
+      return;
+    }
     if (password !== confirmPassword) {
-      setErrorMessage("Password and Confirm Password are not equal");
+      setMatchError(true);
+      setErrorMessage("Passwords do not match!");
       return;
     }
     const headers = {
@@ -64,55 +99,75 @@ const Signup: React.FC = () => {
       email: email,
       password: password,
     };
-    const signupResponse = await axios.post(`${BACKEND_URL}/register`, data, {
-      headers,
-    });
-    if (signupResponse.status === 201) {
-      const {
-        token,
-        user: { email: userEmail, username: userUsername, id },
-      } = signupResponse.data;
-      dispatch(
-        setUserCredentials({
-          id: id,
-          username: userUsername,
-          email: userEmail,
-          token: token,
-        })
-      );
-      history.replace("");
-    } else {
-      setErrorMessage(`Signup failed, ${signupResponse.data.message}`);
-    }
+    setIsSigningUp(true);
+    await axios
+      .post(`${BACKEND_URL}/register`, data, {
+        headers,
+      })
+      .then((response) => {
+        const {
+          token,
+          user: { email: userEmail, username: userUsername, id },
+        } = response.data;
+        dispatch(
+          setUserCredentials({
+            id: id,
+            username: userUsername,
+            email: userEmail,
+            token: token,
+          })
+        );
+        setIsSigningUp(false);
+        history.replace("");
+      })
+      .catch(() => {
+        setErrorMessage("Sign up failed!");
+      })
+      .finally(() => {
+        setIsSigningUp(false);
+      });
   };
 
   return (
     <Wrapper>
-      <h1>Signup</h1>
       <StyledInput
+        inputType="text"
         placeholder="Username"
         value={username}
         onChange={handleUsernameChange}
+        $error={errorMessage != null && username.length == 0}
       />
       <StyledInput
+        inputType="text"
         placeholder="Email"
         value={email}
         onChange={handleEmailChange}
+        $error={errorMessage != null && email.length == 0}
       />
-      <StyledPasswordInput
+      <StyledInput
+        inputType="password"
         placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
+        $error={errorMessage != null && (password.length == 0 || matchError)}
       />
-      <StyledPasswordInput
+      <StyledInput
+        inputType="password"
         placeholder="Confirm Password"
         value={confirmPassword}
         onChange={handleConfirmPasswordChange}
+        $error={
+          errorMessage != null && (confirmPassword.length == 0 || matchError)
+        }
       />
-      <Button onClick={handleSignup} type={ButtonType.Host}>
-        Signup
+      <Button
+        onClick={handleSignup}
+        type={ButtonType.Host}
+        isLoading={isSigningUp}
+      >
+        Sign Up
       </Button>
-      {errorMessage && <span>{errorMessage}</span>}
+      <ErrorMessage>&nbsp;{errorMessage}&nbsp;</ErrorMessage>
     </Wrapper>
   );
 };
