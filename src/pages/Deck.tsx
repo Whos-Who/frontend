@@ -7,7 +7,12 @@ import Button, { ButtonType } from "../components/Button";
 import DeckName from "../components/DeckName";
 import EditDeck from "../components/EditDeck";
 import QuestionsList from "../components/QuestionsList";
-import { GameFooter, GameHeader, GameMain } from "../components/Styles";
+import {
+  GameFooter,
+  GameHeader,
+  GameMain,
+  Loading,
+} from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppSelector } from "../redux/hooks";
@@ -37,6 +42,7 @@ const AddQuestion = styled.p`
 const DeckFooter = styled(GameFooter)``;
 
 const Deck: React.FC = function () {
+  const [loading, setLoading] = useState<boolean>(true);
   const [deck, setDeck] = useState<Deck | null>(null);
   const [deletedQuestions, setDeletedQuestions] = useState<Question[]>([]);
 
@@ -48,7 +54,7 @@ const Deck: React.FC = function () {
   useTrackPage();
 
   useEffect(() => {
-    retrieveDeck();
+    retrieveDeck().then(() => setLoading(false));
   }, []);
 
   const retrieveDeck = async () => {
@@ -182,23 +188,39 @@ const Deck: React.FC = function () {
         <EditDeck />
       </DeckHeader>
       <DeckMain>
-        <DeckName
-          title={deck?.title ?? ""}
-          handleChangeDeckName={handleChangeDeckName}
-        />
-        <h4>Questions</h4>
-        <QuestionsList
-          questions={deck?.Questions ?? []}
-          handleChangeQuestion={handleChangeQuestion}
-          handleDeleteQuestion={handleDeleteQuestion}
-        />
-        <AddQuestion onClick={handleAddQuestion}>+ Add Question</AddQuestion>
+        {loading ? (
+          <Loading>Loading...</Loading>
+        ) : (
+          <>
+            <DeckName
+              title={deck?.title ?? ""}
+              handleChangeDeckName={handleChangeDeckName}
+            />
+            <h4>Questions</h4>
+            <QuestionsList
+              questions={deck?.Questions ?? []}
+              handleChangeQuestion={handleChangeQuestion}
+              handleDeleteQuestion={handleDeleteQuestion}
+            />
+            <AddQuestion onClick={handleAddQuestion}>
+              + Add Question
+            </AddQuestion>
+          </>
+        )}
       </DeckMain>
       <DeckFooter>
-        <Button onClick={handleSaveDeck} type={ButtonType.Host}>
+        <Button
+          onClick={handleSaveDeck}
+          type={ButtonType.Host}
+          isDisabled={loading}
+        >
           Save Deck
         </Button>
-        <Button onClick={handleDeleteDeck} type={ButtonType.Danger}>
+        <Button
+          onClick={handleDeleteDeck}
+          type={ButtonType.Danger}
+          isDisabled={loading}
+        >
           Delete Deck
         </Button>
       </DeckFooter>

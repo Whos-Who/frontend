@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import DecksList from "../components/DecksList";
-import { GameHeader, GameMain } from "../components/Styles";
+import { GameHeader, GameMain, Loading } from "../components/Styles";
 import YourDecks from "../components/YourDecks";
 import { BACKEND_URL } from "../constants";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
@@ -25,6 +25,7 @@ const DecksHeader = styled(GameHeader)`
 const DecksMain = GameMain;
 
 const Decks: React.FC = function () {
+  const [loading, setLoading] = useState<boolean>(true);
   const [decks, setDecks] = useState<Deck[]>([]);
 
   const userToken = useAppSelector(getUserToken);
@@ -32,7 +33,7 @@ const Decks: React.FC = function () {
   useTrackPage();
 
   useEffect(() => {
-    fetchUserDecks();
+    fetchUserDecks().then(() => setLoading(false));
   }, []);
 
   const fetchUserDecks = async () => {
@@ -68,7 +69,7 @@ const Decks: React.FC = function () {
         <YourDecks createNewDeck={createNewDeck} />
       </DecksHeader>
       <DecksMain>
-        <DecksList decks={decks} />
+        {loading ? <Loading>Loading...</Loading> : <DecksList decks={decks} />}
       </DecksMain>
     </Wrapper>
   );
