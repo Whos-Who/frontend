@@ -3,6 +3,7 @@ import React from "react";
 import { Phase } from "../../constants/Phases";
 import LobbyPhase from "./LobbyPhase";
 import QuestionPhase from "./QuestionPhase";
+import ScoreboardPhase from "./ScoreboardPhase";
 import TurnGuessPhase from "./TurnGuessPhase";
 import TurnRevealPhase from "./TurnRevealPhase";
 
@@ -21,8 +22,10 @@ const PhaseSwitch: React.FC<Props> = function (props) {
     case Phase.QUESTION:
       return <QuestionPhase />;
     case Phase.LOBBY:
-    default:
       return <LobbyPhase />;
+    case Phase.SCOREBOARD:
+    default:
+      return <ScoreboardPhase />;
   }
 };
 
