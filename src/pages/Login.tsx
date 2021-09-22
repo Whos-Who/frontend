@@ -1,11 +1,12 @@
 import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
-import { StyledInput, StyledPasswordInput } from "../components/Styles";
+import { ErrorMessage, StyledInput } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useAppDispatch } from "../redux/hooks";
 import { setUserCredentials } from "../redux/userSlice";
@@ -23,7 +24,7 @@ const Wrapper = styled.div`
 `;
 
 const AccountText = styled.span`
-  margin: 15px 0;
+  margin-top: 15px;
   font-size: ${(props) => props.theme.fontSizes.sm};
   font-weight: 500;
   color: ${(props) => props.theme.colors.grayDark};
@@ -37,17 +38,27 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMessage != null) {
+      setErrorMessage(null);
+    }
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMessage != null) {
+      setErrorMessage(null);
+    }
     setPassword(e.target.value);
   };
 
-  // TODO: Handle error UI response when invalid login
   const handleLogin = async () => {
+    if (email.length == 0 || password.length == 0) {
+      setErrorMessage("Fields cannot be empty!");
+      return;
+    }
     const headers = {
       "Content-Type": "application/json",
     };
@@ -55,49 +66,69 @@ const Login: React.FC = () => {
       email: email,
       password: password,
     };
-    const loginResponse = await axios.post(`${BACKEND_URL}/login`, data, {
-      headers,
-    });
-    if (!loginResponse.data.statusCode) {
-      const {
-        token,
-        user: { email: userEmail, username, id },
-      } = loginResponse.data;
-      dispatch(
-        setUserCredentials({
-          id: id,
-          username: username,
-          email: userEmail,
-          token: token,
-        })
-      );
-      history.replace("");
-    } else {
-      setErrorMessage(`Login failed, ${loginResponse.data.message}`);
-    }
+    setIsLoggingIn(true);
+    await axios
+      .post(`${BACKEND_URL}/login`, data, {
+        headers,
+      })
+      .then((response) => {
+        const {
+          token,
+          user: { email: userEmail, username, id },
+        } = response.data;
+        dispatch(
+          setUserCredentials({
+            id: id,
+            username: username,
+            email: userEmail,
+            token: token,
+          })
+        );
+        setIsLoggingIn(false);
+        history.replace("");
+      })
+      .catch((err) => {
+        const statusCode = err.response.status;
+        if (statusCode == StatusCodes.UNAUTHORIZED) {
+          setErrorMessage("Invalid credentials!");
+        } else {
+          setErrorMessage("Login failed!");
+        }
+      })
+      .finally(() => {
+        setIsLoggingIn(false);
+      });
   };
 
   return (
     <Wrapper>
-      <h1>Login</h1>
+      <h1>Log In</h1>
       <StyledInput
+        type="text"
         placeholder="Email"
         value={email}
         onChange={handleEmailChange}
+        $error={errorMessage != null}
       />
-      <StyledPasswordInput
+      <StyledInput
+        type="password"
         placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
+        $error={errorMessage != null}
       />
-      <Button onClick={handleLogin} type={ButtonType.Host}>
+      <Button
+        onClick={handleLogin}
+        type={ButtonType.Host}
+        isLoading={isLoggingIn}
+      >
         Login
       </Button>
       <AccountText>
-        Don&lsquo;t have an account? &nbsp;
-        <Link to="/signup">Signup</Link>
+        Don&apos;t have an account? &nbsp;
+        <Link to="/signup">Sign Up</Link>
       </AccountText>
-      {errorMessage && <span>{errorMessage}</span>}
+      <ErrorMessage>&nbsp;{errorMessage}&nbsp;</ErrorMessage>
     </Wrapper>
   );
 };

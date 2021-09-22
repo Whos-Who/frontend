@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
 import { getUsername } from "../redux/userSlice";
 import Button from "./Button";
-import { StyledInput } from "./Styles";
+import { ErrorMessage, StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,12 +33,6 @@ const StyledLogo = styled(Logo)`
   height: 50px;
 `;
 
-const InputPrompt = styled.h2`
-  margin: 0 0 15px;
-  font-size: ${(props) => props.theme.fontSizes.xl};
-  color: ${(props) => props.theme.colors.black};
-`;
-
 interface Props {
   roomCode: string;
 }
@@ -50,6 +44,8 @@ const SetName: React.FC<Props> = function (props) {
   const socketContext = useContext(SocketContext);
 
   const [name, setName] = useState<string>(useAppSelector(getUsername) ?? "");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isCreatingRoom, setIsCreatingRoom] = useState<boolean>(false);
 
   // Set up clientId, which will initiate a socket connection
   useEffect(() => {
@@ -60,6 +56,7 @@ const SetName: React.FC<Props> = function (props) {
   // Redirect to game lobby once a response is received
   useEffect(() => {
     const roomListener = (response: Sockets.RoomJoinResponse) => {
+      setIsCreatingRoom(false);
       dispatch(setGameState(response));
       history.push(`/room/${response.roomCode}`);
     };
@@ -72,15 +69,23 @@ const SetName: React.FC<Props> = function (props) {
   }, [socketContext?.socket]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (errorMsg) {
+      setErrorMsg(null);
+    }
     setName(e.target.value);
   };
 
   // TODO: validate name
   const handleNextClick = () => {
-    if (!socketContext?.socket) {
+    if (name.length == 0) {
+      setErrorMsg("Please enter a name!");
       return;
     }
-
+    if (!socketContext?.socket) {
+      setErrorMsg("Connection error!");
+      return;
+    }
+    setIsCreatingRoom(true);
     if (roomCode.length > 0) {
       socketContext?.socket.emit("room-join", {
         username: name,
@@ -96,13 +101,18 @@ const SetName: React.FC<Props> = function (props) {
   return (
     <Wrapper>
       <StyledLogo />
-      <InputPrompt>Your Name</InputPrompt>
       <StyledInput
-        placeholder="Enter name"
+        type="text"
+        $error={errorMsg != null}
+        placeholder="Enter your name"
         value={name}
         onChange={handleNameChange}
+        maxLength={12}
       />
-      <Button onClick={handleNextClick}>Next</Button>
+      <Button onClick={handleNextClick} isLoading={isCreatingRoom}>
+        Next
+      </Button>
+      <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
     </Wrapper>
   );
 };

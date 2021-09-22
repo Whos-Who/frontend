@@ -4,9 +4,7 @@ interface StyledInputProps {
   $error?: boolean;
 }
 
-export const StyledInput = styled.input.attrs({
-  type: "text",
-})<StyledInputProps>`
+export const StyledInput = styled.input<StyledInputProps>`
   width: 100%;
   margin-bottom: 10px;
   padding: 8px 0;
@@ -64,26 +62,6 @@ export const StyledInput = styled.input.attrs({
   }
 `;
 
-export const StyledPasswordInput = styled.input.attrs({
-  type: "password",
-})`
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px 0;
-  border: 1px solid ${(props) => props.theme.colors.grayLight};
-  border-radius: 3px;
-  background: ${(props) => props.theme.colors.white};
-  color: ${(props) => props.theme.colors.black};
-  font-family: ${(props) => props.theme.typeface};
-  font-size: ${(props) => props.theme.fontSizes.md};
-  font-weight: 500;
-  text-align: center;
-
-  ::placeholder {
-    color: ${(props) => props.theme.colors.grayLight};
-  }
-`;
-
 export const GameHeader = styled.div`
   width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
@@ -121,4 +99,9 @@ export const WaitingMessage = styled.span`
   font-size: ${(props) => props.theme.fontSizes.md};
   font-weight: 500;
   text-align: center;
+`;
+
+export const ErrorMessage = styled.span`
+  margin-top: 10px;
+  color: ${(props) => props.theme.colors.terraCotta};
 `;

@@ -1,13 +1,18 @@
 import React from "react";
+import ReactLoading from "react-loading";
 import styled, { useTheme } from "styled-components";
 
 type StyledButtonProps = {
   $primaryColor: string;
   $secondaryColor: string;
   $isDisabled?: boolean;
+  $isLoading?: boolean;
 };
 
 const StyledButton = styled.button<StyledButtonProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 8px;
   border: 2px solid ${(props) => props.$secondaryColor};
@@ -18,7 +23,6 @@ const StyledButton = styled.button<StyledButtonProps>`
   font-size: ${(props) => props.theme.fontSizes.md};
   font-weight: 500;
   cursor: pointer;
-  max-width: 600px;
 
   ${(props) =>
     props.$isDisabled &&
@@ -26,6 +30,12 @@ const StyledButton = styled.button<StyledButtonProps>`
     cursor: default;
     border: 2px solid ${props.theme.colors.grayDark};
     background: ${props.theme.colors.grayLight};
+  `};
+
+  ${(props) =>
+    props.$isLoading &&
+    `
+    cursor: default;
   `};
 
   :hover {
@@ -50,10 +60,11 @@ interface Props {
   onClick: React.MouseEventHandler;
   type?: ButtonTypeValues;
   isDisabled?: boolean;
+  isLoading?: boolean;
 }
 
 const Button: React.FC<Props> = function (props) {
-  const { className, onClick, type, isDisabled, children } = props;
+  const { className, onClick, type, isDisabled, children, isLoading } = props;
   const theme = useTheme();
 
   let primaryColor;
@@ -82,9 +93,14 @@ const Button: React.FC<Props> = function (props) {
       $primaryColor={primaryColor}
       $secondaryColor={secondaryColor}
       $isDisabled={isDisabled}
-      disabled={isDisabled}
+      $isLoading={isLoading}
+      disabled={isDisabled || isLoading}
     >
-      {children}
+      {isLoading ? (
+        <ReactLoading type="bubbles" height={20} width={20} />
+      ) : (
+        children
+      )}
     </StyledButton>
   );
 };

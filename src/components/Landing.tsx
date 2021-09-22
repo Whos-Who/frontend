@@ -1,12 +1,15 @@
+import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
+import { BACKEND_URL } from "../constants";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getIsUserLoggedIn, logoutUser } from "../redux/userSlice";
 import Button, { ButtonType } from "./Button";
-import { StyledInput } from "./Styles";
+import { ErrorMessage, StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,11 +47,6 @@ const OrText = styled.span`
   color: ${(props) => props.theme.colors.grayLight};
 `;
 
-const ErrorMessage = styled.span`
-  margin-top: 10px;
-  color: ${(props) => props.theme.colors.terraCotta};
-`;
-
 const ManageDeckButton = styled(Button)`
   margin-bottom: 10px;
 `;
@@ -69,6 +67,7 @@ const Landing: React.FC<Props> = function (props) {
   const { roomCode, setRoomCode, setPromptName } = props;
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isJoiningRoom, setIsJoiningRoom] = useState<boolean>(false);
 
   const history = useHistory();
 
@@ -76,16 +75,32 @@ const Landing: React.FC<Props> = function (props) {
   const dispatch = useAppDispatch();
 
   const handleNewGameClick = () => {
+    setRoomCode("");
     setPromptName(true);
   };
 
-  // TODO: validate room code
   const handleJoinGameClick = () => {
     if (roomCode.length === 0) {
       setErrorMsg("Please enter a room code!");
-    } else {
-      setPromptName(true);
+      return;
     }
+    setIsJoiningRoom(true);
+    axios
+      .head(`${BACKEND_URL}/rooms/${roomCode}`)
+      .then(() => {
+        setPromptName(true);
+      })
+      .catch((err) => {
+        const statusCode = err.response.status;
+        if (statusCode == StatusCodes.NOT_FOUND) {
+          setErrorMsg("Room does not exist!");
+        } else {
+          setErrorMsg("Unable to join room!");
+        }
+      })
+      .finally(() => {
+        setIsJoiningRoom(false);
+      });
   };
 
   const handleRoomCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,12 +143,15 @@ const Landing: React.FC<Props> = function (props) {
       </Button>
       <OrText>or</OrText>
       <StyledInput
+        type="text"
         $error={errorMsg != null}
         placeholder="Room Code"
         value={roomCode}
         onChange={handleRoomCodeChange}
       />
-      <Button onClick={handleJoinGameClick}>Join Game</Button>
+      <Button onClick={handleJoinGameClick} isLoading={isJoiningRoom}>
+        Join Game
+      </Button>
       {doesUserExist && (
         <LogoutButton onClick={handleLogout} type={ButtonType.Danger}>
           Logout
