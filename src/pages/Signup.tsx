@@ -5,7 +5,12 @@ import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
-import { ErrorMessage, StyledInput } from "../components/Styles";
+import {
+  AccountText,
+  ErrorMessage,
+  StyledInput,
+  StyledLink,
+} from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppDispatch } from "../redux/hooks";
@@ -125,7 +130,7 @@ const Signup: React.FC = () => {
         history.replace("");
       })
       .catch((err) => {
-        const statusCode = err.response.status;
+        const statusCode = err?.response?.status || "";
         if (statusCode == StatusCodes.CONFLICT) {
           setErrorMessage("Username already exists!");
         } else {
@@ -139,7 +144,7 @@ const Signup: React.FC = () => {
 
   return (
     <Wrapper>
-      <h1>Sign Up</h1>
+      <h1>Sign up</h1>
       <StyledInput
         type="text"
         placeholder="Username"
@@ -177,6 +182,16 @@ const Signup: React.FC = () => {
       >
         Sign Up
       </Button>
+      <AccountText>
+        <span>
+          Already have an account?&nbsp;
+          <StyledLink to="/login">Log in</StyledLink>
+        </span>
+        <span>
+          Or&nbsp;
+          <StyledLink to="">play as guest</StyledLink>
+        </span>
+      </AccountText>
       <ErrorMessage>&nbsp;{errorMessage}&nbsp;</ErrorMessage>
     </Wrapper>
   );

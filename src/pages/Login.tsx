@@ -2,11 +2,16 @@ import axios from "axios";
 import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
-import { ErrorMessage, StyledInput } from "../components/Styles";
+import {
+  AccountText,
+  ErrorMessage,
+  PageTitle,
+  StyledInput,
+  StyledLink,
+} from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppDispatch } from "../redux/hooks";
@@ -24,17 +29,9 @@ const Wrapper = styled.div`
   padding: 30px;
 `;
 
-const AccountText = styled.span`
-  margin-top: 15px;
-  font-size: ${(props) => props.theme.fontSizes.sm};
-  font-weight: 500;
-  color: ${(props) => props.theme.colors.grayDark};
-`;
-
 const Login: React.FC = () => {
-  const dispatch = useAppDispatch();
-
   const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -91,7 +88,7 @@ const Login: React.FC = () => {
         history.replace("");
       })
       .catch((err) => {
-        const statusCode = err.response.status;
+        const statusCode = err?.response?.status || "";
         if (statusCode == StatusCodes.UNAUTHORIZED) {
           setErrorMessage("Invalid credentials!");
         } else {
@@ -105,7 +102,7 @@ const Login: React.FC = () => {
 
   return (
     <Wrapper>
-      <h1>Log In</h1>
+      <PageTitle>Log in</PageTitle>
       <StyledInput
         type="text"
         placeholder="Email"
@@ -128,8 +125,14 @@ const Login: React.FC = () => {
         Login
       </Button>
       <AccountText>
-        Don&apos;t have an account? &nbsp;
-        <Link to="/signup">Sign Up</Link>
+        <span>
+          Don&apos;t have an account?&nbsp;
+          <StyledLink to="/signup">Sign up</StyledLink>
+        </span>
+        <span>
+          Or&nbsp;
+          <StyledLink to="">play as guest</StyledLink>
+        </span>
       </AccountText>
       <ErrorMessage>&nbsp;{errorMessage}&nbsp;</ErrorMessage>
     </Wrapper>

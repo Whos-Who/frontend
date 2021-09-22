@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 interface StyledInputProps {
@@ -109,4 +110,29 @@ export const ErrorMessage = styled.span`
 // TODO; Style loading message
 export const Loading = styled.h1`
   text-align: center;
+`;
+
+export const AccountText = styled.span`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
+  color: ${(props) => props.theme.colors.grayDark};
+  text-align: center;
+`;
+
+export const StyledLink = styled(Link)`
+  color: ${(props) => props.theme.colors.blue};
+  font-size: ${(props) => props.theme.fontSizes.md};
+  font-weight: 500;
+  text-decoration: none;
+`;
+
+export const PageTitle = styled.h1`
+  margin: 20px 0;
+  color: ${(props) => props.theme.colors.black};
+  font-size: ${(props) => props.theme.fontSizes.xl};
+  font-weight: 700;
 `;
