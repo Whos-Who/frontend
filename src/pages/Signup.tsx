@@ -136,8 +136,6 @@ const Signup: React.FC = () => {
         } else {
           setErrorMessage("Sign up failed!");
         }
-      })
-      .finally(() => {
         setIsSigningUp(false);
       });
   };
