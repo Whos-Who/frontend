@@ -99,7 +99,7 @@ const Landing: React.FC<Props> = function (props) {
     if (errorMsg) {
       setErrorMsg(null);
     }
-    setRoomCode(e.target.value);
+    setRoomCode(e.target.value.toUpperCase());
   };
 
   return (
@@ -119,6 +119,7 @@ const Landing: React.FC<Props> = function (props) {
           placeholder="Room Code"
           value={roomCode}
           onChange={handleRoomCodeChange}
+          maxLength={4}
         />
         <Button onClick={handleJoinGameClick} isLoading={isJoiningRoom}>
           Join Game

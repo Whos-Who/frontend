@@ -5,11 +5,12 @@ import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getIsUserLoggedIn, getUsername, logoutUser } from "../redux/userSlice";
 import Button, { ButtonType } from "./Button";
+import { StyledLink } from "./Styles";
 
 const DefaultWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 15px 0;
+  padding: 15px 0 40px;
   width: 100%;
   text-align: center;
   justify-content: space-around;
@@ -18,18 +19,32 @@ const DefaultWrapper = styled.div`
 const LogoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 15px 0;
-  width: 100%;
-  text-align: center;
   justify-content: center;
-`;
+  align-items: center;
+  width: 100%;
+  padding: 15px 0 30px;
+  text-align: center;
 
-const Text = styled.p`
-  color: ${(props) => props.theme.colors.blue};
+  h4 {
+    margin: 0 0 10px;
+  }
+
+  p {
+    margin: 20px 0 0;
+    color: ${(props) => props.theme.colors.grayDark};
+    font-size: ${(props) => props.theme.fontSizes.md};
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      color: ${(props) => props.theme.colors.black};
+    }
+  }
 `;
 
 const Username = styled.span`
   color: ${(props) => props.theme.colors.blue};
+  font-size: ${(props) => props.theme.fontSizes.md};
 `;
 
 const LandingFooter: React.FC = () => {
@@ -38,20 +53,14 @@ const LandingFooter: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
 
-  const navigateToLoginPage = () => {
-    history.push("/login");
-  };
-
-  const navigateToSignupPage = () => {
-    history.push("/signup");
-  };
-
   const navigateToManageDeck = () => {
     history.push("/decks");
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    if (window.confirm("Are you sure you want to sign out?")) {
+      dispatch(logoutUser());
+    }
   };
 
   if (doesUserExist) {
@@ -64,15 +73,15 @@ const LandingFooter: React.FC = () => {
         <Button onClick={navigateToManageDeck} type={ButtonType.Host}>
           Manage Decks
         </Button>
-        <Text onClick={handleLogout}>Sign out</Text>
+        <p onClick={handleLogout}>Sign out</p>
       </LogoutWrapper>
     );
   }
 
   return (
     <DefaultWrapper>
-      <Text onClick={navigateToLoginPage}>Log in</Text>
-      <Text onClick={navigateToSignupPage}>Sign up</Text>
+      <StyledLink to="/login">Log in</StyledLink>
+      <StyledLink to="/signup">Sign up</StyledLink>
     </DefaultWrapper>
   );
 };

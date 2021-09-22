@@ -1,25 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $color: string }>`
   display: flex;
   flex-direction: column;
-  text-align: center;
   justify-content: center;
-  border: 0.5rem solid;
-  border-color: ${(props) => props.theme.colors.white};
-  border-radius: 5%;
-  background-color: ${(props) => props.color};
-  width: 10rem;
-  height: 5rem;
-  margin: 1rem auto;
+  width: 140px;
+  height: 190px;
+  padding: 15px 10px;
+  border: 4px solid ${(props) => props.theme.colors.white};
+  border-radius: 10px;
+  background-color: ${(props) => props.$color};
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  text-align: center;
 `;
 
 const Title = styled.h3`
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   margin: 0;
   color: ${(props) => props.theme.colors.white};
-  font-size: ${(props) => props.theme.fontSizes.lg};
+  font-size: ${(props) => props.theme.fontSizes.md};
   font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
 `;
 
 interface Props {
@@ -32,7 +39,7 @@ const DeckCard: React.FC<Props> = (props) => {
   const { title, color, navigateToDeckView } = props;
 
   return (
-    <Wrapper color={color} onClick={navigateToDeckView}>
+    <Wrapper $color={color} onClick={navigateToDeckView}>
       <Title>{title}</Title>
     </Wrapper>
   );
