@@ -18,11 +18,13 @@ const StyledButton = styled.button<StyledButtonProps>`
   font-size: ${(props) => props.theme.fontSizes.md};
   font-weight: 500;
   cursor: pointer;
+  max-width: 600px;
 
   ${(props) =>
     props.$isDisabled &&
     `
-    border: 1px solid ${props.theme.colors.grayDark};
+    cursor: default;
+    border: 2px solid ${props.theme.colors.grayDark};
     background: ${props.theme.colors.grayLight};
   `};
 

@@ -19,12 +19,23 @@ import RoomCode from "./components/RoomCode";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const PhaseHeader = styled(GameHeader)`
   padding: 10px 30px;
+
+  @media screen and (min-width: 600px) {
+    border: 1px solid ${(props) => props.theme.colors.grayLighter};
+    min-width: 600px;
+    border-radius: 5px;
+    width: auto;
+    padding: 20px 30px;
+  }
 `;
 
 const PhaseMain = styled(GameMain)`
@@ -105,7 +116,7 @@ const LobbyPhase: React.FC = function () {
             isDisabled={isStartDisabled}
           >
             Start
-            {isStartDisabled && ` (At least ${MIN_PLAYERS} required)`}
+            {isStartDisabled && ` (Minimum ${MIN_PLAYERS} players)`}
           </Button>
         )}
         <Button onClick={handleLeaveClick} type={ButtonType.Danger}>

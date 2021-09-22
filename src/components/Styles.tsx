@@ -85,6 +85,7 @@ export const StyledPasswordInput = styled.input.attrs({
 `;
 
 export const GameHeader = styled.div`
+  width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
   background: ${(props) => props.theme.colors.white};
 `;
@@ -97,10 +98,21 @@ export const GameMain = styled.div`
 export const GameFooter = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
   padding: 15px 30px 30px;
   border-top: 1px solid ${(props) => props.theme.colors.grayLighter};
   background: ${(props) => props.theme.colors.white};
+  width: 100%;
+
+  @media screen and (min-width: 600px) {
+    padding: 20px 30px;
+    border: 1px solid ${(props) => props.theme.colors.grayLighter};
+    min-width: 600px;
+    border-radius: 5px;
+    width: auto;
+  }
 `;
 
 export const WaitingMessage = styled.span`
