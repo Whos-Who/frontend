@@ -5,6 +5,8 @@ import { io, Socket } from "socket.io-client";
 import { SOCKET_SERVER_URL } from "./constants";
 import SocketContext from "./contexts/SocketContext";
 import { initializeGoogleAnalytics } from "./hooks/GoogleAnalytics";
+import Deck from "./pages/Deck";
+import Decks from "./pages/Decks";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Room from "./pages/Room";
@@ -46,11 +48,17 @@ const App: React.FC = function () {
           <Route path="/room/:id">
             <Room />
           </Route>
-          <Route path="/login">
+          <Route exact path="/login">
             <Login />
           </Route>
-          <Route path="/signup">
+          <Route exact path="/signup">
             <Signup />
+          </Route>
+          <Route exact path="/decks">
+            <Decks />
+          </Route>
+          <Route path="/decks/:id">
+            <Deck />
           </Route>
         </Switch>
       </Router>

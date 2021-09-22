@@ -1,0 +1,76 @@
+import React from "react";
+import { useHistory } from "react-router";
+import styled, { useTheme } from "styled-components";
+
+import DeckCard from "./DeckCard";
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+interface Props {
+  decks: Deck[];
+}
+
+const DecksList: React.FC<Props> = (props) => {
+  const { decks } = props;
+  const theme = useTheme();
+  const history = useHistory();
+
+  const generateRandomColor = () => {
+    const deckColors = [
+      theme.colors.blue,
+      theme.colors.emerald,
+      theme.colors.terraCotta,
+    ];
+
+    return deckColors[Math.floor(Math.random() * deckColors.length)];
+  };
+
+  const groupByRow = () => {
+    const rows = [];
+    for (let i = 0; i < decks.length; i += 2) {
+      if (i !== decks.length - 1) {
+        rows.push([decks[i], decks[i + 1]]);
+      } else {
+        rows.push([decks[i]]);
+      }
+    }
+    return rows;
+  };
+
+  const navigateToDeckView = (id: string) => () => {
+    history.push(`/decks/${id}`);
+  };
+
+  return (
+    <Wrapper>
+      {groupByRow().map((row, index) => {
+        return (
+          <Row key={index}>
+            {row.map((deck) => {
+              return (
+                <DeckCard
+                  key={deck.id}
+                  title={deck.title}
+                  color={generateRandomColor()}
+                  navigateToDeckView={navigateToDeckView(deck.id)}
+                />
+              );
+            })}
+          </Row>
+        );
+      })}
+    </Wrapper>
+  );
+};
+
+export default DecksList;
