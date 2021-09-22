@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   border-top: 1px solid ${(props) => props.theme.colors.grayLighter};
-  padding: 20px 30px;
+  padding: 20px 30px 30px;
 `;
 
 const Player = styled.div`
@@ -28,7 +28,9 @@ const Score = styled(PlayerInfo)`
 `;
 
 const Title = styled.h1`
+  margin: 0 0 20px;
   text-align: center;
+  font-size: ${(props) => props.theme.fontSizes.xl};
 `;
 
 interface Props {

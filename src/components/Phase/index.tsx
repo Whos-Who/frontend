@@ -15,6 +15,8 @@ const PhaseSwitch: React.FC<Props> = function (props) {
   const { phase } = props;
 
   switch (phase) {
+    case Phase.SCOREBOARD:
+      return <ScoreboardPhase />;
     case Phase.TURN_REVEAL:
       return <TurnRevealPhase />;
     case Phase.TURN_GUESS:
@@ -22,10 +24,8 @@ const PhaseSwitch: React.FC<Props> = function (props) {
     case Phase.QUESTION:
       return <QuestionPhase />;
     case Phase.LOBBY:
-      return <LobbyPhase />;
-    case Phase.SCOREBOARD:
     default:
-      return <ScoreboardPhase />;
+      return <LobbyPhase />;
   }
 };
 
