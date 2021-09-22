@@ -63,12 +63,9 @@ const WaitingStage: React.FC = function () {
     .reduce((a, b) => a + b, 0);
 
   const handleStartClick = () => {
-    // TODO: use this once we have default deck ready
-    // socketContext?.socket?.emit("game-next-turn", {
-    //   roomCode: roomCode,
-    // });
-    // TODO: and remove this
-    console.log("go to turn guess phase");
+    socketContext?.socket?.emit("game-next-turn", {
+      roomCode: roomCode,
+    });
   };
 
   const isStartDisabled = readyCount < MIN_PLAYERS;

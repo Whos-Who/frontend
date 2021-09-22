@@ -106,7 +106,7 @@ export const GameFooter = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 15px 30px 40px;
+  padding: 15px 30px 30px;
   border-top: 1px solid ${(props) => props.theme.colors.grayLighter};
   background: ${(props) => props.theme.colors.white};
   width: 100%;
