@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { MIN_PLAYERS } from "../../../constants";
 import SocketContext from "../../../contexts/SocketContext";
+import { resetGameSetup } from "../../../redux/gameSetupSlice";
 import {
   addPlayer,
   removePlayer,
@@ -54,6 +55,7 @@ const LobbyPhase: React.FC = function () {
     players,
     playerCount,
   } = useAppSelector((state) => state.gameState);
+  const { deckId } = useAppSelector((state) => state.gameSetup);
 
   const isHost = hostId == playerId;
 
@@ -82,9 +84,9 @@ const LobbyPhase: React.FC = function () {
 
   const handleStartClick = () => {
     console.log("start game");
-    // TODO: add deckId as a param once deck selection is ready
     socketContext?.socket?.emit("game-start", {
       roomCode: roomCode,
+      deckId: deckId,
     });
   };
 

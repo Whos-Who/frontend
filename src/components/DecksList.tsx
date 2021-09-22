@@ -44,7 +44,7 @@ const DecksList: React.FC<Props> = (props) => {
           key={deck.id}
           title={deck.title}
           color={generateRandomColor()}
-          navigateToDeckView={navigateToDeckView(deck.id)}
+          onClick={navigateToDeckView(deck.id)}
         />
       ))}
     </Wrapper>

@@ -9,6 +9,7 @@ import Deck from "./pages/Deck";
 import Decks from "./pages/Decks";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import New from "./pages/New";
 import Room from "./pages/Room";
 import Signup from "./pages/Signup";
 import { useAppSelector } from "./redux/hooks";
@@ -44,6 +45,9 @@ const App: React.FC = function () {
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route path="/new">
+            <New />
           </Route>
           <Route path="/room/:id">
             <Room />

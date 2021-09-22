@@ -1,26 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import Landing from "../components/Landing";
 import SetName from "../components/SetName";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
+import { resetGameSetup } from "../redux/gameSetupSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 const Home: React.FC = function () {
-  const [promptName, setPromptName] = useState<boolean>(false);
-  const [roomCode, setRoomCode] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const { roomCode } = useAppSelector((state) => state.gameSetup);
 
   useTrackPage();
 
-  if (promptName) {
-    return <SetName roomCode={roomCode} />;
+  useEffect(() => {
+    dispatch(resetGameSetup());
+  }, []);
+
+  if (roomCode != null) {
+    return <SetName />;
   }
 
-  return (
-    <Landing
-      roomCode={roomCode}
-      setRoomCode={setRoomCode}
-      setPromptName={setPromptName}
-    />
-  );
+  return <Landing />;
 };
 
 export default Home;
