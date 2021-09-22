@@ -89,7 +89,6 @@ const LobbyPhase: React.FC = function () {
   };
 
   const handleLeaveClick = () => {
-    // TODO: replace window.confirm
     if (window.confirm("Are you sure you want to leave?")) {
       socketContext?.socket?.emit("room-leave", { roomCode: roomCode });
       dispatch(resetGameState());

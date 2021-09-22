@@ -1,14 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ReactLoading from "react-loading";
 import { useHistory } from "react-router";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 
 import { ReactComponent as Chevron } from "../assets/ChevronRight.svg";
 import { ReactComponent as Plus } from "../assets/Plus.svg";
 import DecksList from "../components/DecksList";
 import Loader from "../components/Loader";
-import { GameHeader, GameMain, Loading } from "../components/Styles";
+import { GameHeader, GameMain } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppSelector } from "../redux/hooks";
@@ -37,7 +36,6 @@ const DecksHeader = styled(GameHeader)`
 `;
 
 const Decks: React.FC = function () {
-  const theme = useTheme();
   const history = useHistory();
 
   const [loading, setLoading] = useState<boolean>(true);

@@ -6,9 +6,10 @@ import styled from "styled-components";
 import Button, { ButtonType } from "../components/Button";
 import DeckName from "../components/DeckName";
 import EditDeckHeader from "../components/EditDeckHeader";
+import Loader from "../components/Loader";
 import { SectionHeading } from "../components/Phase/Styles";
 import QuestionsList from "../components/QuestionsList";
-import { GameFooter, GameMain, Loading } from "../components/Styles";
+import { GameFooter, GameMain } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppSelector } from "../redux/hooks";
@@ -176,7 +177,7 @@ const Deck: React.FC = function () {
       <EditDeckHeader isDefaultDeck={isDefaultDeck} />
       <GameMain>
         {loading ? (
-          <Loading>Loading...</Loading>
+          <Loader />
         ) : (
           <>
             <DeckName

@@ -107,11 +107,6 @@ export const ErrorMessage = styled.span`
   color: ${(props) => props.theme.colors.terraCotta};
 `;
 
-// TODO; Style loading message
-export const Loading = styled.h1`
-  text-align: center;
-`;
-
 export const AccountText = styled.span`
   display: flex;
   flex-direction: column;
