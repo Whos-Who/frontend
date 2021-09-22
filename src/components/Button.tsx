@@ -98,17 +98,12 @@ const Button: React.FC<Props> = function (props) {
       disabled={isDisabled || isLoading}
     >
       {isLoading ? (
-        <ReactLoading type={"bubbles"} height={20} width={20} />
+        <ReactLoading type="bubbles" height={20} width={20} />
       ) : (
         children
       )}
     </StyledButton>
   );
 };
-
-export const ErrorMessage = styled.span`
-  margin-top: 10px;
-  color: ${(props) => props.theme.colors.terraCotta};
-`;
 
 export default Button;

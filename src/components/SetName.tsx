@@ -9,8 +9,8 @@ import { setGameState } from "../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
 import { getUsername } from "../redux/userSlice";
-import Button, { ErrorMessage } from "./Button";
-import { StyledInput } from "./Styles";
+import Button from "./Button";
+import { ErrorMessage, StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
   display: flex;

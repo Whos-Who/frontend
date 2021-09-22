@@ -103,3 +103,8 @@ export const WaitingMessage = styled.span`
   font-weight: 500;
   text-align: center;
 `;
+
+export const ErrorMessage = styled.span`
+  margin-top: 10px;
+  color: ${(props) => props.theme.colors.terraCotta};
+`;

@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 
-import Button, { ButtonType, ErrorMessage } from "../components/Button";
-import { StyledInput } from "../components/Styles";
+import Button, { ButtonType } from "../components/Button";
+import { ErrorMessage, StyledInput } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useAppDispatch } from "../redux/hooks";
 import { setUserCredentials } from "../redux/userSlice";

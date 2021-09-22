@@ -8,8 +8,8 @@ import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import { BACKEND_URL } from "../constants";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getIsUserLoggedIn, logoutUser } from "../redux/userSlice";
-import Button, { ButtonType, ErrorMessage } from "./Button";
-import { StyledInput } from "./Styles";
+import Button, { ButtonType } from "./Button";
+import { ErrorMessage, StyledInput } from "./Styles";
 
 const Wrapper = styled.div`
   display: flex;
