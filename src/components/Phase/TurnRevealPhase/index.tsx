@@ -86,7 +86,7 @@ const TurnRevealPhase: React.FC = function () {
 
   if (isAnswerersAnswer) {
     revealHeading = `No one guessed ${
-      isPlayerTurn ? "your" : `${currAnswererUsername}'s'`
+      isPlayerTurn ? "your" : `${currAnswererUsername}'s`
     } answer!`;
     borderColor = theme.colors.blue;
   } else {
