@@ -102,15 +102,16 @@ const Login: React.FC = () => {
 
   return (
     <Wrapper>
+      <h1>Log In</h1>
       <StyledInput
-        inputType="text"
+        type="text"
         placeholder="Email"
         value={email}
         onChange={handleEmailChange}
         $error={errorMessage != null}
       />
       <StyledInput
-        inputType="password"
+        type="password"
         placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
@@ -124,7 +125,7 @@ const Login: React.FC = () => {
         Login
       </Button>
       <AccountText>
-        Don&rsquo;t have an account? &nbsp;
+        Don&apos;t have an account? &nbsp;
         <Link to="/signup">Sign Up</Link>
       </AccountText>
       <ErrorMessage>&nbsp;{errorMessage}&nbsp;</ErrorMessage>

@@ -136,29 +136,30 @@ const Signup: React.FC = () => {
 
   return (
     <Wrapper>
+      <h1>Sign Up</h1>
       <StyledInput
-        inputType="text"
+        type="text"
         placeholder="Username"
         value={username}
         onChange={handleUsernameChange}
         $error={errorMessage != null && username.length == 0}
       />
       <StyledInput
-        inputType="text"
+        type="text"
         placeholder="Email"
         value={email}
         onChange={handleEmailChange}
         $error={errorMessage != null && email.length == 0}
       />
       <StyledInput
-        inputType="password"
+        type="password"
         placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
         $error={errorMessage != null && (password.length == 0 || matchError)}
       />
       <StyledInput
-        inputType="password"
+        type="password"
         placeholder="Confirm Password"
         value={confirmPassword}
         onChange={handleConfirmPasswordChange}

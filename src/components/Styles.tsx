@@ -2,12 +2,9 @@ import styled from "styled-components";
 
 interface StyledInputProps {
   $error?: boolean;
-  inputType: string;
 }
 
-export const StyledInput = styled.input.attrs((props: StyledInputProps) => ({
-  type: props.inputType,
-}))<StyledInputProps>`
+export const StyledInput = styled.input<StyledInputProps>`
   width: 100%;
   margin-bottom: 10px;
   padding: 8px 0;

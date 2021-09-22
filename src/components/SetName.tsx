@@ -102,11 +102,12 @@ const SetName: React.FC<Props> = function (props) {
     <Wrapper>
       <StyledLogo />
       <StyledInput
-        inputType="text"
+        type="text"
         $error={errorMsg != null}
-        placeholder="Enter Your Name"
+        placeholder="Enter your name"
         value={name}
         onChange={handleNameChange}
+        maxLength={12}
       />
       <Button onClick={handleNextClick} isLoading={isCreatingRoom}>
         Next
