@@ -61,10 +61,18 @@ const SetName: React.FC<Props> = function (props) {
       history.push(`/room/${response.roomCode}`);
     };
 
+    const errorListener = () => {
+      setIsCreatingRoom(false);
+      setErrorMsg("Name already taken!");
+    };
+
     socketContext?.socket?.on("room-join", roomListener);
+
+    socketContext?.socket?.on("error-room-join", errorListener);
 
     return () => {
       socketContext?.socket?.off("room-join", roomListener);
+      socketContext?.socket?.off("error-room-join", errorListener);
     };
   }, [socketContext?.socket]);
 

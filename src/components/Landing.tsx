@@ -78,9 +78,14 @@ const Landing: React.FC<Props> = function (props) {
     }
     setIsJoiningRoom(true);
     axios
-      .head(`${BACKEND_URL}/rooms/${roomCode}`)
-      .then(() => {
-        setPromptName(true);
+      .get(`${BACKEND_URL}/rooms/${roomCode}`)
+      .then((response) => {
+        const phase = response.data.phase;
+        if (phase == "LOBBY") {
+          setPromptName(true);
+        } else {
+          setErrorMsg("Game already started!");
+        }
       })
       .catch((err) => {
         const statusCode = err.response.status;
@@ -89,8 +94,6 @@ const Landing: React.FC<Props> = function (props) {
         } else {
           setErrorMsg("Unable to join room!");
         }
-      })
-      .finally(() => {
         setIsJoiningRoom(false);
       });
   };

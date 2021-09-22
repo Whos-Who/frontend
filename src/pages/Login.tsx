@@ -94,8 +94,6 @@ const Login: React.FC = () => {
         } else {
           setErrorMessage("Login failed!");
         }
-      })
-      .finally(() => {
         setIsLoggingIn(false);
       });
   };
