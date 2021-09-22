@@ -1,10 +1,13 @@
 import axios from "axios";
 import { StatusCodes } from "http-status-codes";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import { BACKEND_URL } from "../constants";
+import { setupRoomCode } from "../redux/gameSetupSlice";
+import { useAppDispatch } from "../redux/hooks";
 import Button, { ButtonType } from "./Button";
 import LandingFooter from "./LandingFooter";
 import { ErrorMessage, StyledInput } from "./Styles";
@@ -54,21 +57,18 @@ const OrText = styled.span`
   color: ${(props) => props.theme.colors.grayLight};
 `;
 
-interface Props {
-  roomCode: string;
-  setRoomCode: React.Dispatch<React.SetStateAction<string>>;
-  setPromptName: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const Landing: React.FC = function () {
+  const history = useHistory();
+  const dispatch = useAppDispatch();
 
-const Landing: React.FC<Props> = function (props) {
-  const { roomCode, setRoomCode, setPromptName } = props;
-
+  const [roomCode, setRoomCode] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isJoiningRoom, setIsJoiningRoom] = useState<boolean>(false);
 
   const handleNewGameClick = () => {
     setRoomCode("");
-    setPromptName(true);
+    // setPromptName(true);
+    history.push("/new");
   };
 
   const handleJoinGameClick = () => {
@@ -82,7 +82,7 @@ const Landing: React.FC<Props> = function (props) {
       .then((response) => {
         const phase = response.data.phase;
         if (phase == "LOBBY") {
-          setPromptName(true);
+          dispatch(setupRoomCode({ roomCode: roomCode }));
         } else {
           setErrorMsg("Game already started!");
         }

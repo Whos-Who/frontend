@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import SocketContext from "../contexts/SocketContext";
+import { resetGameSetup } from "../redux/gameSetupSlice";
 import { setGameState } from "../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setPlayerId, setPlayerName } from "../redux/playerSlice";
@@ -26,26 +27,37 @@ const Wrapper = styled.div`
 
 const StyledLogo = styled(Logo)`
   position: fixed;
-  top: 2rem;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   width: 50px;
   height: 50px;
 `;
 
-interface Props {
-  roomCode: string;
-}
+const BackText = styled.div`
+  margin-top: 15px;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
+  color: ${(props) => props.theme.colors.grayDark};
+  text-align: center;
+`;
 
-const SetName: React.FC<Props> = function (props) {
-  const { roomCode } = props;
+const Back = styled.span`
+  color: ${(props) => props.theme.colors.blue};
+  cursor: pointer;
+`;
+
+const SetName: React.FC = function () {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const socketContext = useContext(SocketContext);
 
+  const { roomCode, deckId } = useAppSelector((state) => state.gameSetup);
   const [name, setName] = useState<string>(useAppSelector(getUsername) ?? "");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isCreatingRoom, setIsCreatingRoom] = useState<boolean>(false);
+
+  const isNewRoom = roomCode == null && deckId != null;
 
   // Set up clientId, which will initiate a socket connection
   useEffect(() => {
@@ -67,7 +79,6 @@ const SetName: React.FC<Props> = function (props) {
     };
 
     socketContext?.socket?.on("room-join", roomListener);
-
     socketContext?.socket?.on("error-room-join", errorListener);
 
     return () => {
@@ -83,7 +94,6 @@ const SetName: React.FC<Props> = function (props) {
     setName(e.target.value);
   };
 
-  // TODO: validate name
   const handleNextClick = () => {
     if (name.length == 0) {
       setErrorMsg("Please enter a name!");
@@ -94,7 +104,7 @@ const SetName: React.FC<Props> = function (props) {
       return;
     }
     setIsCreatingRoom(true);
-    if (roomCode.length > 0) {
+    if (roomCode != null) {
       socketContext?.socket.emit("room-join", {
         username: name,
         roomCode: roomCode,
@@ -104,6 +114,14 @@ const SetName: React.FC<Props> = function (props) {
     }
 
     dispatch(setPlayerName({ name: name }));
+  };
+
+  const handleBackClick = () => {
+    dispatch(resetGameSetup());
+
+    if (!isNewRoom) {
+      history.push("");
+    }
   };
 
   return (
@@ -120,6 +138,12 @@ const SetName: React.FC<Props> = function (props) {
       <Button onClick={handleNextClick} isLoading={isCreatingRoom}>
         Next
       </Button>
+      <BackText>
+        Or&nbsp;
+        <Back onClick={handleBackClick}>
+          {isNewRoom ? "select another deck" : "join a different room"}
+        </Back>
+      </BackText>
       <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
     </Wrapper>
   );

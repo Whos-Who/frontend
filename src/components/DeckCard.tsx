@@ -13,6 +13,7 @@ const Wrapper = styled.div<{ $color: string }>`
   background-color: ${(props) => props.$color};
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   text-align: center;
+  cursor: pointer;
 `;
 
 const Title = styled.h3`
@@ -32,14 +33,14 @@ const Title = styled.h3`
 interface Props {
   title: string;
   color: string;
-  navigateToDeckView: () => void;
+  onClick: () => void;
 }
 
 const DeckCard: React.FC<Props> = (props) => {
-  const { title, color, navigateToDeckView } = props;
+  const { title, color, onClick } = props;
 
   return (
-    <Wrapper $color={color} onClick={navigateToDeckView}>
+    <Wrapper $color={color} onClick={onClick}>
       <Title>{title}</Title>
     </Wrapper>
   );
