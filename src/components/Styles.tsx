@@ -93,11 +93,6 @@ export const GameHeader = styled.div`
 export const GameMain = styled.div`
   flex-grow: 1;
   overflow-y: auto;
-
-  @media screen and (min-width: 600px) {
-    flex-grow: unset;
-    min-height: 500px;
-  }
 `;
 
 export const GameFooter = styled.div`
