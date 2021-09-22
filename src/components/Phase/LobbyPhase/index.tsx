@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 `;
 
 const PhaseHeader = styled(GameHeader)`
-  padding: 40px 30px 15px;
+  padding: 10px 30px;
 
   @media screen and (min-width: 600px) {
     border: 1px solid ${(props) => props.theme.colors.grayLighter};
