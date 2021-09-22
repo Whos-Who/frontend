@@ -14,7 +14,6 @@ const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
   padding: 8px;
   border: 2px solid ${(props) => props.$secondaryColor};
   border-radius: 3px;
