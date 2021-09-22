@@ -5,14 +5,10 @@ import styled from "styled-components";
 
 import Button, { ButtonType } from "../components/Button";
 import DeckName from "../components/DeckName";
-import EditDeck from "../components/EditDeck";
+import EditDeckHeader from "../components/EditDeckHeader";
+import { SectionHeading } from "../components/Phase/Styles";
 import QuestionsList from "../components/QuestionsList";
-import {
-  GameFooter,
-  GameHeader,
-  GameMain,
-  Loading,
-} from "../components/Styles";
+import { GameFooter, GameMain, Loading } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppSelector } from "../redux/hooks";
@@ -26,14 +22,6 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
-const DeckHeader = styled(GameHeader)`
-  padding: 10px 30px;
-`;
-
-const DeckMain = styled(GameMain)`
-  padding: 0 30px;
-`;
-
 const AddQuestion = styled.p`
   color: ${(props) => props.theme.colors.blue};
   text-align: center;
@@ -42,14 +30,15 @@ const AddQuestion = styled.p`
 const DeckFooter = styled(GameFooter)``;
 
 const Deck: React.FC = function () {
+  const history = useHistory();
+  const { id } = useParams<{ id: string }>();
+  const userToken = useAppSelector(getUserToken);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [deck, setDeck] = useState<Deck | null>(null);
   const [deletedQuestions, setDeletedQuestions] = useState<Question[]>([]);
 
-  const userToken = useAppSelector(getUserToken);
-
-  const { id } = useParams<{ id: string }>();
-  const history = useHistory();
+  const isDefaultDeck = deck?.userId == null;
 
   useTrackPage();
 
@@ -184,10 +173,8 @@ const Deck: React.FC = function () {
 
   return (
     <Wrapper>
-      <DeckHeader>
-        <EditDeck />
-      </DeckHeader>
-      <DeckMain>
+      <EditDeckHeader isDefaultDeck={isDefaultDeck} />
+      <GameMain>
         {loading ? (
           <Loading>Loading...</Loading>
         ) : (
@@ -195,35 +182,40 @@ const Deck: React.FC = function () {
             <DeckName
               title={deck?.title ?? ""}
               handleChangeDeckName={handleChangeDeckName}
+              isDefaultDeck={isDefaultDeck}
             />
-            <h4>Questions</h4>
+            <SectionHeading>Questions</SectionHeading>
             <QuestionsList
               questions={deck?.Questions ?? []}
               handleChangeQuestion={handleChangeQuestion}
               handleDeleteQuestion={handleDeleteQuestion}
             />
-            <AddQuestion onClick={handleAddQuestion}>
-              + Add Question
-            </AddQuestion>
+            {!isDefaultDeck && (
+              <AddQuestion onClick={handleAddQuestion}>
+                + Add Question
+              </AddQuestion>
+            )}
           </>
         )}
-      </DeckMain>
-      <DeckFooter>
-        <Button
-          onClick={handleSaveDeck}
-          type={ButtonType.Host}
-          isDisabled={loading}
-        >
-          Save Deck
-        </Button>
-        <Button
-          onClick={handleDeleteDeck}
-          type={ButtonType.Danger}
-          isDisabled={loading}
-        >
-          Delete Deck
-        </Button>
-      </DeckFooter>
+      </GameMain>
+      {!isDefaultDeck && (
+        <DeckFooter>
+          <Button
+            onClick={handleSaveDeck}
+            type={ButtonType.Host}
+            isDisabled={loading}
+          >
+            Save Deck
+          </Button>
+          <Button
+            onClick={handleDeleteDeck}
+            type={ButtonType.Danger}
+            isDisabled={loading}
+          >
+            Delete Deck
+          </Button>
+        </DeckFooter>
+      )}
     </Wrapper>
   );
 };

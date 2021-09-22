@@ -34,8 +34,6 @@ const DecksHeader = styled(GameHeader)`
   }
 `;
 
-const DecksMain = GameMain;
-
 const Decks: React.FC = function () {
   const history = useHistory();
 
@@ -86,9 +84,9 @@ const Decks: React.FC = function () {
         <h4>Your Decks</h4>
         <Plus onClick={createNewDeck} />
       </DecksHeader>
-      <DecksMain>
+      <GameMain>
         {loading ? <Loading>Loading...</Loading> : <DecksList decks={decks} />}
-      </DecksMain>
+      </GameMain>
     </Wrapper>
   );
 };

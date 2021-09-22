@@ -3,11 +3,21 @@ import React from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+import { ReactComponent as Chevron } from "../assets/ChevronRight.svg";
+import { GameHeader } from "./Styles";
+
+const Header = styled(GameHeader)`
   display: flex;
+  align-items: center;
   gap: 10px;
-  flex-direction: row;
-  text-align: center;
+  padding: 10px;
+
+  h4 {
+    margin: 0 auto;
+    font-size: ${(props) => props.theme.fontSizes.md};
+    font-weight: 700;
+    color: ${(props) => props.theme.colors.black};
+  }
 `;
 
 const Title = styled.h4`
@@ -26,7 +36,12 @@ const ConsumeSpace = styled.div`
   height: 20px;
 `;
 
-const EditDeck: React.FC = () => {
+interface Props {
+  isDefaultDeck: boolean;
+}
+
+const EditDeckHeader: React.FC<Props> = function (props) {
+  const { isDefaultDeck } = props;
   const history = useHistory();
 
   const navigateBackToDecks = () => {
@@ -34,12 +49,12 @@ const EditDeck: React.FC = () => {
   };
 
   return (
-    <Wrapper>
-      <ArrowButton fontSize="small" onClick={navigateBackToDecks} />
-      <Title>Edit Deck</Title>
+    <Header>
+      <Chevron onClick={navigateBackToDecks} />
+      <h4>{isDefaultDeck ? "View" : "Edit"} Deck</h4>
       <ConsumeSpace />
-    </Wrapper>
+    </Header>
   );
 };
 
-export default EditDeck;
+export default EditDeckHeader;

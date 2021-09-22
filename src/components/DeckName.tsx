@@ -3,40 +3,49 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 30px;
   flex-direction: row;
+  gap: 20px;
+  padding: 10px 20px;
   text-align: center;
+  border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
 `;
 
-const Title = styled.textarea`
+const Label = styled.p`
+  margin: 0;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+`;
+
+const Title = styled.input`
+  flex-grow: 1;
+  background: none;
   color: ${(props) => props.theme.colors.blue};
+  font-family: ${(props) => props.theme.typeface};
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
+  text-transform: uppercase;
+  resize: none;
   outline: none;
   border: none;
-  height: 3rem;
-  padding-top: 0.7rem;
-  margin: auto 0;
-  background: transparent;
-  font-size: larger;
-  resize: none;
-  max-width: 60%;
 `;
 
 interface Props {
   title: string;
   handleChangeDeckName: React.ChangeEventHandler;
+  isDefaultDeck: boolean;
 }
 
 const DeckName: React.FC<Props> = (props) => {
-  const { title, handleChangeDeckName } = props;
+  const { title, handleChangeDeckName, isDefaultDeck } = props;
 
   return (
     <Wrapper>
-      <p>Deck Name</p>
+      <Label>Deck Name</Label>
       <Title
-        rows={1}
+        type="text"
         maxLength={20}
         value={title}
         onChange={handleChangeDeckName}
+        disabled={isDefaultDeck}
       />
     </Wrapper>
   );

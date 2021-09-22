@@ -6,8 +6,8 @@ import QuestionCard from "./QuestionCard";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: center;
   gap: 10px;
+  padding: 10px 20px;
 `;
 
 interface Props {
@@ -21,16 +21,14 @@ const QuestionsList: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      {questions.map((question) => {
-        return (
-          <QuestionCard
-            key={question.id}
-            question={question.question}
-            handleChangeQuestion={handleChangeQuestion(question.id)}
-            handleDeleteQuestion={handleDeleteQuestion(question.id)}
-          />
-        );
-      })}
+      {questions.map((question) => (
+        <QuestionCard
+          key={question.id}
+          question={question.question}
+          handleChangeQuestion={handleChangeQuestion(question.id)}
+          handleDeleteQuestion={handleDeleteQuestion(question.id)}
+        />
+      ))}
     </Wrapper>
   );
 };

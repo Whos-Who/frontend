@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $color: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   padding: 15px 10px;
   border: 4px solid ${(props) => props.theme.colors.white};
   border-radius: 10px;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.$color};
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   text-align: center;
 `;
@@ -39,7 +39,7 @@ const DeckCard: React.FC<Props> = (props) => {
   const { title, color, navigateToDeckView } = props;
 
   return (
-    <Wrapper color={color} onClick={navigateToDeckView}>
+    <Wrapper $color={color} onClick={navigateToDeckView}>
       <Title>{title}</Title>
     </Wrapper>
   );

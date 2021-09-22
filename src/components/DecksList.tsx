@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 20px 30px;
   text-align: center;
 `;
 
