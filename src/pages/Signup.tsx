@@ -16,7 +16,7 @@ import { useTrackPage } from "../hooks/GoogleAnalytics";
 import { useAppDispatch } from "../redux/hooks";
 import { setUserCredentials } from "../redux/userSlice";
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,7 +153,7 @@ const Signup: React.FC = () => {
         $error={errorMessage != null && username.length == 0}
       />
       <StyledInput
-        type="text"
+        type="email"
         placeholder="Email"
         value={email}
         onChange={handleEmailChange}
