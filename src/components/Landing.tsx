@@ -94,8 +94,6 @@ const Landing: React.FC<Props> = function (props) {
         } else {
           setErrorMsg("Unable to join room!");
         }
-      })
-      .finally(() => {
         setIsJoiningRoom(false);
       });
   };
