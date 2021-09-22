@@ -13,12 +13,23 @@ import ScoreList from "./components/ScoreList";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
+  width: 100%;
   max-width: 600px;
+  margin: 0 auto;
 `;
 
 const PhaseHeader = styled(GameHeader)`
   position: relative;
+
+  @media screen and (min-width: 600px) {
+    border: 1px solid ${(props) => props.theme.colors.grayLighter};
+    min-width: 600px;
+    border-radius: 0 0 5px 5px;
+    width: auto;
+  }
 `;
 
 const StyledQuestion = styled(Question)`

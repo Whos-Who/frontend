@@ -17,6 +17,14 @@ const Header = styled(GameHeader)`
     font-weight: 700;
     color: ${(props) => props.theme.colors.black};
   }
+
+  @media screen and (min-width: 600px) {
+    border: 1px solid ${(props) => props.theme.colors.grayLighter};
+    min-width: 600px;
+    border-radius: 0 0 5px 5px;
+    width: auto;
+    padding: 20px 30px;
+  }
 `;
 
 const ConsumeSpace = styled.div`
