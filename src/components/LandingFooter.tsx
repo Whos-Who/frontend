@@ -62,7 +62,7 @@ const LandingFooter: React.FC = () => {
           <Username>{username}</Username>
         </h4>
         <Button onClick={navigateToManageDeck} type={ButtonType.Host}>
-          Manage Deck
+          Manage Decks
         </Button>
         <Text onClick={handleLogout}>Sign out</Text>
       </LogoutWrapper>

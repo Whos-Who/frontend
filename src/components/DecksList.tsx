@@ -1,8 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
-import Theme from "../styles/theme";
 import DeckCard from "./DeckCard";
 
 const Wrapper = styled.div`
@@ -22,14 +21,15 @@ interface Props {
 }
 
 const DecksList: React.FC<Props> = (props) => {
-  const history = useHistory();
   const { decks } = props;
+  const theme = useTheme();
+  const history = useHistory();
 
   const generateRandomColor = () => {
     const deckColors = [
-      Theme.colors.blue,
-      Theme.colors.rose,
-      Theme.colors.emerald,
+      theme.colors.blue,
+      theme.colors.emerald,
+      theme.colors.terraCotta,
     ];
 
     return deckColors[Math.floor(Math.random() * deckColors.length)];

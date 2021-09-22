@@ -125,7 +125,7 @@ const Landing: React.FC<Props> = function (props) {
         </Button>
         <ErrorMessage>&nbsp;{errorMsg}&nbsp;</ErrorMessage>
       </InnerWrapper>
-      <LandingFooter></LandingFooter>
+      <LandingFooter />
     </Wrapper>
   );
 };

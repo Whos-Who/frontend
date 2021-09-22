@@ -23,10 +23,10 @@ const Title = styled.textarea`
 
 interface Props {
   title: string;
-  handleChangeDeckName: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleChangeDeckName: React.ChangeEventHandler;
 }
 
-const EditDeck: React.FC<Props> = (props) => {
+const DeckName: React.FC<Props> = (props) => {
   const { title, handleChangeDeckName } = props;
 
   return (
@@ -42,4 +42,4 @@ const EditDeck: React.FC<Props> = (props) => {
   );
 };
 
-export default EditDeck;
+export default DeckName;
