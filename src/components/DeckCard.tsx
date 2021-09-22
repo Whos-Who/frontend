@@ -4,22 +4,29 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: center;
   justify-content: center;
-  border: 0.5rem solid;
-  border-color: ${(props) => props.theme.colors.white};
-  border-radius: 5%;
+  width: 140px;
+  height: 190px;
+  padding: 15px 10px;
+  border: 4px solid ${(props) => props.theme.colors.white};
+  border-radius: 10px;
   background-color: ${(props) => props.color};
-  width: 10rem;
-  height: 5rem;
-  margin: 1rem auto;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  text-align: center;
 `;
 
 const Title = styled.h3`
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   margin: 0;
   color: ${(props) => props.theme.colors.white};
-  font-size: ${(props) => props.theme.fontSizes.lg};
+  font-size: ${(props) => props.theme.fontSizes.md};
   font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
 `;
 
 interface Props {

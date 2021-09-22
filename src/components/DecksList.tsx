@@ -6,14 +6,12 @@ import DeckCard from "./DeckCard";
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  text-align: center;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  text-align: center;
 `;
 
 interface Props {
@@ -35,40 +33,20 @@ const DecksList: React.FC<Props> = (props) => {
     return deckColors[Math.floor(Math.random() * deckColors.length)];
   };
 
-  const groupByRow = () => {
-    const rows = [];
-    for (let i = 0; i < decks.length; i += 2) {
-      if (i !== decks.length - 1) {
-        rows.push([decks[i], decks[i + 1]]);
-      } else {
-        rows.push([decks[i]]);
-      }
-    }
-    return rows;
-  };
-
   const navigateToDeckView = (id: string) => () => {
     history.push(`/decks/${id}`);
   };
 
   return (
     <Wrapper>
-      {groupByRow().map((row, index) => {
-        return (
-          <Row key={index}>
-            {row.map((deck) => {
-              return (
-                <DeckCard
-                  key={deck.id}
-                  title={deck.title}
-                  color={generateRandomColor()}
-                  navigateToDeckView={navigateToDeckView(deck.id)}
-                />
-              );
-            })}
-          </Row>
-        );
-      })}
+      {decks.map((deck) => (
+        <DeckCard
+          key={deck.id}
+          title={deck.title}
+          color={generateRandomColor()}
+          navigateToDeckView={navigateToDeckView(deck.id)}
+        />
+      ))}
     </Wrapper>
   );
 };
