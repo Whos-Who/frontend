@@ -186,6 +186,7 @@ const Deck: React.FC = function () {
             />
             <SectionHeading>Questions</SectionHeading>
             <QuestionsList
+              isDefaultDeck={isDefaultDeck}
               questions={deck?.Questions ?? []}
               handleChangeQuestion={handleChangeQuestion}
               handleDeleteQuestion={handleDeleteQuestion}

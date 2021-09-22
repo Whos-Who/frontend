@@ -10,10 +10,11 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const TextBox = styled.textarea`
+const TextBox = styled.textarea<{ $hasCross: boolean }>`
   resize: none;
   width: 100%;
-  padding: 10px 30px 10px 10px;
+  padding: 10px;
+  ${(props) => props.$hasCross && `padding-right: 30px;`}
   border: 1px solid ${(props) => props.theme.colors.grayLight};
   border-radius: 5px;
   color: ${(props) => props.theme.colors.black};
@@ -26,6 +27,10 @@ const TextBox = styled.textarea`
   ::placeholder {
     color: ${(props) => props.theme.colors.grayLight};
   }
+
+  :disabled {
+    background: ${(props) => props.theme.colors.white};
+  }
 `;
 
 const StyledCross = styled(Cross)`
@@ -36,13 +41,19 @@ const StyledCross = styled(Cross)`
 `;
 
 interface Props {
+  isDefaultDeck: boolean;
   question: string;
   handleChangeQuestion: (newQuestion: string) => void;
   handleDeleteQuestion: () => void;
 }
 
 const QuestionCard: React.FC<Props> = (props) => {
-  const { question, handleChangeQuestion, handleDeleteQuestion } = props;
+  const {
+    isDefaultDeck,
+    question,
+    handleChangeQuestion,
+    handleDeleteQuestion,
+  } = props;
 
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
@@ -69,8 +80,10 @@ const QuestionCard: React.FC<Props> = (props) => {
         value={question}
         maxLength={150}
         onChange={handleChangeCurrentQuestion}
+        $hasCross={!isDefaultDeck}
+        disabled={isDefaultDeck}
       />
-      <StyledCross onClick={handleDeleteQuestion} />
+      {!isDefaultDeck && <StyledCross onClick={handleDeleteQuestion} />}
     </Wrapper>
   );
 };
