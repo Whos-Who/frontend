@@ -25,7 +25,6 @@ const StyledButton = styled.button<StyledButtonProps>`
     `
     cursor: default;
     border: 2px solid ${props.theme.colors.grayDark};
-    opacity: 0.5;
     background: ${props.theme.colors.grayLight};
   `};
 
