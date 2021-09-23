@@ -23,4 +23,8 @@ declare namespace Sockets {
     readyClientId: string;
     gameState: GameState;
   }
+
+  type PlayerDisconnectedResponse = GameState;
+
+  type PlayerReconnectedResponse = GameState;
 }
