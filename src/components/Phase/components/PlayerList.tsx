@@ -23,7 +23,7 @@ const DisplayPlayer = styled.h3<{
     props.$isConnected
       ? props.theme.colors.blue
       : props.theme.colors.terraCotta};
-  ${(props) => props.$lowOpacity && `opacity: 30%`};
+  ${(props) => props.$isConnected && props.$lowOpacity && `opacity: 30%`};
 `;
 
 interface Props {
