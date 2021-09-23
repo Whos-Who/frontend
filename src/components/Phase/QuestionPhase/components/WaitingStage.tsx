@@ -69,13 +69,18 @@ const WaitingStage: React.FC = function () {
     .map((player): number => (player.currAnswer.value != "" ? 1 : 0))
     .reduce((a, b) => a + b, 0);
 
+  const connectedPlayersCount = Object.values(players)
+    .map((player): number => (player.connected ? 1 : 0))
+    .reduce((a, b) => a + b, 0);
+
   const handleStartClick = () => {
     socketContext?.socket?.emit("game-next-turn", {
       roomCode: roomCode,
     });
   };
 
-  const isStartDisabled = readyCount < MIN_PLAYERS;
+  const isStartDisabled =
+    readyCount < MIN_PLAYERS || readyCount !== connectedPlayersCount;
 
   return (
     <Wrapper>
