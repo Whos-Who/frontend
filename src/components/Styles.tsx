@@ -67,6 +67,11 @@ export const GameHeader = styled.div`
   width: 100%;
   border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
   background: ${(props) => props.theme.colors.white};
+
+  @media screen and (min-width: 600px) {
+    border: 1px solid ${(props) => props.theme.colors.grayLighter};
+    border-radius: 0 0 5px 5px;
+  }
 `;
 
 export const GameMain = styled.div`
@@ -88,9 +93,7 @@ export const GameFooter = styled.div`
   @media screen and (min-width: 600px) {
     padding: 20px 30px;
     border: 1px solid ${(props) => props.theme.colors.grayLighter};
-    min-width: 600px;
     border-radius: 5px 5px 0 0;
-    width: auto;
   }
 `;
 

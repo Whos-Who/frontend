@@ -21,7 +21,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   height: 100%;
   width: 100%;
   max-width: 600px;
@@ -29,17 +28,10 @@ const Wrapper = styled.div`
 `;
 const PhaseHeader = styled(GameHeader)`
   position: relative;
-
-  @media screen and (min-width: 600px) {
-    border: 1px solid ${(props) => props.theme.colors.grayLighter};
-    min-width: 600px;
-    border-radius: 0 0 5px 5px;
-    width: auto;
-  }
 `;
 
 const StyledQuestion = styled(Question)`
-  margin: 10px 95px 10px 20px;
+  margin: 10px 20px;
 `;
 
 const PhaseMain = styled(GameMain)`
@@ -140,7 +132,7 @@ const TurnRevealPhase: React.FC = function () {
               </AnswerOption>
               <ArrowDown />
               <PlayerOption $borderColor={borderColor}>
-                {currAnswererUsername}
+                {players[selectedPlayerId].username}
               </PlayerOption>
               <AnswerValidity
                 currAnswererId={currAnswererId}

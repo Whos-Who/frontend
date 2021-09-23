@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import { MIN_PLAYERS } from "../../../constants";
 import SocketContext from "../../../contexts/SocketContext";
-import { resetGameSetup } from "../../../redux/gameSetupSlice";
 import {
   addPlayer,
   removePlayer,
@@ -21,9 +20,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   height: 100%;
   width: 100%;
+  max-width: 600px;
   margin: 0 auto;
 `;
 
@@ -31,10 +30,6 @@ const PhaseHeader = styled(GameHeader)`
   padding: 10px 30px;
 
   @media screen and (min-width: 600px) {
-    border: 1px solid ${(props) => props.theme.colors.grayLighter};
-    min-width: 600px;
-    border-radius: 0 0 5px 5px;
-    width: auto;
     padding: 20px 30px;
   }
 `;
