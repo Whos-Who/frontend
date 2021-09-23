@@ -48,7 +48,7 @@ const PlayerList: React.FC<Props> = (props) => {
         <DisplayPlayer
           key={playerId}
           $lowOpacity={
-            (showReady && players[playerId].currAnswer.value == "") ||
+            (showReady && players[playerId].currAnswer.value === "") ||
             !player.connected
           }
           $isConnected={player.connected}

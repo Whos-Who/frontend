@@ -56,7 +56,7 @@ const PlayersList = styled.div`
 type Option = {
   playerId: string;
   username: string;
-  answer?: string;
+  answer: string;
 };
 
 type Options = {
@@ -97,6 +97,7 @@ const TurnGuessPhase: React.FC = function () {
       playerOptions.push({
         playerId: playerId,
         username: player.username,
+        answer: player.currAnswer.value,
       });
 
       // Get all unguessed answers
@@ -152,36 +153,44 @@ const TurnGuessPhase: React.FC = function () {
         <SectionHeading>Remaining answers</SectionHeading>
         <AnswersScrollable>
           <AnswersList>
-            {options.answers.map((option) => (
-              <AnswerOption
-                key={option.playerId}
-                onClick={() => handleAnswerClick(option)}
-                $borderColor={
-                  option.playerId == selectedAnswer?.playerId
-                    ? theme.colors.blue
-                    : undefined
-                }
-              >
-                {option.answer}
-              </AnswerOption>
-            ))}
+            {options.answers.map((option) => {
+              if (option.answer !== "") {
+                return (
+                  <AnswerOption
+                    key={option.playerId}
+                    onClick={() => handleAnswerClick(option)}
+                    $borderColor={
+                      option.playerId == selectedAnswer?.playerId
+                        ? theme.colors.blue
+                        : undefined
+                    }
+                  >
+                    {option.answer}
+                  </AnswerOption>
+                );
+              }
+            })}
           </AnswersList>
         </AnswersScrollable>
-        <SectionHeading>Remaining players</SectionHeading>
+        <SectionHeading>All players</SectionHeading>
         <PlayersList>
-          {options.players.map((option) => (
-            <PlayerOption
-              key={option.playerId}
-              onClick={() => handlePlayerClick(option)}
-              $borderColor={
-                option.playerId == selectedPlayerId
-                  ? theme.colors.blue
-                  : undefined
-              }
-            >
-              {option.username}
-            </PlayerOption>
-          ))}
+          {options.players.map((option) => {
+            if (option.answer !== "") {
+              return (
+                <PlayerOption
+                  key={option.playerId}
+                  onClick={() => handlePlayerClick(option)}
+                  $borderColor={
+                    option.playerId == selectedPlayerId
+                      ? theme.colors.blue
+                      : undefined
+                  }
+                >
+                  {option.username}
+                </PlayerOption>
+              );
+            }
+          })}
         </PlayersList>
       </GameMain>
       <GameFooter>
