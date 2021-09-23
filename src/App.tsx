@@ -1,3 +1,4 @@
+import jwt_decode, { JwtPayload } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -12,13 +13,16 @@ import Login from "./pages/Login";
 import New from "./pages/New";
 import Room from "./pages/Room";
 import Signup from "./pages/Signup";
-import { useAppSelector } from "./redux/hooks";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { getUserToken, logoutUser } from "./redux/userSlice";
 
 ReactGA.initialize("UA-207607889-1");
 
 const App: React.FC = function () {
   const [socket, setSocket] = useState<Socket | null>(null);
+  const dispatch = useAppDispatch();
   const clientId = useAppSelector((state) => state.player.id);
+  const userToken = useAppSelector(getUserToken);
 
   // Connect to socket if clientId changes
   useEffect(() => {
@@ -38,6 +42,26 @@ const App: React.FC = function () {
       socket?.close();
     };
   }, [clientId]);
+
+  // Check validity of user login session
+  useEffect(() => {
+    if (userToken == null) {
+      return;
+    }
+
+    const checkTokenInterval = setInterval(() => {
+      const decodedToken = jwt_decode<JwtPayload>(userToken);
+      const expireBuffer = 60000; // 1 minute
+      if (
+        (decodedToken?.exp ?? 0) * 1000 <
+        new Date().getTime() + expireBuffer
+      ) {
+        dispatch(logoutUser());
+      }
+    }, 30000);
+
+    return () => clearInterval(checkTokenInterval);
+  }, [userToken]);
 
   return (
     <SocketContext.Provider value={{ socket, setSocket }}>
