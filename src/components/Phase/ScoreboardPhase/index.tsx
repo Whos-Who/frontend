@@ -13,8 +13,11 @@ import ScoreList from "./components/ScoreList";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
+  width: 100%;
   max-width: 600px;
+  margin: 0 auto;
 `;
 
 const PhaseHeader = styled(GameHeader)`
@@ -22,7 +25,7 @@ const PhaseHeader = styled(GameHeader)`
 `;
 
 const StyledQuestion = styled(Question)`
-  margin: 10px 95px 10px 20px;
+  margin: 10px 20px;
 `;
 
 const PhaseMain = styled(GameMain)`

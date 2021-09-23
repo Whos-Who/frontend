@@ -20,8 +20,11 @@ import {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
+  width: 100%;
   max-width: 600px;
+  margin: 0 auto;
 `;
 
 const PhaseHeader = styled(GameHeader)`

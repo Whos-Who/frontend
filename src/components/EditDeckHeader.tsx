@@ -17,6 +17,10 @@ const Header = styled(GameHeader)`
     font-weight: 700;
     color: ${(props) => props.theme.colors.black};
   }
+
+  @media screen and (min-width: 600px) {
+    padding: 20px;
+  }
 `;
 
 const ConsumeSpace = styled.div`

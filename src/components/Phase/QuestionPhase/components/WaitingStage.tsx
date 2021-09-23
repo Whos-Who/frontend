@@ -17,12 +17,19 @@ import PlayerList from "../../components/PlayerList";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
+  width: 100%;
   max-width: 600px;
+  margin: 0 auto;
 `;
 
 const PhaseHeader = styled(GameHeader)`
   padding: 10px 20px;
+
+  @media screen and (min-width: 600px) {
+    padding: 20px;
+  }
 `;
 
 const Subheading = styled.h4`

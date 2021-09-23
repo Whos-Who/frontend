@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
 `;
@@ -32,6 +33,10 @@ const DecksHeader = styled(GameHeader)`
     font-size: ${(props) => props.theme.fontSizes.md};
     font-weight: 700;
     color: ${(props) => props.theme.colors.black};
+  }
+
+  @media screen and (min-width: 600px) {
+    padding: 20px;
   }
 `;
 
