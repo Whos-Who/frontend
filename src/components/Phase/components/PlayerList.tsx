@@ -23,7 +23,7 @@ const DisplayPlayer = styled.h3<{
     props.$isConnected
       ? props.theme.colors.blue
       : props.theme.colors.terraCotta};
-  ${(props) => props.$isConnected && props.$lowOpacity && `opacity: 30%`};
+  ${(props) => props.$lowOpacity && `opacity: 30%`};
 `;
 
 interface Props {
@@ -47,7 +47,10 @@ const PlayerList: React.FC<Props> = (props) => {
       {Object.entries(players).map(([playerId, player]) => (
         <DisplayPlayer
           key={playerId}
-          $lowOpacity={showReady && players[playerId].currAnswer.value == ""}
+          $lowOpacity={
+            (showReady && players[playerId].currAnswer.value == "") ||
+            !player.connected
+          }
           $isConnected={player.connected}
         >
           {player.username}
