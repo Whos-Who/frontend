@@ -13,10 +13,16 @@ const TotalPlayers = styled.h3`
   color: ${(props) => props.theme.colors.black};
 `;
 
-const DisplayPlayer = styled.h3<{ $lowOpacity?: boolean }>`
+const DisplayPlayer = styled.h3<{
+  $lowOpacity?: boolean;
+  $isConnected: boolean;
+}>`
   margin: 10px 0 0;
   font-size: ${(props) => props.theme.fontSizes.xl};
-  color: ${(props) => props.theme.colors.blue};
+  color: ${(props) =>
+    props.$isConnected
+      ? props.theme.colors.blue
+      : props.theme.colors.terraCotta};
   ${(props) => props.$lowOpacity && `opacity: 30%`};
 `;
 
@@ -42,6 +48,7 @@ const PlayerList: React.FC<Props> = (props) => {
         <DisplayPlayer
           key={playerId}
           $lowOpacity={showReady && players[playerId].currAnswer.value == ""}
+          $isConnected={player.connected}
         >
           {player.username}
         </DisplayPlayer>
