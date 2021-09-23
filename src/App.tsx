@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import ReactGA from "react-ga";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
 import { SOCKET_SERVER_URL } from "./constants";
 import SocketContext from "./contexts/SocketContext";
-import { initializeGoogleAnalytics } from "./hooks/GoogleAnalytics";
 import Deck from "./pages/Deck";
 import Decks from "./pages/Decks";
 import Home from "./pages/Home";
@@ -14,11 +14,11 @@ import Room from "./pages/Room";
 import Signup from "./pages/Signup";
 import { useAppSelector } from "./redux/hooks";
 
+ReactGA.initialize("UA-207607889-1");
+
 const App: React.FC = function () {
   const [socket, setSocket] = useState<Socket | null>(null);
   const clientId = useAppSelector((state) => state.player.id);
-
-  initializeGoogleAnalytics();
 
   // Connect to socket if clientId changes
   useEffect(() => {
