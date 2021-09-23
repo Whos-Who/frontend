@@ -7,10 +7,14 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
-const TotalPlayers = styled.h3`
+const TotalConnectedPlayers = styled.h3`
   margin: 0 0 10px;
   font-size: ${(props) => props.theme.fontSizes.xl};
   color: ${(props) => props.theme.colors.black};
+`;
+
+const TotalDisconnectedPlayers = styled(TotalConnectedPlayers)`
+  margin: 20px 0 10px 0;
 `;
 
 const DisplayPlayer = styled.h3<{
@@ -28,31 +32,48 @@ const DisplayPlayer = styled.h3<{
 
 interface Props {
   readyCount?: number;
-  playerCount: number;
-  players: Record<string, PlayerState>;
+  disconnectedPlayersCount: number;
+  connectedPlayersCount: number;
+  connectedPlayers: Record<string, PlayerState>;
+  disconnectedPlayers: Record<string, PlayerState>;
 }
 
 const PlayerList: React.FC<Props> = (props) => {
-  const { readyCount, playerCount, players } = props;
+  const {
+    readyCount,
+    disconnectedPlayersCount,
+    connectedPlayersCount,
+    connectedPlayers,
+    disconnectedPlayers,
+  } = props;
 
   const showReady = readyCount != null;
 
   return (
     <Wrapper>
-      <TotalPlayers>
+      <TotalConnectedPlayers>
         {showReady
-          ? `Ready (${readyCount}/${playerCount})`
-          : `Players (${playerCount})`}
-      </TotalPlayers>
-      {Object.entries(players).map(([playerId, player]) => (
+          ? `Ready (${readyCount}/${connectedPlayersCount})`
+          : `Players (${connectedPlayersCount})`}
+      </TotalConnectedPlayers>
+      {Object.entries(connectedPlayers).map(([playerId, player]) => (
         <DisplayPlayer
           key={playerId}
           $lowOpacity={
-            (showReady && players[playerId].currAnswer.value === "") ||
-            !player.connected
+            showReady && connectedPlayers[playerId].currAnswer.value === ""
           }
-          $isConnected={player.connected}
+          $isConnected={true}
         >
+          {player.username}
+        </DisplayPlayer>
+      ))}
+      {disconnectedPlayersCount > 0 && (
+        <TotalDisconnectedPlayers>
+          Disconnected Players ({disconnectedPlayersCount})
+        </TotalDisconnectedPlayers>
+      )}
+      {Object.entries(disconnectedPlayers).map(([playerId, player]) => (
+        <DisplayPlayer key={playerId} $lowOpacity={true} $isConnected={false}>
           {player.username}
         </DisplayPlayer>
       ))}

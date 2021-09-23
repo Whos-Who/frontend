@@ -59,19 +59,32 @@ const WaitingStage: React.FC = function () {
     host: hostId,
     currQuestion,
     players,
-    playerCount,
   } = useAppSelector((state) => state.gameState);
 
   const isHost = hostId == playerId;
 
   // NOTE: might need to wrap this in an effect
   const readyCount = Object.values(players)
-    .map((player): number => (player.currAnswer.value != "" ? 1 : 0))
+    .map((player): number =>
+      player.currAnswer.value !== "" && player.connected ? 1 : 0
+    )
     .reduce((a, b) => a + b, 0);
 
   const connectedPlayersCount = Object.values(players)
     .map((player): number => (player.connected ? 1 : 0))
     .reduce((a, b) => a + b, 0);
+
+  const disconnectedPlayersCount = Object.values(players)
+    .map((player): number => (player.connected ? 0 : 1))
+    .reduce((a, b) => a + b, 0);
+
+  const disconnectedPlayers = Object.fromEntries(
+    Object.entries(players).filter(([, player]) => !player.connected)
+  );
+
+  const connectedPlayers = Object.fromEntries(
+    Object.entries(players).filter(([, player]) => player.connected)
+  );
 
   const handleStartClick = () => {
     socketContext?.socket?.emit("game-next-turn", {
@@ -91,8 +104,10 @@ const WaitingStage: React.FC = function () {
       <PhaseMain>
         <PlayerList
           readyCount={readyCount}
-          playerCount={playerCount}
-          players={players}
+          connectedPlayersCount={connectedPlayersCount}
+          connectedPlayers={connectedPlayers}
+          disconnectedPlayers={disconnectedPlayers}
+          disconnectedPlayersCount={disconnectedPlayersCount}
         />
       </PhaseMain>
       <GameFooter>
