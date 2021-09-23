@@ -85,7 +85,8 @@ const Signup: React.FC = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSignup = async () => {
+  const handleSignup = async (e: React.MouseEvent) => {
+    e.preventDefault();
     if (
       username.length == 0 ||
       email.length == 0 ||
