@@ -5,7 +5,11 @@ import Phase from "../components/Phase";
 import SocketContext from "../contexts/SocketContext";
 import { useGameNextPhase } from "../hooks/gamePhaseEvents";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
-import { useNewHost } from "../hooks/userSocketEvents";
+import {
+  useNewHost,
+  usePlayerDisconnected,
+  usePlayerReconnected,
+} from "../hooks/userSocketEvents";
 import { resetGameState, selectPhase } from "../redux/gameStateSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { resetPlayerState } from "../redux/playerSlice";
@@ -23,6 +27,8 @@ const Room: React.FC = function () {
   // Socket event listeners
   useNewHost(dispatch, socketContext);
   useGameNextPhase(dispatch, socketContext);
+  usePlayerDisconnected(dispatch, socketContext);
+  usePlayerReconnected(dispatch, socketContext);
 
   useEffect(() => {
     // If no clientId, go back to landing
