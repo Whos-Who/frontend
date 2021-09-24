@@ -70,6 +70,9 @@ const TurnRevealPhase: React.FC = function () {
     players,
   } = useAppSelector((state) => state.gameState);
   const myPlayerId = useAppSelector(selectPlayerId);
+  const alreadyGuessed = useAppSelector(
+    (state) => state.validity.alreadyGuessed
+  );
 
   const currAnswererUsername = players[currAnswererId].username;
   const isHost = hostId == myPlayerId;
@@ -88,9 +91,11 @@ const TurnRevealPhase: React.FC = function () {
   let borderColor;
 
   if (isAnswerersAnswer) {
-    revealHeading = `No one guessed ${
+    revealHeading = `It's ${
       isPlayerTurn ? "your" : `${currAnswererUsername}'s`
-    } answer!`;
+    } turn and only ${
+      isPlayerTurn ? "your" : `${currAnswererUsername}'s`
+    } answer is left!`;
     borderColor = theme.colors.blue;
   } else {
     revealHeading = `${isPlayerTurn ? "You" : currAnswererUsername}`;
@@ -101,7 +106,9 @@ const TurnRevealPhase: React.FC = function () {
       revealHeading += " guessed";
     }
 
-    if (isAnswerValid) {
+    if (alreadyGuessed) {
+      borderColor = theme.colors.grayDark;
+    } else if (isAnswerValid) {
       borderColor = theme.colors.emerald;
     } else {
       borderColor = theme.colors.terraCotta;

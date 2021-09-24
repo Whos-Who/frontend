@@ -9,12 +9,14 @@ import gameStateSlice from "./gameStateSlice";
 import playerSlice from "./playerSlice";
 import snackBarsSlice from "./snackBarsSlice";
 import userSlice from "./userSlice";
+import validitySlice from "./validitySlice";
 
 const reducers = combineReducers({
   user: userSlice,
   player: playerSlice,
   gameState: gameStateSlice,
   gameSetup: gameSetupSlice,
+  validity: validitySlice,
   snackBars: snackBarsSlice,
 });
 
