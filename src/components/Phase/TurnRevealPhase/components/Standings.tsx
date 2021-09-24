@@ -8,7 +8,7 @@ const Container = styled.div`
   padding: 20px 30px;
 
   ${SectionHeading} {
-    margin: 0 0 20px;
+    margin: 0 0 15px;
   }
 `;
 
