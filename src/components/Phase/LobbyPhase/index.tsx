@@ -48,11 +48,26 @@ const LobbyPhase: React.FC = function () {
     roomCode,
     host: hostId,
     players,
-    playerCount,
   } = useAppSelector((state) => state.gameState);
   const { deckId } = useAppSelector((state) => state.gameSetup);
 
   const isHost = hostId == playerId;
+
+  const connectedPlayersCount = Object.values(players)
+    .map((player): number => (player.connected ? 1 : 0))
+    .reduce((a, b) => a + b, 0);
+
+  const disconnectedPlayersCount = Object.values(players)
+    .map((player): number => (player.connected ? 0 : 1))
+    .reduce((a, b) => a + b, 0);
+
+  const disconnectedPlayers = Object.fromEntries(
+    Object.entries(players).filter(([, player]) => !player.connected)
+  );
+
+  const connectedPlayers = Object.fromEntries(
+    Object.entries(players).filter(([, player]) => player.connected)
+  );
 
   useEffect(() => {
     const userJoinListener = (response: Sockets.UserJoinResponse) => {
@@ -94,7 +109,7 @@ const LobbyPhase: React.FC = function () {
     }
   };
 
-  const isStartDisabled = playerCount < MIN_PLAYERS;
+  const isStartDisabled = connectedPlayersCount < MIN_PLAYERS;
 
   return (
     <Wrapper>
@@ -102,7 +117,12 @@ const LobbyPhase: React.FC = function () {
         <RoomCode id={roomCode} />
       </PhaseHeader>
       <PhaseMain>
-        <PlayerList playerCount={playerCount} players={players} />
+        <PlayerList
+          connectedPlayersCount={connectedPlayersCount}
+          disconnectedPlayersCount={disconnectedPlayersCount}
+          connectedPlayers={connectedPlayers}
+          disconnectedPlayers={disconnectedPlayers}
+        />
       </PhaseMain>
       <GameFooter>
         {isHost && (

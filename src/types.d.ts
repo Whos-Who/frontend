@@ -3,7 +3,7 @@ import { Phase } from "./constants/Phases";
 declare global {
   interface PlayerState {
     username: string;
-    isConnected: boolean;
+    connected: boolean;
     score: number;
     currAnswer: {
       isGuessed: boolean;
