@@ -28,6 +28,11 @@ const GlobalStyle = createGlobalStyle`
       width: 100%;
     }
   }
+
+  input,
+  textarea {
+    appearance: none;
+  }
 `;
 
 export default GlobalStyle;

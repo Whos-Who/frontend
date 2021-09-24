@@ -11,6 +11,8 @@ const Wrapper = styled.div`
 `;
 
 const TextBox = styled.textarea<{ $hasCross: boolean }>`
+  appereance: none;
+  opacity: 1;
   resize: none;
   width: 100%;
   padding: 10px;
