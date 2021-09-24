@@ -86,6 +86,7 @@ const Landing: React.FC = function () {
         } else {
           setErrorMsg("Game already started!");
         }
+        setIsJoiningRoom(false);
       })
       .catch((err) => {
         const statusCode = err.response.status;

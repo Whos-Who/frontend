@@ -38,6 +38,8 @@ const Deck: React.FC = function () {
   const [loading, setLoading] = useState<boolean>(true);
   const [deck, setDeck] = useState<Deck | null>(null);
   const [deletedQuestions, setDeletedQuestions] = useState<Question[]>([]);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const isDefaultDeck = deck?.userId == null;
 
@@ -62,6 +64,7 @@ const Deck: React.FC = function () {
     if (!deck) {
       return;
     }
+    setIsSaving(true);
     const headers = {
       "Content-Type": "application/json",
       "x-auth-token": userToken ?? "",
@@ -93,7 +96,8 @@ const Deck: React.FC = function () {
       );
     });
     await Promise.all(updateDeckPromises);
-    retrieveDeck();
+    setIsSaving(false);
+    history.push("/decks");
   };
 
   const handleDeleteDeck = async () => {
@@ -102,9 +106,11 @@ const Deck: React.FC = function () {
         "Content-Type": "application/json",
         "x-auth-token": userToken ?? "",
       };
+      setIsDeleting(true);
       await axios.delete(`${BACKEND_URL}/decks/${id}`, {
         headers,
       });
+      setIsDeleting(false);
       history.push("/decks");
     }
   };
@@ -208,6 +214,7 @@ const Deck: React.FC = function () {
             onClick={handleSaveDeck}
             type={ButtonType.Host}
             isDisabled={loading}
+            isLoading={isSaving}
           >
             Save Deck
           </Button>
@@ -215,6 +222,7 @@ const Deck: React.FC = function () {
             onClick={handleDeleteDeck}
             type={ButtonType.Danger}
             isDisabled={loading}
+            isLoading={isDeleting}
           >
             Delete Deck
           </Button>
