@@ -141,7 +141,8 @@ const NewDeck: React.FC = function () {
         type: SnackBarType.Positive,
       })
     );
-    navigateBackToDecks();
+
+    history.push("/decks");
   };
 
   const handleChangeDeckTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
