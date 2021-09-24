@@ -23,6 +23,7 @@ const TextBox = styled.textarea<{ $hasCross: boolean }>`
   font-weight: 500;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  opacity: 1;
 
   ::placeholder {
     color: ${(props) => props.theme.colors.grayLight};
@@ -30,6 +31,7 @@ const TextBox = styled.textarea<{ $hasCross: boolean }>`
 
   :disabled {
     background: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.black};
   }
 `;
 

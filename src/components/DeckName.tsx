@@ -4,10 +4,12 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 20px;
   padding: 10px 20px;
   text-align: center;
   border-bottom: 1px solid ${(props) => props.theme.colors.grayLighter};
+  opacity: 1;
 `;
 
 const Label = styled.p`
@@ -17,6 +19,8 @@ const Label = styled.p`
 
 const Title = styled.input`
   flex-grow: 1;
+  margin: 0;
+  padding: 0;
   background: none;
   color: ${(props) => props.theme.colors.blue};
   font-family: ${(props) => props.theme.typeface};
@@ -26,6 +30,7 @@ const Title = styled.input`
   resize: none;
   outline: none;
   border: none;
+  opacity: 1;
 `;
 
 interface Props {

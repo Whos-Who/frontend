@@ -97,14 +97,16 @@ const Deck: React.FC = function () {
   };
 
   const handleDeleteDeck = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      "x-auth-token": userToken ?? "",
-    };
-    await axios.delete(`${BACKEND_URL}/decks/${id}`, {
-      headers,
-    });
-    history.push("/decks");
+    if (window.confirm("Are you sure you want to delete this deck?")) {
+      const headers = {
+        "Content-Type": "application/json",
+        "x-auth-token": userToken ?? "",
+      };
+      await axios.delete(`${BACKEND_URL}/decks/${id}`, {
+        headers,
+      });
+      history.push("/decks");
+    }
   };
 
   const handleAddQuestion = async () => {

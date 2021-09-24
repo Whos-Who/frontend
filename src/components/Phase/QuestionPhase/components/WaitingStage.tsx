@@ -120,7 +120,7 @@ const WaitingStage: React.FC = function () {
             Start
           </Button>
         ) : (
-          <WaitingMessage>Waiting for host to start game...</WaitingMessage>
+          <WaitingMessage>Waiting for host to start round...</WaitingMessage>
         )}
       </GameFooter>
     </Wrapper>
