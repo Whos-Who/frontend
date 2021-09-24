@@ -38,51 +38,51 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [invalidEmail, setInvalidEmail] = useState<boolean>(false);
   const [matchError, setMatchError] = useState<boolean>(false);
   const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
   useTrackPage();
 
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const resetErrors = () => {
     if (errorMessage != null) {
       setErrorMessage(null);
     }
     if (matchError) {
       setMatchError(false);
     }
+    if (invalidEmail) {
+      setInvalidEmail(false);
+    }
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    resetErrors();
     setUsername(e.target.value);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (errorMessage != null) {
-      setErrorMessage(null);
-    }
-    if (matchError) {
-      setMatchError(false);
-    }
+    resetErrors();
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (errorMessage != null) {
-      setErrorMessage(null);
-    }
-    if (matchError) {
-      setMatchError(false);
-    }
+    resetErrors();
     setPassword(e.target.value);
   };
 
   const handleConfirmPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (errorMessage != null) {
-      setErrorMessage(null);
-    }
-    if (matchError) {
-      setMatchError(false);
-    }
+    resetErrors();
     setConfirmPassword(e.target.value);
+  };
+
+  const isValidEmail = () => {
+    const pattern = new RegExp(
+      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+    );
+    return pattern.test(email);
   };
 
   const handleSignup = async (e: React.MouseEvent) => {
@@ -94,6 +94,11 @@ const Signup: React.FC = () => {
       confirmPassword.length == 0
     ) {
       setErrorMessage("All fields must be filled!");
+      return;
+    }
+    if (!isValidEmail()) {
+      setInvalidEmail(true);
+      setErrorMessage("Invalid email!");
       return;
     }
     if (password !== confirmPassword) {
@@ -156,7 +161,7 @@ const Signup: React.FC = () => {
         placeholder="Email"
         value={email}
         onChange={handleEmailChange}
-        $error={errorMessage != null && email.length == 0}
+        $error={errorMessage != null && (email.length == 0 || invalidEmail)}
       />
       <StyledInput
         type="password"
