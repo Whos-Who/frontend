@@ -11,8 +11,6 @@ const Wrapper = styled.div`
 `;
 
 const TextBox = styled.textarea<{ $hasCross: boolean }>`
-  appereance: none;
-  opacity: 1;
   resize: none;
   width: 100%;
   padding: 10px;
@@ -25,6 +23,7 @@ const TextBox = styled.textarea<{ $hasCross: boolean }>`
   font-weight: 500;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  opacity: 1;
 
   ::placeholder {
     color: ${(props) => props.theme.colors.grayLight};
