@@ -24,7 +24,13 @@ declare namespace Sockets {
     gameState: GameState;
   }
 
-  type PlayerDisconnectedResponse = GameState;
+  interface PlayerDisconnectedResponse {
+    clientId: string;
+    gameState: GameState;
+  }
 
-  type PlayerReconnectedResponse = GameState;
+  interface PlayerReconnectedResponse {
+    clientId: string;
+    gameState: GameState;
+  }
 }

@@ -7,6 +7,7 @@ import thunk from "redux-thunk";
 import gameSetupSlice from "./gameSetupSlice";
 import gameStateSlice from "./gameStateSlice";
 import playerSlice from "./playerSlice";
+import snackBarsSlice from "./snackBarsSlice";
 import userSlice from "./userSlice";
 
 const reducers = combineReducers({
@@ -14,11 +15,13 @@ const reducers = combineReducers({
   player: playerSlice,
   gameState: gameStateSlice,
   gameSetup: gameSetupSlice,
+  snackBars: snackBarsSlice,
 });
 
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["snackBars"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
