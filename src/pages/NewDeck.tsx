@@ -234,6 +234,8 @@ const NewDeck: React.FC = function () {
           {questions.map((question, index) => (
             <QuestionCardWrapper key={index}>
               <TextBox
+                rows={1}
+                maxLength={150}
                 value={question}
                 onChange={(e) => handleChangeQuestion(e, index)}
               />
