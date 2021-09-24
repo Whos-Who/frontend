@@ -20,6 +20,7 @@ const Wrapper = styled.div<WrapperProps>`
   background: ${(props) => props.$primaryColor};
   color: ${(props) => props.theme.colors.isabelline};
   font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
   box-shadow: 0px 1px 5px rgba(0, 1, 0, 0.3);
 `;
 
