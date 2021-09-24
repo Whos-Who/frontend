@@ -54,9 +54,15 @@ const ScoreboardPhase: React.FC = function () {
   };
 
   const handleEndGameClick = () => {
-    socketContext?.socket?.emit("game-end", {
-      roomCode: roomCode,
-    });
+    if (
+      window.confirm(
+        "Are you sure you want to end the game? All players will return to the lobby."
+      )
+    ) {
+      socketContext?.socket?.emit("game-end", {
+        roomCode: roomCode,
+      });
+    }
   };
 
   return (

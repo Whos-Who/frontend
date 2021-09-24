@@ -4,6 +4,7 @@ import styled, { useTheme } from "styled-components";
 import { ReactComponent as Award } from "../../../../assets/Award.svg";
 import { ReactComponent as Check } from "../../../../assets/Check.svg";
 import { ReactComponent as Cross } from "../../../../assets/Cross.svg";
+import { useAppSelector } from "../../../../redux/hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,6 +53,9 @@ interface Props {
 const AnswerValidity: React.FC<Props> = function (props) {
   const { currAnswererId, selectedPlayerId, selectedAnswer, players } = props;
   const theme = useTheme();
+  const alreadyGuessed = useAppSelector(
+    (state) => state.validity.alreadyGuessed
+  );
 
   const isValid = players[selectedPlayerId]?.currAnswer.value == selectedAnswer;
 
@@ -62,7 +66,11 @@ const AnswerValidity: React.FC<Props> = function (props) {
   if (currAnswererId === selectedPlayerId) {
     background = theme.colors.blue;
     icon = <Award />;
-    text = "Bonus!";
+    text = "Last man standing!";
+  } else if (alreadyGuessed) {
+    background = theme.colors.grayDark;
+    icon = <Check />;
+    text = "Already guessed!";
   } else if (isValid) {
     background = theme.colors.emerald;
     icon = <Check />;
@@ -73,9 +81,13 @@ const AnswerValidity: React.FC<Props> = function (props) {
     text = "Incorrect!";
   }
 
-  const scoreIncrement = Object.values(players)
-    .map((player): number => (player.currAnswer.isGuessed ? 0 : 1))
-    .reduce((a, b) => a + b, 1);
+  let scoreIncrement = 0;
+
+  if (!alreadyGuessed) {
+    scoreIncrement = Object.values(players)
+      .map((player): number => (player.currAnswer.isGuessed ? 0 : 1))
+      .reduce((a, b) => a + b, 1);
+  }
 
   return (
     <Wrapper>
@@ -83,7 +95,11 @@ const AnswerValidity: React.FC<Props> = function (props) {
         <IconBackground $background={background}>{icon}</IconBackground>
         {text}
       </ValidityContainer>
-      {isValid && <Points>+ {scoreIncrement} points</Points>}
+      {isValid && (
+        <Points>
+          + {scoreIncrement} point{scoreIncrement != 1 && "s"}
+        </Points>
+      )}
     </Wrapper>
   );
 };
