@@ -5,9 +5,9 @@ import { useHistory } from "react-router";
 import styled from "styled-components";
 
 import { ReactComponent as Chevron } from "../assets/ChevronRight.svg";
-import { ReactComponent as Cross } from "../assets/SmallCross.svg";
 import Button, { ButtonType } from "../components/Button";
 import { SectionHeading } from "../components/Phase/Styles";
+import QuestionCard from "../components/QuestionCard";
 import { GameFooter, GameHeader, GameMain } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
 import { SnackBarType } from "../constants/types";
@@ -86,45 +86,6 @@ const QuestionListWrapper = styled.div`
   padding: 10px 20px;
 `;
 
-const QuestionCardWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const TextBox = styled.textarea`
-  resize: none;
-  width: 100%;
-  padding: 10px;
-  padding-right: 30px;
-  border: 1px solid ${(props) => props.theme.colors.grayLight};
-  border-radius: 5px;
-  color: ${(props) => props.theme.colors.black};
-  font-family: ${(props) => props.theme.typeface};
-  font-size: ${(props) => props.theme.fontSizes.sm};
-  font-weight: 500;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  opacity: 1;
-
-  ::placeholder {
-    color: ${(props) => props.theme.colors.grayLight};
-  }
-
-  :disabled {
-    background: ${(props) => props.theme.colors.white};
-    color: ${(props) => props.theme.colors.black};
-  }
-`;
-
-const StyledCross = styled(Cross)`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-`;
-
 const AddQuestion = styled.p`
   color: ${(props) => props.theme.colors.blue};
   text-align: center;
@@ -187,12 +148,9 @@ const NewDeck: React.FC = function () {
     setDeckTitle(e.target.value);
   };
 
-  const handleChangeQuestion = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-    index: number
-  ) => {
+  const handleChangeQuestion = (index: number) => (newQuestion: string) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[index] = e.target.value;
+    updatedQuestions[index] = newQuestion;
     setQuestions(updatedQuestions);
   };
 
@@ -209,7 +167,13 @@ const NewDeck: React.FC = function () {
   };
 
   const navigateBackToDecks = () => {
-    history.push("/decks");
+    if (
+      window.confirm(
+        "Are you sure you want to go back? You have not saved your new deck."
+      )
+    ) {
+      history.push("/decks");
+    }
   };
 
   return (
@@ -232,15 +196,12 @@ const NewDeck: React.FC = function () {
         <SectionHeading>Questions</SectionHeading>
         <QuestionListWrapper>
           {questions.map((question, index) => (
-            <QuestionCardWrapper key={index}>
-              <TextBox
-                rows={1}
-                maxLength={150}
-                value={question}
-                onChange={(e) => handleChangeQuestion(e, index)}
-              />
-              <StyledCross onClick={() => handleDeleteQuestion(index)} />
-            </QuestionCardWrapper>
+            <QuestionCard
+              key={index}
+              question={question}
+              handleChangeQuestion={handleChangeQuestion(index)}
+              handleDeleteQuestion={() => handleDeleteQuestion(index)}
+            />
           ))}
           <AddQuestion onClick={handleAddQuestion}>+ Add Question</AddQuestion>
         </QuestionListWrapper>
