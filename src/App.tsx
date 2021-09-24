@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
+import SnackBarsList from "./components/SnackBarsList";
 import { SOCKET_SERVER_URL } from "./constants";
 import SocketContext from "./contexts/SocketContext";
 import Deck from "./pages/Deck";
@@ -29,6 +30,7 @@ const App: React.FC = function () {
   const clientId = useAppSelector((state) => state.player.id);
   const userToken = useAppSelector(getUserToken);
   const isUserLoggedIn = useAppSelector(getIsUserLoggedIn);
+  const snackBars = useAppSelector((state) => state.snackBars);
 
   // Connect to socket if clientId changes
   useEffect(() => {
@@ -96,6 +98,7 @@ const App: React.FC = function () {
           </Route>
         </Switch>
       </Router>
+      <SnackBarsList snackBars={snackBars} />
     </SocketContext.Provider>
   );
 };

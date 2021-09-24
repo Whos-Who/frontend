@@ -150,7 +150,9 @@ const TurnGuessPhase: React.FC = function () {
         <Timer seconds={GUESS_TIME_LIMIT} />
       </PhaseHeader>
       <GameMain>
-        <SectionHeading>Pick an answer</SectionHeading>
+        <SectionHeading>
+          {isPlayerTurn ? "Pick an answer" : "Remaining answers"}
+        </SectionHeading>
         <AnswersScrollable>
           <AnswersList>
             {options.answers.map((option) => {
@@ -172,7 +174,9 @@ const TurnGuessPhase: React.FC = function () {
             })}
           </AnswersList>
         </AnswersScrollable>
-        <SectionHeading>And guess whose answer it is!</SectionHeading>
+        <SectionHeading>
+          {isPlayerTurn ? "And guess whose answer it is!" : "All players"}
+        </SectionHeading>
         <PlayersList>
           {options.players.map((option) => {
             if (option.answer !== "") {

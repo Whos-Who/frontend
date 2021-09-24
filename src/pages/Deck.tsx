@@ -1,4 +1,5 @@
 import axios from "axios";
+import { nanoid } from "nanoid";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import styled from "styled-components";
@@ -11,8 +12,10 @@ import { SectionHeading } from "../components/Phase/Styles";
 import QuestionsList from "../components/QuestionsList";
 import { GameFooter, GameMain } from "../components/Styles";
 import { BACKEND_URL } from "../constants";
+import { SnackBarType } from "../constants/types";
 import { useTrackPage } from "../hooks/GoogleAnalytics";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { addSnackBar } from "../redux/snackBarsSlice";
 import { getUserToken } from "../redux/userSlice";
 
 const Wrapper = styled.div`
@@ -32,6 +35,7 @@ const DeckFooter = styled(GameFooter)``;
 
 const Deck: React.FC = function () {
   const history = useHistory();
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const userToken = useAppSelector(getUserToken);
 
@@ -97,7 +101,13 @@ const Deck: React.FC = function () {
     });
     await Promise.all(updateDeckPromises);
     setIsSaving(false);
-    history.push("/decks");
+    dispatch(
+      addSnackBar({
+        id: nanoid(),
+        message: "Deck saved!",
+        type: SnackBarType.Positive,
+      })
+    );
   };
 
   const handleDeleteDeck = async () => {

@@ -13,18 +13,23 @@ declare namespace Sockets {
 
   type RoomJoinResponse = GameState;
 
-  type GamePhaseQuestionResponse = GameState;
-
-  type GamePhaseTurnGuessResponse = GameState;
-
-  type GamePhaseTurnRevealResponse = GameState;
+  interface GameNextPhaseResponse {
+    gameState: GameState;
+    alreadyGuessed?: boolean;
+  }
 
   interface GamePlayerReadyResponse {
     readyClientId: string;
     gameState: GameState;
   }
 
-  type PlayerDisconnectedResponse = GameState;
+  interface PlayerDisconnectedResponse {
+    clientId: string;
+    gameState: GameState;
+  }
 
-  type PlayerReconnectedResponse = GameState;
+  interface PlayerReconnectedResponse {
+    clientId: string;
+    gameState: GameState;
+  }
 }
