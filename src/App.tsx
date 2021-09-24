@@ -4,6 +4,7 @@ import ReactGA from "react-ga";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
+import SnackBarsList from "./components/SnackBarsList";
 import { SOCKET_SERVER_URL } from "./constants";
 import SocketContext from "./contexts/SocketContext";
 import Deck from "./pages/Deck";
@@ -23,6 +24,7 @@ const App: React.FC = function () {
   const dispatch = useAppDispatch();
   const clientId = useAppSelector((state) => state.player.id);
   const userToken = useAppSelector(getUserToken);
+  const snackBars = useAppSelector((state) => state.snackBars);
 
   // Connect to socket if clientId changes
   useEffect(() => {
@@ -90,6 +92,7 @@ const App: React.FC = function () {
           </Route>
         </Switch>
       </Router>
+      <SnackBarsList snackBars={snackBars} />
     </SocketContext.Provider>
   );
 };

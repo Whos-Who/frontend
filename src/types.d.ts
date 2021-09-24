@@ -1,4 +1,5 @@
 import { Phase } from "./constants/Phases";
+import { SnackBarTypeValues } from "./constants/types";
 
 declare global {
   interface PlayerState {
@@ -39,5 +40,12 @@ declare global {
     deckId: string;
     createdAt: string;
     updatedAt: string;
+  }
+
+  interface SnackBar {
+    id: string;
+    message: string;
+    clientId?: string;
+    type?: SnackBarTypeValues;
   }
 }

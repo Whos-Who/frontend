@@ -1,8 +1,11 @@
+import { nanoid } from "nanoid";
 import { Dispatch, useEffect } from "react";
 import { AnyAction } from "redux";
 
+import { SnackBarType } from "../constants/types";
 import SocketContext from "../contexts/SocketContext";
 import { setGameState, setHost } from "../redux/gameStateSlice";
+import { addSnackBar } from "../redux/snackBarsSlice";
 
 // Listens for the event where the host changes
 export const useNewHost = (
@@ -30,7 +33,15 @@ export const usePlayerDisconnected = (
     const playerDisconnectedListener = (
       response: Sockets.PlayerDisconnectedResponse
     ) => {
-      dispatch(setGameState(response));
+      dispatch(
+        addSnackBar({
+          id: nanoid(),
+          message: " disconnected",
+          clientId: response.clientId,
+          type: SnackBarType.Negative,
+        })
+      );
+      dispatch(setGameState(response.gameState));
     };
 
     socketContext?.socket?.on("player-disconnect", playerDisconnectedListener);
@@ -52,7 +63,15 @@ export const usePlayerReconnected = (
     const playerReconnectedListener = (
       response: Sockets.PlayerReconnectedResponse
     ) => {
-      dispatch(setGameState(response));
+      dispatch(
+        addSnackBar({
+          id: nanoid(),
+          message: " reconnected",
+          clientId: response.clientId,
+          type: SnackBarType.Positive,
+        })
+      );
+      dispatch(setGameState(response.gameState));
     };
 
     socketContext?.socket?.on("player-reconnect", playerReconnectedListener);
