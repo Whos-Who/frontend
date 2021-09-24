@@ -29,6 +29,7 @@ const Wrapper = styled.div`
 const StyledLogo = styled(Logo)`
   width: 50px;
   height: 50px;
+  z-index: 2;
 `;
 
 const NewHeader = styled.div`

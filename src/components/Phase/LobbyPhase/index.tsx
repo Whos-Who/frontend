@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { resetPlayerState, selectPlayerId } from "../../../redux/playerSlice";
 import Button, { ButtonType } from "../../Button";
-import { GameFooter, GameHeader, GameMain } from "../../Styles";
+import { GameFooter, GameHeader, GameMain, WaitingMessage } from "../../Styles";
 import PlayerList from "../components/PlayerList";
 import RoomCode from "./components/RoomCode";
 
