@@ -43,7 +43,7 @@ const StyledCross = styled(Cross)`
 `;
 
 interface Props {
-  isDefaultDeck: boolean;
+  isDefaultDeck?: boolean;
   question: string;
   handleChangeQuestion: (newQuestion: string) => void;
   handleDeleteQuestion: () => void;

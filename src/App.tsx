@@ -17,6 +17,7 @@ import Decks from "./pages/Decks";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import New from "./pages/New";
+import NewDeck from "./pages/NewDeck";
 import Room from "./pages/Room";
 import Signup from "./pages/Signup";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
@@ -92,6 +93,9 @@ const App: React.FC = function () {
           </Route>
           <Route exact path="/decks">
             {isUserLoggedIn ? <Decks /> : <Redirect to="/" />}
+          </Route>
+          <Route exact path="/decks/new">
+            <NewDeck />
           </Route>
           <Route path="/decks/:id">
             {isUserLoggedIn ? <Deck /> : <Redirect to="/" />}

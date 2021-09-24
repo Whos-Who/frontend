@@ -65,18 +65,8 @@ const Decks: React.FC = function () {
     setDecks(decksResponse.data);
   };
 
-  const createNewDeck = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      "x-auth-token": userToken ?? "",
-    };
-    const data = {
-      title: "New Deck",
-    };
-    const createDeckResponse = await axios.post(`${BACKEND_URL}/decks`, data, {
-      headers,
-    });
-    history.push(`/decks/${createDeckResponse.data.id}`);
+  const createNewDeck = () => {
+    history.push(`/decks/new`);
   };
 
   const navigateBackToHome = () => {
