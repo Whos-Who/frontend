@@ -172,7 +172,7 @@ const TurnGuessPhase: React.FC = function () {
             })}
           </AnswersList>
         </AnswersScrollable>
-        <SectionHeading>And guess whose it is</SectionHeading>
+        <SectionHeading>And guess whose answer it is!</SectionHeading>
         <PlayersList>
           {options.players.map((option) => {
             if (option.answer !== "") {

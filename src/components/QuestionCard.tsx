@@ -32,6 +32,7 @@ const TextBox = styled.textarea<{ $hasCross: boolean }>`
 
   :disabled {
     background: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.black};
   }
 `;
 
