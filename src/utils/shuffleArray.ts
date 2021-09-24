@@ -1,5 +1,6 @@
 // Knuth shuffle - https://bost.ocks.org/mike/shuffle/
 // Shuffles the given array in-place
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const shuffle = (array: any[]): any[] => {
   let currIndex = array.length;
   let randomIndex;

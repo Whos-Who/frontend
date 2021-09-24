@@ -93,7 +93,24 @@ const SelectDeck: React.FC = function () {
     const decksResponse = await axios.get(`${BACKEND_URL}/decks`, {
       headers,
     });
-    setDecks(decksResponse.data);
+    // Filter out decks with 0 questions
+    const allDecks: Deck[] = decksResponse.data;
+    const allDecksWithQuestions = await Promise.all(
+      allDecks.map((deck) => {
+        return axios
+          .get(`${BACKEND_URL}/decks/${deck.id}`, {
+            headers,
+          })
+          .then((response) => {
+            deck.Questions = response.data.Questions;
+            return deck;
+          });
+      })
+    );
+    const filteredDecks = allDecksWithQuestions.filter(
+      (deck) => deck.Questions.length > 0
+    );
+    setDecks(filteredDecks);
   };
 
   const handleDeckClick = (deckId: string) => {
