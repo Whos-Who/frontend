@@ -8,7 +8,7 @@ import { ReactComponent as Logo } from "../assets/PrimaryLogo.svg";
 import { BACKEND_URL } from "../constants";
 import { setDeckId } from "../redux/gameSetupSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getUserToken } from "../redux/userSlice";
+import { getIsUserLoggedIn, getUserToken } from "../redux/userSlice";
 import DeckCard from "./DeckCard";
 import Loader from "./Loader";
 import { GameMain } from "./Styles";
@@ -67,6 +67,7 @@ const SelectDeck: React.FC = function () {
   const history = useHistory();
   const dispatch = useAppDispatch();
 
+  const isUserLoggedIn = useAppSelector(getIsUserLoggedIn);
   const userToken = useAppSelector(getUserToken);
   const [loading, setLoading] = useState<boolean>(true);
   const [decks, setDecks] = useState<Deck[]>([]);
@@ -93,24 +94,28 @@ const SelectDeck: React.FC = function () {
     const decksResponse = await axios.get(`${BACKEND_URL}/decks`, {
       headers,
     });
-    // Filter out decks with 0 questions
     const allDecks: Deck[] = decksResponse.data;
-    const allDecksWithQuestions = await Promise.all(
-      allDecks.map((deck) => {
-        return axios
-          .get(`${BACKEND_URL}/decks/${deck.id}`, {
-            headers,
-          })
-          .then((response) => {
-            deck.Questions = response.data.Questions;
-            return deck;
-          });
-      })
-    );
-    const filteredDecks = allDecksWithQuestions.filter(
-      (deck) => deck.Questions.length > 0
-    );
-    setDecks(filteredDecks);
+    if (isUserLoggedIn) {
+      // Filter out decks with 0 questions
+      const allDecksWithQuestions = await Promise.all(
+        allDecks.map((deck) => {
+          return axios
+            .get(`${BACKEND_URL}/decks/${deck.id}`, {
+              headers,
+            })
+            .then((response) => {
+              deck.Questions = response.data.Questions;
+              return deck;
+            });
+        })
+      );
+      const filteredDecks = allDecksWithQuestions.filter(
+        (deck) => deck.Questions.length > 0
+      );
+      setDecks(filteredDecks);
+    } else {
+      setDecks(allDecks);
+    }
   };
 
   const handleDeckClick = (deckId: string) => {
