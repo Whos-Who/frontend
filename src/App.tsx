@@ -1,7 +1,12 @@
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
 import SnackBarsList from "./components/SnackBarsList";
@@ -15,7 +20,7 @@ import New from "./pages/New";
 import Room from "./pages/Room";
 import Signup from "./pages/Signup";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { getUserToken, logoutUser } from "./redux/userSlice";
+import { getIsUserLoggedIn, getUserToken, logoutUser } from "./redux/userSlice";
 
 ReactGA.initialize("UA-207607889-1");
 
@@ -24,6 +29,7 @@ const App: React.FC = function () {
   const dispatch = useAppDispatch();
   const clientId = useAppSelector((state) => state.player.id);
   const userToken = useAppSelector(getUserToken);
+  const isUserLoggedIn = useAppSelector(getIsUserLoggedIn);
   const snackBars = useAppSelector((state) => state.snackBars);
 
   // Connect to socket if clientId changes
@@ -85,10 +91,10 @@ const App: React.FC = function () {
             <Signup />
           </Route>
           <Route exact path="/decks">
-            <Decks />
+            {isUserLoggedIn ? <Decks /> : <Redirect to="/" />}
           </Route>
           <Route path="/decks/:id">
-            <Deck />
+            {isUserLoggedIn ? <Deck /> : <Redirect to="/" />}
           </Route>
         </Switch>
       </Router>
