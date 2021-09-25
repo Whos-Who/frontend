@@ -85,7 +85,7 @@ const AnswerValidity: React.FC<Props> = function (props) {
 
   if (!alreadyGuessed) {
     scoreIncrement = Object.values(players)
-      .map((player): number => (player.currAnswer.isGuessed ? 0 : 1))
+      .map((player): number => (player.currAnswer.isGuessed || player.currAnswer.value == "" ? 0 : 1))
       .reduce((a, b) => a + b, 1);
   }
 
