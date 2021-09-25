@@ -138,7 +138,8 @@ const Signup: React.FC = () => {
       .catch((err) => {
         const statusCode = err?.response?.status || "";
         if (statusCode == StatusCodes.CONFLICT) {
-          setErrorMessage("Username already exists!");
+          setErrorMessage("Email already exists!");
+          setInvalidEmail(true);
         } else {
           setErrorMessage("Sign up failed!");
         }
